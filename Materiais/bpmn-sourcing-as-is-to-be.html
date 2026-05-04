@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BPMN — Conecta Market Hub — Sourcing Internacional China → Brasil</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  :root {
+    --navy: #0C1A2E;
+    --surface: #112040;
+    --card: #162850;
+    --border: #1B3260;
+    --blue: #1B4FCC;
+    --teal: #0AACCC;
+    --green: #3CB648;
+    --text: #DCE8F8;
+    --muted: #7A9CC0;
+    --faint: #3A5278;
+    --danger: #EF4444;
+    --warning: #F59E0B;
+    --success: #22C55E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 0;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1B4FCC 0%, #0AACCC 50%, #3CB648 100%);
+    padding: 48px 40px 36px;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    font-size: 16px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 400;
+  }
+  .header .meta {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .header .meta span {
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    background: rgba(0,0,0,0.2);
+    padding: 4px 12px;
+    border-radius: 4px;
+  }
+
+  /* NAV */
+  .nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 40px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 4px;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+  .nav a:hover {
+    color: var(--teal);
+    background: rgba(10,172,204,0.08);
+    border-color: rgba(10,172,204,0.2);
+  }
+
+  /* CONTENT */
+  .content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px;
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 56px;
+  }
+  .section-number {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--teal);
+    margin: 28px 0 12px;
+  }
+  h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    margin: 20px 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .section-desc {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    max-width: 800px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card-highlight {
+    border-left: 3px solid var(--teal);
+  }
+  .card-warning {
+    border-left: 3px solid var(--warning);
+  }
+  .card-danger {
+    border-left: 3px solid var(--danger);
+  }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 12px;
+  }
+  thead th {
+    background: var(--surface);
+    color: var(--muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 10px;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  tbody tr:hover {
+    background: rgba(10,172,204,0.04);
+  }
+
+  /* MERMAID */
+  .diagram-container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+  .diagram-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--faint);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  /* LISTS */
+  ul, ol {
+    padding-left: 20px;
+    margin: 12px 0;
+  }
+  li {
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  li strong {
+    color: #fff;
+  }
+
+  /* TAGS */
+  .tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .tag-rn { background: rgba(10,172,204,0.15); color: var(--teal); border: 1px solid rgba(10,172,204,0.3); }
+  .tag-auto { background: rgba(34,197,94,0.15); color: var(--success); border: 1px solid rgba(34,197,94,0.3); }
+  .tag-manual { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
+  .tag-semi { background: rgba(245,158,11,0.15); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); }
+  .tag-ext { background: rgba(122,156,192,0.15); color: var(--muted); border: 1px solid rgba(122,156,192,0.3); }
+  .tag-release { background: rgba(27,79,204,0.15); color: #5B9CF6; border: 1px solid rgba(27,79,204,0.3); }
+
+  /* FLOW STEPS */
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .flow-step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+  }
+  .flow-step-number {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
+  .flow-step-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .flow-step-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* PAIN POINTS */
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .pain-item {
+    background: rgba(239,68,68,0.06);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 6px;
+    padding: 14px;
+    font-size: 12px;
+    color: var(--text);
+  }
+  .pain-item::before {
+    content: "✗ ";
+    color: var(--danger);
+    font-weight: 700;
+  }
+
+  /* METRICS COMPARISON */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .metric-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    text-align: center;
+  }
+  .metric-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .metric-asis {
+    font-size: 14px;
+    color: var(--danger);
+    font-weight: 700;
+    text-decoration: line-through;
+    margin-bottom: 2px;
+  }
+  .metric-tobe {
+    font-size: 20px;
+    color: var(--success);
+    font-weight: 800;
+  }
+  .metric-delta {
+    font-size: 10px;
+    color: var(--teal);
+    margin-top: 4px;
+  }
+
+  /* SEPARATOR */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 32px 40px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--faint);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .content { padding: 20px; }
+    .header { padding: 32px 20px; }
+    .header h1 { font-size: 22px; }
+    .nav { padding: 10px 16px; }
+    .flow-steps { grid-template-columns: 1fr; }
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: #fff; color: #000; }
+    .nav { display: none; }
+    .header { background: #1B4FCC; -webkit-print-color-adjust: exact; }
+    .diagram-container { border: 1px solid #ddd; }
+    .card { border: 1px solid #ddd; background: #f9f9f9; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>BPMN — Sourcing Internacional China → Brasil</h1>
+  <div class="subtitle">Conecta Market Hub — Plataforma de Desenvolvimento de Fornecedores Chineses</div>
+  <div class="meta">
+    <span>Fonte: project-brief-sourcing-platform.md</span>
+    <span>Data: 04/Abr/2026</span>
+    <span>Diagramas: Mermaid</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <a href="#asis">1. AS-IS</a>
+  <a href="#tobe">2. TO-BE</a>
+  <a href="#releases">3. Releases</a>
+  <a href="#regras">4. Regras de Negócio</a>
+  <a href="#comparativo">5. Comparativo</a>
+</div>
+
+<div class="content">
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1: AS-IS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section" id="asis">
+  <div class="section-number">Seção 1</div>
+  <h2>Processo AS-IS (Estado Atual — Manual)</h2>
+  <p class="section-desc">Processo atual de sourcing internacional, operado de forma artesanal. Sem plataforma digital, sem integração entre etapas e sem estudo de viabilidade automatizado. Depende de conhecimento tácito, relacionamentos pessoais e comunicação por WhatsApp/e-mail.</p>
+
+  <h3>Descrição do Fluxo</h3>
+  <div class="card card-warning">
+    <p style="font-size:13px;">O cliente (varejista brasileiro) identifica produtos que deseja importar. O operador da Conecta Market Hub pesquisa manualmente preços na China usando a LLM KIMI e o site do Alibaba. Se o preço parece viável, o operador monta um briefing manual e envia por WhatsApp/e-mail ao parceiro chinês (Market Union). O parceiro cota com fábricas e devolve preços por WhatsApp. O operador consolida os dados em planilha, solicita viabilidade à Logix (que gera um PDF manual), analisa margens e apresenta ao cliente. Se aprovado, o pagamento é feito via transferência bancária manual. O rastreamento é feito por consultas manuais à Logix.</p>
+  </div>
+
+  <h3>Pontos de Dor</h3>
+  <div class="pain-grid">
+    <div class="pain-item">Pesquisa de fornecedores leva <strong>1 a 2 semanas</strong> por produto</div>
+    <div class="pain-item">Sem visibilidade do cliente sobre o andamento</div>
+    <div class="pain-item">Sem estudo de viabilidade integrado (FOB → DDP)</div>
+    <div class="pain-item">Dados fragmentados entre Excel, WhatsApp, e-mail e PDF</div>
+    <div class="pain-item">Sem rastreabilidade de decisões</div>
+    <div class="pain-item">Processo não escalável — depende de 1-2 pessoas</div>
+  </div>
+
+  <h3>Diagrama BPMN AS-IS</h3>
+  <div class="diagram-container">
+    <div class="diagram-label">Fluxo de processo atual — 5 atores</div>
+    <pre class="mermaid">
+flowchart TB
+    subgraph CLIENTE["CLIENTE (Varejista)"]
+        C1([Identifica produtos\nque quer importar])
+        C2[Envia lista de\nprodutos por e-mail\nou WhatsApp]
+        C3{Aprova\nproposta?}
+        C4[Faz pagamento via\ntransferência bancária\nmanual]
+        C5([Recebe produtos])
+    end
+
+    subgraph OPERADOR["CONECTA MARKET HUB (Operador)"]
+        O1[Recebe lista\ndo cliente]
+        O2[Pesquisa preços\nno Alibaba\nmanualmente]
+        O3[Pesquisa fabricantes\nvia KIMI\nmanualmente]
+        O4[Monta briefing\nem planilha Excel]
+        O5[Envia briefing ao\nParceiro CN por\nWhatsApp/e-mail]
+        O6[Recebe cotação do\nParceiro CN por\nWhatsApp/e-mail]
+        O7[Consolida dados\nem planilha Excel]
+        O8[Solicita viabilidade\nà Logix por e-mail]
+        O9[Recebe PDF de\nviabilidade da Logix]
+        O10[Analisa margens\nmanualmente]
+        O11[Monta proposta\nem planilha/doc]
+        O12[Envia proposta\nao cliente]
+        O13[Coordena pagamento\nmanual via wire]
+        O14[Consulta status\nna Logix manualmente]
+    end
+
+    subgraph PARCEIRO_CN["PARCEIRO CN (Market Union)"]
+        P1[Recebe briefing\npor WhatsApp/e-mail]
+        P2[Cota com fábricas\npresencialmente]
+        P3[Devolve cotação\npor WhatsApp/e-mail]
+        P4[Informa início\nde fabricação]
+        P5[Informa prontidão\nde envio]
+    end
+
+    subgraph LOGIX["LOGIX"]
+        L1[Recebe solicitação\npor e-mail]
+        L2[Gera estudo de\nviabilidade em PDF]
+        L3[Gerencia processo\nde importação]
+        L4[Fornece rastreamento\nsob consulta]
+    end
+
+    subgraph DESPACHANTE["DESPACHANTE"]
+        D1[Acessa dados\nvia Logix]
+        D2[Desembaraço\naduaneiro]
+    end
+
+    C1 --> C2 --> O1
+    O1 --> O2 --> O3 --> O4 --> O5
+    O5 --> P1 --> P2 --> P3
+    P3 --> O6 --> O7 --> O8
+    O8 --> L1 --> L2
+    L2 --> O9 --> O10 --> O11 --> O12
+    O12 --> C3
+    C3 -->|Sim| O13
+    C3 -->|Não| C1
+    O13 --> C4
+    C4 --> P4 --> P5
+    P5 --> O13
+    O13 --> L3 --> D1 --> D2
+    D2 --> L4
+    L4 --> O14
+    O14 --> C5
+
+    style CLIENTE fill:#E3F2FD,stroke:#1565C0,color:#000
+    style OPERADOR fill:#FFF3E0,stroke:#E65100,color:#000
+    style PARCEIRO_CN fill:#FCE4EC,stroke:#C62828,color:#000
+    style LOGIX fill:#E8F5E9,stroke:#2E7D32,color:#000
+    style DESPACHANTE fill:#F3E5F5,stroke:#6A1B9A,color:#000
+    </pre>
+  </div>
+
+  <h3>Métricas do AS-IS</h3>
+  <table>
+    <thead><tr><th>Métrica</th><th>Valor</th></tr></thead>
+    <tbody>
+      <tr><td>Tempo de pesquisa por produto</td><td><span class="tag tag-manual">1-2 semanas</span></td></tr>
+      <tr><td>Formato dos dados</td><td>Excel, WhatsApp, e-mail, PDF</td></tr>
+      <tr><td>Integração entre etapas</td><td><span class="tag tag-manual">Nenhuma</span></td></tr>
+      <tr><td>Visibilidade do cliente</td><td><span class="tag tag-manual">Zero</span></td></tr>
+      <tr><td>Rastreabilidade</td><td><span class="tag tag-manual">Nenhuma</span></td></tr>
+      <tr><td>Escalabilidade</td><td>3-5 clientes (máximo)</td></tr>
+      <tr><td>Automação</td><td><span class="tag tag-manual">0%</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2: TO-BE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section" id="tobe">
+  <div class="section-number">Seção 2</div>
+  <h2>Processo TO-BE (Estado Futuro — Plataforma)</h2>
+  <p class="section-desc">Pipeline completo de sourcing internacional digitalizado e automatizado. Tempo de pesquisa reduzido de 2 semanas para menos de 48 horas. Integração end-to-end desde o catálogo até o pagamento e rastreamento. Escala para 100+ clientes simultâneos.</p>
+
+  <h3>8 Macro-Etapas do Fluxo</h3>
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="flow-step-number">1</div>
+      <div class="flow-step-title">CATÁLOGO</div>
+      <div class="flow-step-desc">Cliente importa produtos (VTEX/CSV/manual) com fotos e preço de venda. Enriquece com preço de compra BR (obrigatório). <span class="tag tag-rn">RN6</span> <span class="tag tag-rn">RN7</span></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-step-number">2</div>
+      <div class="flow-step-title">PESQUISA CHINA</div>
+      <div class="flow-step-desc">APIs de scraping buscam preços FOB no Alibaba. Plataforma calcula diferença: preço BR vs. FOB China (%). <span class="tag tag-rn">RN5</span></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-step-number">3</div>
+      <div class="flow-step-title">SELEÇÃO</div>
+      <div class="flow-step-desc">Cliente visualiza comparativo e seleciona quais produtos deseja importar. Decisão 100% humana.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-step-number">4</div>
+      <div class="flow-step-title">SOURCING</div>
+      <div class="flow-step-desc">KIMI busca fabricantes reais. RFQ bilíngue (EN + 中文) enviada ao Parceiro CN. <span class="tag tag-rn">RN4</span></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-step-number">5</div>
+      <div class="flow-step-title">COTAÇÃO</div>
+      <div class="flow-step-desc">Parceiro CN (Market Union) negocia com fábricas e devolve preços FOB reais negociados.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-step-number">6</div>
+      <div class="flow-step-title">DDP</div>
+      <div class="flow-step-desc">Logix calcula custo total nacionalizado (DDP). Conecta define margens. Aprovação auto/manual. <span class="tag tag-rn">RN1</span></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-step-number">7</div>
+      <div class="flow-step-title">APROVAÇÃO</div>
+      <div class="flow-step-desc">Cliente recebe proposta consolidada (apenas produtos aprovados) e decide sim/não.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-step-number">8</div>
+      <div class="flow-step-title">PAGAMENTO</div>
+      <div class="flow-step-desc">Invoice via empresa US. Wise API: 30%/70% configurável. Depende de aprovação do despachante. <span class="tag tag-rn">RN2</span> <span class="tag tag-rn">RN3</span></div>
+    </div>
+  </div>
+
+  <h3>Diagrama BPMN TO-BE (Target)</h3>
+  <div class="diagram-container">
+    <div class="diagram-label">Fluxo de processo futuro — 6 atores — regras RN1-RN7 nos gateways</div>
+    <pre class="mermaid">
+flowchart TB
+    subgraph CLIENTE["CLIENTE"]
+        C1([Acessa plataforma])
+        C2[Importa catálogo\nVTEX API / CSV / Manual]
+        C3[Enriquece catálogo\npreço compra BR\nRN7: obrigatório]
+        C4[Visualiza comparativo\npreço BR vs FOB China\neconomia %]
+        C5[Seleciona produtos\npara sourcing]
+        C6[Recebe proposta\nconsolidada]
+        C7{Aprova\nimportação?}
+        C8([Acompanha\nfabricação e entrega])
+    end
+
+    subgraph PLATAFORMA["CONECTA MARKET HUB"]
+        subgraph CATALOGO["M2 Catálogo"]
+            P1[Normaliza e armazena\ncatálogo do cliente]
+        end
+        subgraph IA_ENGINE["M3 Motor de IA"]
+            P2[Scraper APIs buscam\npreços FOB China]
+            P3[Calcula diferença\npreço BR vs FOB CN]
+            P4[KIMI busca\nfabricantes reais]
+            P5[Gera RFQ bilíngue\nEN + mandarim]
+        end
+        subgraph VIABILIDADE["M5 Viabilidade"]
+            P8[Recebe DDP\nda Logix]
+            P9[Define margens]
+            P10{RN1: Valor CN\nentre 25-35%\ndo BR?}
+            P10A[Aprovação\nautomática]
+            P10B[Notifica admins]
+            P10C{Admin\naprova?}
+            P10D[Aprovar com ajuste]
+            P10E[Reprovar com\njustificativa]
+            P11[Monta proposta\napenas aprovados]
+        end
+        subgraph FINANCEIRO["M6 Financeiro"]
+            P12[Gera invoice via\nempresa US]
+            P14[Pagamento 30%\nvia Wise - RN3]
+            P16[Pagamento 70%\nvia Wise - RN3]
+        end
+        subgraph TRACKING["M7 Rastreamento"]
+            P17[Dashboard\nreal-time via Logix]
+        end
+    end
+
+    subgraph PARCEIRO_CN["PARCEIRO CN (Market Union)"]
+        CN1[Recebe RFQ\nno Portal CN]
+        CN2[Cota com fábricas]
+        CN3[Inputa preços\nnegociados]
+        CN4[Registra\noportunidades]
+        CN5[Informa início\nde fabricação]
+        CN6[Sinaliza prontidão\nde envio]
+    end
+
+    subgraph LOGIX["LOGIX"]
+        L1[Recebe dados via API]
+        L2[Calcula DDP completo]
+        L3[Gerencia processo]
+        L4[Tracking real-time]
+    end
+
+    subgraph WISE["WISE"]
+        W1[Pagamento 30%]
+        W2[Pagamento 70%]
+    end
+
+    subgraph DESPACHANTE["DESPACHANTE"]
+        D1[Acessa dados via Logix]
+        D2{RN2: Aprova\ninvoice?}
+        D3[Desembaraço aduaneiro]
+    end
+
+    C1 --> C2 --> P1
+    P1 --> C3
+    C3 --> P2 --> P3
+    P3 --> C4 --> C5
+    C5 --> P4 --> P5 --> CN1
+    CN1 --> CN2 --> CN3
+    CN3 --> CN4
+    CN3 --> L1 --> L2 --> P8
+    P8 --> P9 --> P10
+    P10 -->|Sim| P10A --> P11
+    P10 -->|Não| P10B --> P10C
+    P10C -->|Aprovar| P10D --> P11
+    P10C -->|Reprovar| P10E
+    P11 --> C6 --> C7
+    C7 -->|Não| C1
+    C7 -->|Sim| P12 --> D1 --> D2
+    D2 -->|Sim| P14 --> W1
+    D2 -->|Não| P12
+    W1 --> CN5
+    CN5 --> CN6 --> P16 --> W2
+    W2 --> L3 --> D3
+    D3 --> L4 --> P17 --> C8
+
+    style CLIENTE fill:#E3F2FD,stroke:#1565C0,color:#000
+    style PLATAFORMA fill:#FFF3E0,stroke:#E65100,color:#000
+    style PARCEIRO_CN fill:#FCE4EC,stroke:#C62828,color:#000
+    style LOGIX fill:#E8F5E9,stroke:#2E7D32,color:#000
+    style WISE fill:#FFFDE7,stroke:#F9A825,color:#000
+    style DESPACHANTE fill:#F3E5F5,stroke:#6A1B9A,color:#000
+    </pre>
+  </div>
+
+  <h3>Métricas Esperadas</h3>
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Tempo de Pesquisa</div>
+      <div class="metric-asis">1-2 semanas</div>
+      <div class="metric-tobe">&lt; 48h</div>
+      <div class="metric-delta">~85% redução</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Visibilidade Cliente</div>
+      <div class="metric-asis">Zero</div>
+      <div class="metric-tobe">Real-time</div>
+      <div class="metric-delta">Dashboard completo</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Escalabilidade</div>
+      <div class="metric-asis">3-5 clientes</div>
+      <div class="metric-tobe">100+</div>
+      <div class="metric-delta">20x+ capacidade</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Automação</div>
+      <div class="metric-asis">0%</div>
+      <div class="metric-tobe">~77%</div>
+      <div class="metric-delta">Auto + Semi-auto</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Rastreabilidade</div>
+      <div class="metric-asis">Nenhuma</div>
+      <div class="metric-tobe">Completa</div>
+      <div class="metric-delta">Auditável</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Integração</div>
+      <div class="metric-asis">Nenhuma</div>
+      <div class="metric-tobe">End-to-end</div>
+      <div class="metric-delta">6 sistemas</div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3: RELEASES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section" id="releases">
+  <div class="section-number">Seção 3</div>
+  <h2>Automação Progressiva (R1 → R4)</h2>
+  <p class="section-desc">O TO-BE não é entregue de uma vez. A plataforma evolui em 4 releases, com o operador fazendo bridge manual nas primeiras releases.</p>
+
+  <h3>Evolução por Release</h3>
+  <div class="diagram-container">
+    <div class="diagram-label">Timeline de releases — 24-32 semanas</div>
+    <pre class="mermaid">
+flowchart LR
+    subgraph R1["R1 Foundation\n8-10 semanas"]
+        R1A[Catálogo VTEX/CSV]
+        R1B[Preço compra BR]
+        R1C[Seleção produtos]
+        R1D[RFQ por e-mail]
+        R1E[Cotação via admin]
+        R1F[DDP manual]
+        R1G[Aprovação básica]
+    end
+    subgraph R2["R2 AI Engine + Portal CN\n6-8 semanas"]
+        R2A[Scraping Alibaba]
+        R2B[Comparativo auto]
+        R2C[KIMI fabricantes]
+        R2D[Portal CN]
+        R2E[Chat IA mediado]
+    end
+    subgraph R3["R3 Financial + Logix\n6-8 semanas"]
+        R3A[Logix API DDP]
+        R3B[Wise pagamentos]
+        R3C[Invoices auto]
+        R3D[Range aprovação]
+    end
+    subgraph R4["R4 Scale\n4-6 semanas"]
+        R4A[Tracking Logix]
+        R4B[Dashboards KPIs]
+        R4C[Modo Demo]
+        R4D[Recompra]
+    end
+    R1 --> R2 --> R3 --> R4
+
+    style R1 fill:#E3F2FD,stroke:#1565C0,color:#000
+    style R2 fill:#FFF3E0,stroke:#E65100,color:#000
+    style R3 fill:#E8F5E9,stroke:#2E7D32,color:#000
+    style R4 fill:#F3E5F5,stroke:#6A1B9A,color:#000
+    </pre>
+  </div>
+
+  <h3>O que muda em cada release</h3>
+  <table>
+    <thead>
+      <tr><th>Etapa do Processo</th><th><span class="tag tag-release">R1</span> Foundation</th><th><span class="tag tag-release">R2</span> AI + Portal CN</th><th><span class="tag tag-release">R3</span> Financial</th><th><span class="tag tag-release">R4</span> Scale</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>1. Catálogo</strong></td><td>VTEX/CSV/Manual</td><td>=</td><td>=</td><td>+ Recompra</td></tr>
+      <tr><td><strong>2. Pesquisa China</strong></td><td><span class="tag tag-manual">indisponível</span></td><td><span class="tag tag-auto">Scraping + Comparativo</span></td><td>=</td><td>=</td></tr>
+      <tr><td><strong>3. Seleção</strong></td><td>Manual (sem dados China)</td><td>Manual (com dados China)</td><td>=</td><td>=</td></tr>
+      <tr><td><strong>4. Sourcing</strong></td><td><span class="tag tag-manual">indisponível</span></td><td><span class="tag tag-auto">KIMI busca fabricantes</span></td><td>=</td><td>=</td></tr>
+      <tr><td><strong>5. RFQ → CN</strong></td><td><span class="tag tag-semi">E-mail automático</span></td><td><span class="tag tag-auto">Portal CN</span></td><td>=</td><td>=</td></tr>
+      <tr><td><strong>6. Cotação</strong></td><td><span class="tag tag-manual">E-mail → admin inputa</span></td><td><span class="tag tag-semi">Portal CN direto</span></td><td>=</td><td>=</td></tr>
+      <tr><td><strong>7-8. DDP</strong></td><td><span class="tag tag-manual">Admin inputa manual</span></td><td><span class="tag tag-manual">Admin inputa manual</span></td><td><span class="tag tag-auto">Logix API automático</span></td><td>=</td></tr>
+      <tr><td><strong>9. Aprovação</strong></td><td>Básica (sem range)</td><td>Básica (sem range)</td><td><span class="tag tag-auto">Range 25-35% (RN1)</span></td><td>=</td></tr>
+      <tr><td><strong>11-13. Pagamento</strong></td><td><span class="tag tag-ext">Fora da plataforma</span></td><td><span class="tag tag-ext">Fora da plataforma</span></td><td><span class="tag tag-auto">Wise API 30/70</span></td><td>=</td></tr>
+      <tr><td><strong>14. Tracking</strong></td><td>—</td><td>—</td><td>—</td><td><span class="tag tag-auto">Logix real-time</span></td></tr>
+      <tr><td><strong>Comunicação CN</strong></td><td><span class="tag tag-manual">E-mail + admin bridge</span></td><td><span class="tag tag-auto">Chat IA mediado (RN4)</span></td><td>=</td><td>=</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4: REGRAS -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section" id="regras">
+  <div class="section-number">Seção 4</div>
+  <h2>Regras de Negócio nos Fluxos</h2>
+  <p class="section-desc">Mapeamento das 7 regras de negócio (RN1-RN7) para as etapas do processo e sua representação nos diagramas BPMN.</p>
+
+  <table>
+    <thead><tr><th>Regra</th><th>Código</th><th>Etapa</th><th>Representação no BPMN</th></tr></thead>
+    <tbody>
+      <tr><td>Aprovação automática de proposta</td><td><span class="tag tag-rn">RN1</span></td><td>6. DDP / Aprovação</td><td>Gateway: "Valor CN entre 25-35% do BR?" → Sim: auto / Não: manual</td></tr>
+      <tr><td>Pagamento depende de aprovação do despachante</td><td><span class="tag tag-rn">RN2</span></td><td>8. Pagamento</td><td>Gateway: "Despachante aprovou invoice na Logix?" → Sim: Wise / Não: aguarda</td></tr>
+      <tr><td>Parcelas configuráveis 30/70</td><td><span class="tag tag-rn">RN3</span></td><td>8. Pagamento</td><td>Anotação nos steps de pagamento: "defaults configuráveis pelos adms"</td></tr>
+      <tr><td>Comunicação mediada por IA</td><td><span class="tag tag-rn">RN4</span></td><td>4-6. Sourcing/Cotação</td><td>Separação Cliente ↔ IA ↔ CN nos subgraphs. Nunca direto.</td></tr>
+      <tr><td>Fotos primárias do cliente</td><td><span class="tag tag-rn">RN5</span></td><td>1. Catálogo</td><td>Anotação: "Fotos do cliente são primárias. Alibaba complementares."</td></tr>
+      <tr><td>IA não usada no cadastro</td><td><span class="tag tag-rn">RN6</span></td><td>1. Catálogo</td><td>Anotação: "IA NÃO é usada no cadastro de catálogo"</td></tr>
+      <tr><td>Preço de compra BR obrigatório</td><td><span class="tag tag-rn">RN7</span></td><td>1b. Enriquecimento</td><td>Anotação com ★: "obrigatório para prosseguir"</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5: COMPARATIVO -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="section" id="comparativo">
+  <div class="section-number">Seção 5</div>
+  <h2>Comparativo Visual AS-IS vs. TO-BE</h2>
+  <p class="section-desc">Visão lado a lado da transformação digital proposta.</p>
+
+  <div class="diagram-container">
+    <div class="diagram-label">Transformação: processo manual → plataforma digital</div>
+    <pre class="mermaid">
+flowchart LR
+    subgraph ASIS["AS-IS (Manual)"]
+        direction TB
+        A1[Excel] --> A2[KIMI manual\n1-2 semanas]
+        A2 --> A3[WhatsApp\npara Market Union]
+        A3 --> A4[Planilha\nconsolidação]
+        A4 --> A5[E-mail Logix\nPDF viabilidade]
+        A5 --> A6[Wire manual]
+    end
+    subgraph TOBE["TO-BE (Plataforma)"]
+        direction TB
+        B1[VTEX API] --> B2[Scraping APIs\n48 horas]
+        B2 --> B3[Portal CN\nRFQ bilíngue]
+        B3 --> B4[Logix API\nDDP automático]
+        B4 --> B5[Aprovação\nrange 25-35%]
+        B5 --> B6[Wise API\n30/70 automático]
+    end
+    ASIS -.->|Transformação\nDigital| TOBE
+
+    style ASIS fill:#FFEBEE,stroke:#C62828,color:#000
+    style TOBE fill:#E8F5E9,stroke:#2E7D32,color:#000
+    </pre>
+  </div>
+
+  <table>
+    <thead><tr><th>Dimensão</th><th>AS-IS</th><th>TO-BE</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Pesquisa</strong></td><td><span class="tag tag-manual">KIMI manual, 1-2 semanas</span></td><td><span class="tag tag-auto">Scraping APIs + KIMI, &lt; 48h</span></td></tr>
+      <tr><td><strong>Comunicação CN</strong></td><td><span class="tag tag-manual">WhatsApp/e-mail direto</span></td><td><span class="tag tag-auto">Chat IA mediado (RN4)</span></td></tr>
+      <tr><td><strong>Viabilidade</strong></td><td><span class="tag tag-manual">PDF manual da Logix</span></td><td><span class="tag tag-auto">API Logix, DDP automático</span></td></tr>
+      <tr><td><strong>Aprovação</strong></td><td><span class="tag tag-manual">E-mail / telefone</span></td><td><span class="tag tag-auto">Range automático 25-35% (RN1)</span></td></tr>
+      <tr><td><strong>Pagamento</strong></td><td><span class="tag tag-manual">Wire bancário manual</span></td><td><span class="tag tag-auto">Wise API, 30/70 configurável (RN2, RN3)</span></td></tr>
+      <tr><td><strong>Visibilidade</strong></td><td><span class="tag tag-manual">Zero</span></td><td><span class="tag tag-auto">Dashboard real-time</span></td></tr>
+      <tr><td><strong>Dados</strong></td><td><span class="tag tag-manual">Excel fragmentado</span></td><td><span class="tag tag-auto">Supabase unificado, multi-tenant</span></td></tr>
+      <tr><td><strong>Escala</strong></td><td>3-5 clientes</td><td><span class="tag tag-auto">100+ clientes</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div><!-- /content -->
+
+<!-- FOOTER -->
+<div class="footer">
+  Conecta Market Hub — Plataforma de Desenvolvimento de Fornecedores Chineses<br>
+  Fonte: project-brief-sourcing-platform.md (fonte única da verdade) — Gerado em 04/Abr/2026
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'default',
+    flowchart: {
+      useMaxWidth: true,
+      htmlLabels: true,
+      curve: 'basis'
+    },
+    securityLevel: 'loose'
+  });
+</script>
+</body>
+</html>

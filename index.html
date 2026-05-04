@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conecta Market Hub · Base de Trabalho</title>
+<style>
+  :root {
+    --paper: #f6f1e7;
+    --paper-2: #efe8d8;
+    --card: #fdfaf3;
+    --card-2: #f9f3e4;
+    --ink: #1b1510;
+    --ink-2: #3a2f23;
+    --ink-dim: #6b5e4e;
+    --ink-faint: #a89a82;
+    --line: #d9ceb4;
+    --line-2: #c4b694;
+    --accent: #c96442;
+    --accent-2: #a94e30;
+    --accent-soft: #f2d8cc;
+    --ok: #5c8a4f;
+    --ok-soft: #dfe9d4;
+    --warn: #b88a2a;
+    --warn-soft: #f4e6c2;
+    --info: #4a6c8a;
+    --info-soft: #d6e2ec;
+    --serif: "Tiempos", "Source Serif Pro", "Iowan Old Style", Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+    --mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+    --shadow-sm: 0 1px 3px rgba(40,28,12,.07), 0 1px 2px rgba(40,28,12,.05);
+    --shadow-md: 0 3px 8px rgba(40,28,12,.07), 0 8px 24px rgba(40,28,12,.06);
+    --shadow-lg: 0 8px 24px rgba(40,28,12,.09), 0 24px 48px rgba(40,28,12,.07);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 10% 0%, rgba(201,100,66,.07) 0%, transparent 45%),
+      radial-gradient(circle at 90% 100%, rgba(74,108,138,.05) 0%, transparent 40%);
+  }
+
+  .shell {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 56px 28px 96px;
+  }
+
+  /* ── Header ── */
+  header {
+    margin-bottom: 48px;
+  }
+  .brand {
+    font-family: var(--mono); font-size: 10px; color: var(--accent);
+    letter-spacing: 0.3em; text-transform: uppercase; font-weight: 600;
+    margin-bottom: 12px; display: block;
+  }
+  h1 {
+    font-family: var(--serif); font-size: 38px; font-weight: 400;
+    letter-spacing: -0.02em; line-height: 1.1; color: var(--ink);
+    margin-bottom: 14px;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .tagline {
+    font-family: var(--serif); font-size: 16px; color: var(--ink-dim);
+    max-width: 560px; line-height: 1.6; margin-bottom: 20px;
+  }
+  .status-row {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  }
+  .status-pill {
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    padding: 4px 10px; border-radius: 20px; letter-spacing: 0.08em;
+  }
+  .status-pill.ok { background: var(--ok-soft); color: var(--ok); }
+  .status-pill.warn { background: var(--warn-soft); color: var(--warn); }
+  .status-pill.info { background: var(--info-soft); color: var(--info); }
+
+  /* ── Section label ── */
+  .section-label {
+    font-family: var(--mono); font-size: 9.5px; color: var(--ink-faint);
+    letter-spacing: 0.24em; text-transform: uppercase;
+    margin: 36px 0 16px; display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  /* ── Prototype card (destaque) ── */
+  .proto-card {
+    background: var(--ink);
+    border-radius: 16px;
+    padding: 28px 32px;
+    box-shadow: var(--shadow-lg);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+    text-decoration: none;
+    transition: transform 0.18s, box-shadow 0.18s;
+    margin-bottom: 8px;
+  }
+  .proto-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(40,28,12,.14), 0 32px 64px rgba(40,28,12,.10);
+  }
+  .proto-label {
+    font-family: var(--mono); font-size: 9.5px; font-weight: 700;
+    color: var(--accent); letter-spacing: 0.22em; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .proto-title {
+    font-family: var(--serif); font-size: 22px; font-weight: 400;
+    color: #f4ead6; line-height: 1.2; margin-bottom: 6px;
+  }
+  .proto-desc {
+    font-family: var(--serif); font-size: 13.5px;
+    color: #a89a82; line-height: 1.5;
+  }
+  .proto-url {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--accent); margin-top: 10px; letter-spacing: 0.04em;
+  }
+  .proto-cta {
+    background: var(--accent); color: white;
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    padding: 12px 20px; border-radius: 8px;
+    white-space: nowrap; letter-spacing: 0.06em; text-transform: uppercase;
+    flex-shrink: 0; align-self: center;
+  }
+
+  /* ── Doc grid ── */
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .doc-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 20px;
+    text-decoration: none;
+    display: flex; flex-direction: column; gap: 6px;
+    box-shadow: var(--shadow-sm);
+    transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+  }
+  .doc-card:hover {
+    background: var(--card-2);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .doc-tag {
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .doc-tag.ux { color: var(--accent); }
+  .doc-tag.processo { color: var(--ok); }
+  .doc-tag.planejamento { color: var(--info); }
+  .doc-tag.benchmark { color: var(--warn); }
+
+  .doc-title {
+    font-family: var(--serif); font-size: 15px; font-weight: 500;
+    color: var(--ink); line-height: 1.25;
+  }
+  .doc-desc {
+    font-family: var(--serif); font-size: 12.5px;
+    color: var(--ink-dim); line-height: 1.45;
+  }
+  .doc-audience {
+    font-family: var(--mono); font-size: 9.5px; color: var(--ink-faint);
+    margin-top: 4px; letter-spacing: 0.04em;
+  }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 56px; padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 28px; }
+    .proto-card { grid-template-columns: 1fr; }
+    .proto-cta { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header>
+    <span class="brand">Conecta Market Hub</span>
+    <h1>Sourcing China <em>ao Brasil,</em><br>do catalogo ao container.</h1>
+    <p class="tagline">Base de trabalho do projeto. Acesse o prototipo para apresentacoes ou navegue pelos artefatos de processo, jornada e benchmarking.</p>
+    <div class="status-row">
+      <span class="status-pill warn">Discovery · pre-PRD R1</span>
+      <span class="status-pill ok">MVP ao vivo para eventos</span>
+      <span class="status-pill info">Cliente · BB Trade · Bemol</span>
+    </div>
+  </header>
+
+  <!-- PROTOTIPO -->
+  <div class="section-label">Prototipo · para apresentacoes e eventos</div>
+
+  <a class="proto-card" href="https://conecta.korvaai.tech/" target="_blank">
+    <div>
+      <div class="proto-label">Demo ao vivo</div>
+      <div class="proto-title">Conecta Market Hub · MVP</div>
+      <div class="proto-desc">Prototipo funcional construido em Lovable. Usado nas apresentacoes com clientes e parceiros. Representa o fluxo do varejista no pipeline de sourcing.</div>
+      <div class="proto-url">conecta.korvaai.tech</div>
+    </div>
+    <div class="proto-cta">Abrir demo</div>
+  </a>
+
+  <!-- JORNADAS -->
+  <div class="section-label">Jornadas e processo</div>
+
+  <div class="doc-grid">
+
+    <a class="doc-card" href="Jornada/jornada.html">
+      <div class="doc-tag ux">UX · Service Blueprint</div>
+      <div class="doc-title">Jornadas · 6 Personas · 10 Etapas</div>
+      <div class="doc-desc">Service Blueprint completo da operacao mais jornadas individuais por persona. Comeca pelo Cliente Varejista.</div>
+      <div class="doc-audience">Erik · Daniel · Railton</div>
+    </a>
+
+    <a class="doc-card" href="Materiais/bpmn-sourcing-as-is-to-be.html">
+      <div class="doc-tag processo">Processo · BPMN</div>
+      <div class="doc-title">Processo AS-IS e TO-BE</div>
+      <div class="doc-desc">Diagramas BPMN do processo atual de sourcing manual versus o processo target com a plataforma.</div>
+      <div class="doc-audience">Erik · Railton</div>
+    </a>
+
+    <a class="doc-card" href="Jornada/narrativa-blueprint.html">
+      <div class="doc-tag ux">Narrativa · Blueprint</div>
+      <div class="doc-title">Narrativa do Service Blueprint</div>
+      <div class="doc-desc">Leitura em prosa do blueprint. Para quem prefere texto a diagrama.</div>
+      <div class="doc-audience">Erik · Daniel</div>
+    </a>
+
+  </div>
+
+  <!-- ESTRATEGIA E PLANEJAMENTO -->
+  <div class="section-label">Estrategia e planejamento</div>
+
+  <div class="doc-grid">
+
+    <a class="doc-card" href="Materiais/estrategia-desenvolvimento-conecta-market-hub.html">
+      <div class="doc-tag planejamento">Estrategia · Dev</div>
+      <div class="doc-title">Estrategia de Desenvolvimento</div>
+      <div class="doc-desc">Plano de execucao visual com releases R1 a R4, stack, riscos e cronograma.</div>
+      <div class="doc-audience">Daniel · Railton</div>
+    </a>
+
+    <a class="doc-card" href="Materiais/ncm-restricoes-conecta-market-hub.html">
+      <div class="doc-tag processo">Processo · Regulatorio</div>
+      <div class="doc-title">NCM e Restricoes de Importacao</div>
+      <div class="doc-desc">Visao do modulo de classificacao NCM, anuencias, anti-dumping e aliquotas.</div>
+      <div class="doc-audience">Railton · Erik</div>
+    </a>
+
+  </div>
+
+  <!-- BENCHMARKING -->
+  <div class="section-label">Benchmarking · como o mercado opera hoje</div>
+
+  <div class="doc-grid">
+
+    <a class="doc-card" href="Benchmarking/B2-metodo de importacao/metodo-importacao-b2.html">
+      <div class="doc-tag benchmark">Benchmark · B2</div>
+      <div class="doc-title">Metodo 12P · Diagrama</div>
+      <div class="doc-desc">Os 12 passos do processo tradicional de importacao divulgado por assessoria de Santos-SP. Referencia do que o mercado usa hoje.</div>
+      <div class="doc-audience">Erik · Daniel · Railton</div>
+    </a>
+
+    <a class="doc-card" href="Benchmarking/B2-metodo de importacao/narrativa-b2.html">
+      <div class="doc-tag benchmark">Benchmark · B2 · Narrativa</div>
+      <div class="doc-title">Metodo 12P · Leitura</div>
+      <div class="doc-desc">Analise em prosa do Metodo 12P e o que ele revela sobre gaps do mercado versus o Conecta Market Hub.</div>
+      <div class="doc-audience">Erik · Daniel</div>
+    </a>
+
+    <a class="doc-card" href="Benchmarking/B1-ImportAI.club/importai-club-flow.html">
+      <div class="doc-tag benchmark">Benchmark · B1</div>
+      <div class="doc-title">ImportAI.club · Fluxo</div>
+      <div class="doc-desc">Referencia de produto concorrente na categoria de importacao assistida por IA.</div>
+      <div class="doc-audience">Daniel · Railton</div>
+    </a>
+
+  </div>
+
+  <footer>
+    <div>Conecta Market Hub · base de trabalho · mai/2026</div>
+    <div>Renato Olandesi · Product Owner</div>
+  </footer>
+
+</div>
+</body>
+</html>

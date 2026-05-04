@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B2 · Método 12P · Benchmark · Conecta Market Hub</title>
+<style>
+  :root {
+    --paper: #f6f1e7;
+    --paper-2: #efe8d8;
+    --paper-3: #e8dfc9;
+    --card: #fdfaf3;
+    --card-2: #f9f3e4;
+    --ink: #1b1510;
+    --ink-2: #3a2f23;
+    --ink-dim: #6b5e4e;
+    --ink-faint: #a89a82;
+    --line: #d9ceb4;
+    --line-2: #c4b694;
+    --accent: #c96442;
+    --accent-2: #a94e30;
+    --accent-soft: #f2d8cc;
+    --ok: #5c8a4f;
+    --ok-soft: #dfe9d4;
+    --warn: #b88a2a;
+    --warn-soft: #f4e6c2;
+    --risk: #b84a3c;
+    --risk-soft: #f2d4ce;
+    --info: #4a6c8a;
+    --info-soft: #d6e2ec;
+    --serif: "Tiempos", "Source Serif Pro", "Iowan Old Style", Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+    --mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+    --shadow-sm: 0 1px 2px rgba(40,28,12,.05), 0 1px 1px rgba(40,28,12,.04);
+    --shadow-md: 0 2px 6px rgba(40,28,12,.06), 0 6px 16px rgba(40,28,12,.05);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(201,100,66,.05) 0%, transparent 40%),
+      radial-gradient(circle at 85% 100%, rgba(74,108,138,.04) 0%, transparent 35%);
+  }
+
+  .shell { max-width: 1200px; margin: 0 auto; padding: 32px 28px 80px; }
+
+  /* Hero */
+  header.hero {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 28px; align-items: end;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 24px;
+  }
+  .eyebrow { font-family: var(--mono); font-size: 10.5px; color: var(--accent);
+    letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; margin-bottom: 8px; }
+  h1 { font-family: var(--serif); font-size: 28px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.15; }
+  h1 em { font-style: italic; color: var(--accent); }
+  .lead { font-family: var(--serif); font-size: 14.5px; color: var(--ink-2); margin-top: 10px; max-width: 680px; line-height: 1.6; }
+  .meta { text-align: right; font-family: var(--mono); font-size: 10.5px; color: var(--ink-dim); line-height: 1.8; }
+  .meta .v { color: var(--accent); font-weight: 600; font-size: 11.5px; }
+
+  /* Context strip */
+  .context-strip {
+    background: var(--warn-soft); border-left: 3px solid var(--warn);
+    border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 24px;
+    font-size: 13px; color: var(--ink-2); font-family: var(--serif);
+    display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;
+  }
+  .context-strip strong { color: var(--warn); font-family: var(--mono); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 3px; }
+
+  /* Section label */
+  .section-label {
+    font-family: var(--mono); font-size: 10.5px; color: var(--ink-dim);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin: 24px 0 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  /* ─── FLOW GRID ─── */
+  .flow-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .flow-row {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Row direction arrows */
+  .flow-row.ltr .step-card:not(:last-child)::after {
+    content: "→";
+    position: absolute; right: -18px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent); font-size: 18px; font-weight: 700;
+    z-index: 2;
+  }
+  .flow-row.rtl .step-card:not(:last-child)::after {
+    content: "←";
+    position: absolute; left: -18px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent); font-size: 18px; font-weight: 700;
+    z-index: 2;
+  }
+
+  /* Row connector (vertical between rows) */
+  .row-connector {
+    grid-column: 1 / -1;
+    height: 32px;
+    background: var(--paper-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+    letter-spacing: 0.1em;
+  }
+  .row-connector .arrow-down {
+    font-size: 16px; color: var(--accent); margin: 0 8px;
+  }
+
+  /* Step card */
+  .step-card {
+    background: var(--card);
+    border-right: 1px solid var(--line);
+    padding: 20px 18px 18px;
+    position: relative;
+    display: flex; flex-direction: column; gap: 8px;
+    transition: background 0.15s;
+  }
+  .step-card:last-child { border-right: 0; }
+  .step-card:hover { background: var(--card-2); }
+
+  .step-card.gate {
+    background: var(--warn-soft);
+    border-left: 4px solid var(--warn);
+  }
+  .step-card.gate:hover { background: #eeddb0; }
+
+  .step-card.final {
+    background: var(--ok-soft);
+    border-left: 4px solid var(--ok);
+  }
+  .step-card.final:hover { background: #d2e3c8; }
+
+  .step-num {
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--accent); letter-spacing: 0.2em;
+    text-transform: uppercase; font-weight: 700;
+  }
+  .step-card.gate .step-num { color: var(--warn); }
+  .step-card.final .step-num { color: var(--ok); }
+
+  .step-title {
+    font-family: var(--serif); font-size: 15px; font-weight: 500;
+    color: var(--ink); line-height: 1.25;
+  }
+
+  .step-desc {
+    font-family: var(--serif); font-size: 12.5px;
+    color: var(--ink-dim); line-height: 1.5;
+  }
+
+  .step-tool {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--ink-faint); margin-top: 4px;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .step-tool::before { content: "⚙"; font-size: 9px; }
+
+  .gate-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--warn); color: white;
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    padding: 3px 8px; border-radius: 12px; letter-spacing: 0.08em;
+    margin-top: 4px; align-self: flex-start;
+  }
+
+  /* ─── ANÁLISE DE GAPS ─── */
+  .gap-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 4px;
+  }
+  .gap-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow-sm);
+  }
+  .gap-card h4 {
+    font-family: var(--mono); font-size: 9.5px;
+    text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--ink-dim); margin-bottom: 8px;
+    padding-bottom: 6px; border-bottom: 1px solid var(--line);
+  }
+  .gap-card.pain h4 { color: var(--risk); }
+  .gap-card.opp h4 { color: var(--ok); }
+  .gap-card.note h4 { color: var(--info); }
+
+  .gap-list {
+    list-style: none; display: flex; flex-direction: column; gap: 6px;
+  }
+  .gap-list li {
+    font-family: var(--serif); font-size: 12.5px;
+    color: var(--ink-2); line-height: 1.45;
+    display: flex; gap: 7px; align-items: flex-start;
+  }
+  .gap-list li::before { flex-shrink: 0; margin-top: 1px; }
+  .gap-card.pain .gap-list li::before { content: "⚠"; color: var(--risk); }
+  .gap-card.opp .gap-list li::before { content: "💡"; font-size: 10px; }
+  .gap-card.note .gap-list li::before { content: "·"; color: var(--info); font-size: 16px; line-height: 1; }
+
+  /* ─── MAPEAMENTO COM CONECTA ─── */
+  .map-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .map-table thead th {
+    font-family: var(--mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.15em;
+    background: var(--paper-2); color: var(--ink-dim);
+    padding: 10px 14px; text-align: left;
+    border-bottom: 2px solid var(--line-2);
+  }
+  .map-table tbody td {
+    padding: 9px 14px; vertical-align: top;
+    border-bottom: 1px solid var(--paper-2);
+    font-family: var(--serif); color: var(--ink-2); line-height: 1.45;
+  }
+  .map-table tbody tr:last-child td { border-bottom: 0; }
+  .map-table tbody tr:hover td { background: var(--card-2); }
+  .map-table td:first-child {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--accent); font-weight: 600; white-space: nowrap;
+  }
+  .badge {
+    display: inline-block; font-family: var(--mono); font-size: 9.5px;
+    padding: 2px 7px; border-radius: 10px; font-weight: 600; letter-spacing: 0.06em;
+  }
+  .badge.ok { background: var(--ok-soft); color: var(--ok); }
+  .badge.warn { background: var(--warn-soft); color: var(--warn); }
+  .badge.risk { background: var(--risk-soft); color: var(--risk); }
+  .badge.info { background: var(--info-soft); color: var(--info); }
+
+  /* Footer */
+  footer {
+    margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: 10.5px; color: var(--ink-dim);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 900px) {
+    .flow-row { grid-template-columns: repeat(2, 1fr); }
+    .gap-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Benchmarking · B2 · Método 12P</div>
+      <h1>O processo tradicional de importação <em>antes</em> da plataforma.</h1>
+      <p class="lead">Método divulgado por uma assessoria de Santos-SP via Instagram (@metodo12p). 12 passos sequenciais do sourcing à entrega, operados manualmente via WhatsApp e Excel. Referência de benchmark para entender o que o Conecta Market Hub substitui.</p>
+    </div>
+    <div class="meta">
+      <div class="v">CONECTA · BENCHMARK</div>
+      <div>ref · B2</div>
+      <div>fonte · @metodo12p (Instagram)</div>
+      <div>data · mai/2026</div>
+      <div>autor · Renato + Claude</div>
+    </div>
+  </header>
+
+  <div class="context-strip">
+    <div>
+      <strong>Origem</strong>
+      Assessoria de Santos-SP. Vende o "Método 12P" como curso online via Instagram.
+    </div>
+    <div>
+      <strong>Ferramentas usadas</strong>
+      Grupo de WhatsApp + planilha Excel para desenvolvimento de produto e acompanhamento de operações.
+    </div>
+    <div>
+      <strong>Leitura para o projeto</strong>
+      Representa o estado da arte da concorrência artesanal. É exatamente esse processo que o Conecta Market Hub quer digitalizar, orquestrar e tornar rastreável.
+    </div>
+  </div>
+
+  <div class="section-label">Os 12 passos · fluxo snake (→ / ← / →)</div>
+
+  <div class="flow-grid">
+
+    <!-- Linha 1: passos 1→4 -->
+    <div class="flow-row ltr">
+      <div class="step-card">
+        <div class="step-num">Passo 01</div>
+        <div class="step-title">Escolha do Produto</div>
+        <div class="step-desc">Definição do produto a importar. Ponto de partida de todo o processo.</div>
+        <div class="step-tool">Manual · critério do importador</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Passo 02</div>
+        <div class="step-title">Busca do Fornecedor</div>
+        <div class="step-desc">Prospecção de fabricantes ou traders na China para o produto escolhido.</div>
+        <div class="step-tool">Alibaba · WhatsApp · relacionamento</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Passo 03</div>
+        <div class="step-title">Proforma Invoice e Packing List</div>
+        <div class="step-desc">Solicitação dos documentos comerciais ao fornecedor: fatura proforma e lista de embalagem.</div>
+        <div class="step-tool">E-mail · WhatsApp · Excel</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Passo 04</div>
+        <div class="step-title">Target Price</div>
+        <div class="step-desc">Definição do preço-alvo: quanto o importador está disposto a pagar pelo produto (FOB ou DDP).</div>
+        <div class="step-tool">Excel · cálculo manual</div>
+      </div>
+    </div>
+
+    <!-- Conector 1→2 -->
+    <div class="row-connector">
+      <span>retorna pelo lado direito</span>
+      <span class="arrow-down">↓</span>
+      <span>passo 4 conecta ao passo 5</span>
+    </div>
+
+    <!-- Linha 2: passos 8←7←6←5 (lidos da direita pra esquerda no fluxo real) -->
+    <div class="flow-row rtl">
+      <div class="step-card">
+        <div class="step-num">Passo 08</div>
+        <div class="step-title">Audite a Fábrica</div>
+        <div class="step-desc">Verificação da capacidade produtiva, qualidade e idoneidade da fábrica antes de fechar o pedido.</div>
+        <div class="step-tool">Visita presencial · agente local · relatório</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Passo 07</div>
+        <div class="step-title">Peça Amostra</div>
+        <div class="step-desc">Solicitação de amostra física do produto para validação de qualidade antes da produção em escala.</div>
+        <div class="step-tool">Courier internacional · aprovação manual</div>
+      </div>
+      <div class="step-card gate">
+        <div class="step-num">Passo 06</div>
+        <div class="step-title">Deu Preço?</div>
+        <div class="step-desc">Gate de decisão: o preço negociado com o fornecedor está dentro do target definido no Passo 04?</div>
+        <div class="gate-badge">⚡ decisão</div>
+        <div class="step-desc" style="margin-top:6px;font-size:11.5px;color:var(--warn);">Sim → avança. Não → renegocia ou descarta produto.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Passo 05</div>
+        <div class="step-title">Simulação de Importação</div>
+        <div class="step-desc">Cálculo do custo total nacionalizado: FOB + frete + impostos + taxas + câmbio. Equivalente ao DDP.</div>
+        <div class="step-tool">Excel · planilha de custos · cálculo manual</div>
+      </div>
+    </div>
+
+    <!-- Conector 2→3 -->
+    <div class="row-connector">
+      <span>retorna pelo lado esquerdo</span>
+      <span class="arrow-down">↓</span>
+      <span>passo 8 conecta ao passo 9</span>
+    </div>
+
+    <!-- Linha 3: passos 9→12 -->
+    <div class="flow-row ltr">
+      <div class="step-card">
+        <div class="step-num">Passo 09</div>
+        <div class="step-title">Inicie a Produção com Segurança</div>
+        <div class="step-desc">Confirmação do pedido e início da fabricação após aprovação da amostra e auditoria da fábrica.</div>
+        <div class="step-tool">Contrato · depósito (30-50%) · WhatsApp</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Passo 10</div>
+        <div class="step-title">Inspeção de Qualidade</div>
+        <div class="step-desc">Inspeção da produção finalizada antes do embarque. Verificação de conformidade com as especificações.</div>
+        <div class="step-tool">Agente local · relatório fotográfico</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Passo 11</div>
+        <div class="step-title">Embarque da Carga</div>
+        <div class="step-desc">Consolidação do contêiner, emissão do BL (Bill of Lading) e despacho da mercadoria do porto chinês.</div>
+        <div class="step-tool">Agente de cargas · documentação aduaneira</div>
+      </div>
+      <div class="step-card final">
+        <div class="step-num">Passo 12</div>
+        <div class="step-title">Entrega da Sua Carga</div>
+        <div class="step-desc">Desembaraço aduaneiro no Brasil e entrega final ao importador.</div>
+        <div class="step-tool">Despachante · Siscomex · transportadora</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">Gaps identificados vs. Conecta Market Hub</div>
+
+  <div class="gap-grid">
+    <div class="gap-card pain">
+      <h4>Dores do método manual</h4>
+      <ul class="gap-list">
+        <li>Zero rastreabilidade — tudo em WhatsApp e Excel, sem histórico centralizado</li>
+        <li>Processo linear e lento — cada passo espera o anterior, sem paralelismo</li>
+        <li>Simulação de importação (Passo 5) é artesanal — planilha sujeita a erro humano</li>
+        <li>Gate "Deu Preço?" (Passo 6) não tem critério objetivo automatizado</li>
+        <li>Auditoria de fábrica (Passo 8) depende de agente local ou viagem — caro e lento</li>
+        <li>Sem visibilidade para o cliente final durante a operação</li>
+      </ul>
+    </div>
+    <div class="gap-card opp">
+      <h4>O que o Conecta Market Hub resolve</h4>
+      <ul class="gap-list">
+        <li>Passos 1-2 → Catálogo + Sourcing com IA (KIMI busca fabricantes reais)</li>
+        <li>Passo 3 → RFQ bilíngue gerado automaticamente pela plataforma</li>
+        <li>Passo 5 → DDP calculado via Logix API (automatizado em R3)</li>
+        <li>Passo 6 → aprovação automática se margem 25-35% (RN1)</li>
+        <li>Passos 9-12 → tracking em tempo real via Logix + notificações mobile ao cliente</li>
+        <li>Toda a comunicação mediada pela plataforma — sem WhatsApp avulso</li>
+      </ul>
+    </div>
+    <div class="gap-card note">
+      <h4>O que o método tem que o Conecta não cobre ainda</h4>
+      <ul class="gap-list">
+        <li>Passo 7 (Amostra) — fluxo de amostra física não está mapeado no MVP</li>
+        <li>Passo 8 (Auditoria de fábrica) — fora do escopo; seria feature de R4+</li>
+        <li>Passo 10 (Inspeção de qualidade) — não está no pipeline TO-BE atual</li>
+        <li>Estes três passos representam a camada de "confiança na fábrica" — gap relevante para produtos de maior risco</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label">Mapeamento passo a passo · Método 12P → Pipeline Conecta</div>
+
+  <table class="map-table">
+    <thead>
+      <tr>
+        <th>Método 12P</th>
+        <th>Equivalente no Conecta Market Hub</th>
+        <th>Release</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>P01 · Escolha do Produto</td>
+        <td>Etapa 1 — Catálogo: cliente importa via VTEX/CSV e seleciona produtos</td>
+        <td>R1</td>
+        <td><span class="badge ok">mapeado</span></td>
+      </tr>
+      <tr>
+        <td>P02 · Busca do Fornecedor</td>
+        <td>Etapa 6 — Sourcing: KIMI busca fabricantes reais a partir das specs</td>
+        <td>R2</td>
+        <td><span class="badge ok">mapeado</span></td>
+      </tr>
+      <tr>
+        <td>P03 · Proforma Invoice / Packing List</td>
+        <td>Etapa 6 — RFQ bilíngue gerado pela plataforma e enviado ao Parceiro CN</td>
+        <td>R1</td>
+        <td><span class="badge ok">mapeado</span></td>
+      </tr>
+      <tr>
+        <td>P04 · Target Price</td>
+        <td>Etapa 1 — preço de compra BR informado pelo cliente (RN7); base para comparativo</td>
+        <td>R1</td>
+        <td><span class="badge ok">mapeado</span></td>
+      </tr>
+      <tr>
+        <td>P05 · Simulação de Importação</td>
+        <td>Etapa 8 — DDP calculado via Logix API + margens definidas pelo Operador</td>
+        <td>R3</td>
+        <td><span class="badge warn">R3</span></td>
+      </tr>
+      <tr>
+        <td>P06 · Deu Preço? (gate)</td>
+        <td>RN1 — aprovação automática se margem 25-35%; manual fora do range</td>
+        <td>R1</td>
+        <td><span class="badge ok">mapeado</span></td>
+      </tr>
+      <tr>
+        <td>P07 · Peça Amostra</td>
+        <td>Não mapeado no pipeline atual</td>
+        <td>—</td>
+        <td><span class="badge risk">gap</span></td>
+      </tr>
+      <tr>
+        <td>P08 · Audite a Fábrica</td>
+        <td>Parcialmente: KIMI verifica se é fábrica vs. trader; auditoria presencial fora do escopo</td>
+        <td>R2</td>
+        <td><span class="badge warn">parcial</span></td>
+      </tr>
+      <tr>
+        <td>P09 · Inicie a Produção</td>
+        <td>Etapa 9-10 — aprovação do cliente + pagamento 30% via Wise (RN3)</td>
+        <td>R3</td>
+        <td><span class="badge warn">R3</span></td>
+      </tr>
+      <tr>
+        <td>P10 · Inspeção de Qualidade</td>
+        <td>Não mapeado no pipeline atual</td>
+        <td>—</td>
+        <td><span class="badge risk">gap</span></td>
+      </tr>
+      <tr>
+        <td>P11 · Embarque da Carga</td>
+        <td>Etapa 10 — tracking via Logix; Parceiro CN sinaliza prontidão de envio</td>
+        <td>R3/R4</td>
+        <td><span class="badge warn">R3/R4</span></td>
+      </tr>
+      <tr>
+        <td>P12 · Entrega da Carga</td>
+        <td>Etapa 10 — desembaraço aprovado pelo Despachante (RN2) + tracking real-time</td>
+        <td>R4</td>
+        <td><span class="badge info">R4</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <footer>
+    <div>B2 · Método 12P · benchmark · Conecta Market Hub · documento de trabalho</div>
+    <div><a href="../B1-ImportAI.club/importai-club-flow.html">← B1 ImportAI.club</a> · fonte: <a href="https://www.instagram.com/metodo12p" target="_blank">@metodo12p no Instagram</a></div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ImportAI.club — Mapeamento de Fluxo do Usuário</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  header p {
+    color: #94a3b8;
+    font-size: 0.92rem;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  header .tag {
+    display: inline-block;
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: #7dd3fc;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 99px;
+    margin-top: 12px;
+  }
+
+  /* FLOW CONTAINER — horizontal scroll */
+  .flow-wrapper {
+    overflow-x: auto;
+    padding-bottom: 20px;
+  }
+
+  .flow {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    min-width: max-content;
+    padding: 0 20px;
+  }
+
+  /* CONNECTOR ARROW between steps */
+  .arrow {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 38px;
+    flex-shrink: 0;
+  }
+
+  .arrow svg {
+    width: 48px;
+    height: 24px;
+  }
+
+  /* STEP CARD */
+  .step {
+    width: 280px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .step-header {
+    background: #1e293b;
+    border: 2px solid #334155;
+    border-radius: 12px;
+    padding: 16px 18px;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .step:hover .step-header {
+    border-color: #60a5fa;
+  }
+
+  .step-number {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 4px;
+  }
+
+  .step-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f1f5f9;
+  }
+
+  .step-subtitle {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .step-icon {
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+  }
+
+  /* Color accent per step */
+  .step-0 .step-header { border-color: #475569; }
+  .step-0 .step-number { color: #94a3b8; }
+
+  .step-1 .step-header { border-color: #2563eb; }
+  .step-1 .step-number { color: #60a5fa; }
+
+  .step-2 .step-header { border-color: #7c3aed; }
+  .step-2 .step-number { color: #a78bfa; }
+
+  .step-3 .step-header { border-color: #0891b2; }
+  .step-3 .step-number { color: #67e8f9; }
+
+  .step-4 .step-header { border-color: #059669; }
+  .step-4 .step-number { color: #6ee7b7; }
+
+  .step-5 .step-header { border-color: #d97706; }
+  .step-5 .step-number { color: #fbbf24; }
+
+  /* DETAIL BLOCKS */
+  .detail-block {
+    background: #1a1f2e;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+
+  .detail-block h4 {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #1e293b;
+  }
+
+  .detail-block ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .detail-block ul li {
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: #cbd5e1;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .detail-block ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #475569;
+    font-size: 0.7rem;
+    top: 1px;
+  }
+
+  .detail-block ul li strong {
+    color: #e2e8f0;
+    font-weight: 600;
+  }
+
+  .detail-block ul li em {
+    color: #94a3b8;
+    font-style: normal;
+    font-size: 0.74rem;
+  }
+
+  /* Block header colors */
+  .block-inputs h4 { color: #60a5fa; border-color: #1e3a5f; }
+  .block-inputs { border-color: #1e3a5f; background: #111827; }
+
+  .block-validation h4 { color: #f87171; border-color: #3f1d1d; }
+  .block-validation { border-color: #3f1d1d; background: #160f0f; }
+
+  .block-generated h4 { color: #a78bfa; border-color: #2e1e4f; }
+  .block-generated { border-color: #2e1e4f; background: #110f1d; }
+
+  .block-ui h4 { color: #34d399; border-color: #064e3b; }
+  .block-ui { border-color: #064e3b; background: #0d1f18; }
+
+  .block-alerts h4 { color: #fbbf24; border-color: #451a03; }
+  .block-alerts { border-color: #451a03; background: #160f00; }
+
+  .block-actions h4 { color: #fb923c; border-color: #431407; }
+  .block-actions { border-color: #431407; background: #150d00; }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin: 32px auto 40px;
+    max-width: 860px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: #94a3b8;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ANALYSIS SECTION */
+  .analysis {
+    max-width: 1100px;
+    margin: 56px auto 0;
+    background: #1a1f2e;
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 32px 36px;
+  }
+
+  .analysis h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .analysis-card {
+    background: #0f1117;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .analysis-card h3 {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .analysis-card p, .analysis-card li {
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: #94a3b8;
+  }
+
+  .analysis-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0;
+  }
+
+  .analysis-card ul li {
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .analysis-card ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #475569;
+  }
+
+  .card-plus h3 { color: #34d399; }
+  .card-minus h3 { color: #f87171; }
+  .card-gap h3 { color: #fbbf24; }
+  .card-diff h3 { color: #60a5fa; }
+
+  footer {
+    text-align: center;
+    margin-top: 48px;
+    color: #334155;
+    font-size: 0.75rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ImportAI.club — Mapeamento de Fluxo do Usuário</h1>
+  <p>Diagrama detalhado da jornada completa: da landing até o resultado de custo DDP. Cada bloco mostra os inputs necessários, validações, dados gerados, elementos de UI, alertas e ações disponíveis.</p>
+  <span class="tag">Benchmark B1 · Análise de Concorrente · Sourcing Asia</span>
+</header>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#1e3a5f; border:1px solid #60a5fa;"></div> Inputs / Dados de Entrada</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3f1d1d; border:1px solid #f87171;"></div> Validações / Regras</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#2e1e4f; border:1px solid #a78bfa;"></div> Dados Gerados / Outputs</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#064e3b; border:1px solid #34d399;"></div> Elementos de UI</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#451a03; border:1px solid #fbbf24;"></div> Alertas / Avisos</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#431407; border:1px solid #fb923c;"></div> Ações Disponíveis</div>
+</div>
+
+<!-- FLOW -->
+<div class="flow-wrapper">
+  <div class="flow">
+
+    <!-- STEP 0 — DASHBOARD -->
+    <div class="step step-0">
+      <div class="step-header">
+        <div class="step-icon">🏠</div>
+        <div class="step-number">Etapa 0</div>
+        <div class="step-title">Dashboard</div>
+        <div class="step-subtitle">Minhas Cotações</div>
+      </div>
+
+      <div class="detail-block block-ui">
+        <h4>🖥 Elementos de UI</h4>
+        <ul>
+          <li>Estado vazio: "Você ainda não tem cotações"</li>
+          <li>CTA principal: <strong>"Fazer Primeira Cotação"</strong></li>
+          <li>Botão fixo: <strong>"Nova Cotação"</strong></li>
+          <li>Lista de cotações anteriores (quando existem)</li>
+          <li>Status por cotação: rascunho / concluída</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-actions">
+        <h4>⚡ Ações Disponíveis</h4>
+        <ul>
+          <li>Iniciar nova cotação</li>
+          <li>Retomar cotação em rascunho</li>
+          <li>Visualizar resultado de cotação anterior</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div class="arrow">
+      <svg viewBox="0 0 48 24" fill="none">
+        <path d="M2 12 H40 M32 5 L40 12 L32 19" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- STEP 1 — PRODUTO -->
+    <div class="step step-1">
+      <div class="step-header">
+        <div class="step-icon">📦</div>
+        <div class="step-number">Etapa 1</div>
+        <div class="step-title">Produto</div>
+        <div class="step-subtitle">Definição do produto e extração de dados via URL</div>
+      </div>
+
+      <div class="detail-block block-inputs">
+        <h4>📥 Inputs Necessários</h4>
+        <ul>
+          <li><strong>URL do produto</strong> no Alibaba <em>(campo de extração automática)</em></li>
+          <li><strong>Nome do produto</strong> <em>(preenchido automaticamente ou manual)</em></li>
+          <li><strong>Preço unitário USD</strong> <em>(ex: 17.75)</em></li>
+          <li><strong>Quantidade</strong> <em>(ex: 500 unidades)</em></li>
+          <li><strong>Peso bruto total kg</strong> <em>(ex: 1775 kg para 500 un.)</em></li>
+          <li><strong>Dimensões da caixa cm</strong> <em>(ex: 10×5×5)</em></li>
+          <li><strong>Moeda</strong> <em>(USD — configuração geral)</em></li>
+          <li><strong>Incoterm</strong> <em>(FOB — configuração geral)</em></li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-generated">
+        <h4>✨ Dados Gerados / Extraídos</h4>
+        <ul>
+          <li>Nome extraído: <strong>"fone ouvido bluetooth com mic"</strong></li>
+          <li>Preço: <strong>USD 17.75/un.</strong></li>
+          <li>Peso calculado: <strong>1775 kg total</strong></li>
+          <li>Volume calculado: <strong>0.125 CBM</strong> <em>(dimensões × qtd)</em></li>
+          <li>Custo total produtos: <strong>USD 8.875</strong></li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-validation">
+        <h4>⚠ Validações / Regras</h4>
+        <ul>
+          <li>Aviso: <em>"Confirme os dados antes de continuar"</em></li>
+          <li>Campos obrigatórios: nome, preço, qtd, peso</li>
+          <li>Extração automática pode falhar — campos editáveis</li>
+          <li>Permite adicionar múltiplos produtos na mesma cotação</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-ui">
+        <h4>🖥 Elementos de UI</h4>
+        <ul>
+          <li>Campo URL com botão <strong>"Extrair"</strong></li>
+          <li>Formulário com campos editáveis pós-extração</li>
+          <li>Seção "Configurações Gerais" (moeda + incoterm)</li>
+          <li>Botão <strong>"Adicionar produto"</strong></li>
+          <li>Indicador de progresso com 5 etapas</li>
+          <li>Botão <strong>"Próximo"</strong></li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-alerts">
+        <h4>🔔 Alertas</h4>
+        <ul>
+          <li>Banner amarelo: confirmar dados extraídos</li>
+          <li>Incoterm FOB: importador assume custo de frete</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div class="arrow">
+      <svg viewBox="0 0 48 24" fill="none">
+        <path d="M2 12 H40 M32 5 L40 12 L32 19" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- STEP 2 — NCM -->
+    <div class="step step-2">
+      <div class="step-header">
+        <div class="step-icon">🔍</div>
+        <div class="step-number">Etapa 2</div>
+        <div class="step-title">NCM</div>
+        <div class="step-subtitle">Classificação fiscal por IA</div>
+      </div>
+
+      <div class="detail-block block-inputs">
+        <h4>📥 Inputs Necessários</h4>
+        <ul>
+          <li><strong>Nome do produto</strong> <em>(vem da etapa 1)</em></li>
+          <li>Descrição adicional <em>(se necessário para refinar)</em></li>
+          <li>Confirmação ou rejeição do NCM sugerido</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-generated">
+        <h4>✨ Dados Gerados pela IA</h4>
+        <ul>
+          <li><strong>Código NCM:</strong> 8518.30.00</li>
+          <li><strong>Descrição:</strong> Fones de ouvido, mesmo combinados com microfone</li>
+          <li><strong>Confiança:</strong> Alta</li>
+          <li><strong>II (Imposto de Importação):</strong> 0%</li>
+          <li><strong>IPI:</strong> 9.75%</li>
+          <li><strong>PIS:</strong> 2.10%</li>
+          <li><strong>COFINS:</strong> 9.65%</li>
+          <li>Alíquota ICMS: <em>varia por estado (definida na etapa 4)</em></li>
+          <li>Indicador de progresso: <strong>1/1 classificados</strong></li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-validation">
+        <h4>⚠ Validações / Regras</h4>
+        <ul>
+          <li>Loading state: <em>"Analisando produto… 0/1"</em></li>
+          <li>Resultado pode ser aceito ou rejeitado pelo usuário</li>
+          <li>Rejeição aciona nova busca / classificação alternativa</li>
+          <li>Confiança "alta" → sugestão direta sem tela de revisão</li>
+          <li>Confiança baixa → presumidamente exige revisão manual</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-alerts">
+        <h4>🔔 Alertas Regulatórios</h4>
+        <ul>
+          <li><strong>ANATEL:</strong> produto requer homologação obrigatória</li>
+          <li><strong>ICMS:</strong> alíquota varia por estado de destino</li>
+          <li><strong>II:</strong> atualmente zerado, mas sujeito a mudança</li>
+          <li><strong>TEC:</strong> notas da Tarifa Externa Comum do Mercosul</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-actions">
+        <h4>⚡ Ações Disponíveis</h4>
+        <ul>
+          <li><strong>"Aceitar"</strong> — confirma NCM e avança</li>
+          <li><strong>"Buscar Outro"</strong> — rejeita e reclassifica</li>
+          <li>Editar NCM manualmente <em>(ícone de lápis no card)</em></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div class="arrow">
+      <svg viewBox="0 0 48 24" fill="none">
+        <path d="M2 12 H40 M32 5 L40 12 L32 19" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- STEP 3 — LOGÍSTICA -->
+    <div class="step step-3">
+      <div class="step-header">
+        <div class="step-icon">🚢</div>
+        <div class="step-number">Etapa 3</div>
+        <div class="step-title">Logística</div>
+        <div class="step-subtitle">Modal de transporte e rotas</div>
+      </div>
+
+      <div class="detail-block block-inputs">
+        <h4>📥 Inputs Necessários</h4>
+        <ul>
+          <li><strong>Modal:</strong> Marítimo ou Aéreo <em>(toggle)</em></li>
+          <li>Rota selecionada <em>(porto origem → porto destino)</em></li>
+          <li>Volume CBM <em>(calculado automaticamente da etapa 1)</em></li>
+          <li>Porto de destino no Brasil</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-generated">
+        <h4>✨ Dados Gerados</h4>
+        <ul>
+          <li><strong>Volume total:</strong> 0.125 CBM</li>
+          <li><strong>Rotas marítimas disponíveis:</strong></li>
+          <li>Shanghai → Itajaí: <em>45 dias / USD 85</em></li>
+          <li>Ningbo → Itajaí: <em>42 dias / USD 80</em></li>
+          <li>Ningbo → Navegantes: <em>43 dias / USD 82</em></li>
+          <li>Shanghai → Navegantes: <em>46 dias / USD 87</em></li>
+          <li><strong>Frete aéreo:</strong> ~7–10 dias <em>(custo muito maior)</em></li>
+          <li><strong>Seguro:</strong> 0.5% sobre valor CIF</li>
+          <li>Capacidade disponível: <strong>0.875 m³</strong> para completar 1 CBM</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-validation">
+        <h4>⚠ Validações / Regras</h4>
+        <ul>
+          <li>Preço marítimo é por CBM contratado</li>
+          <li>Aéreo torna-se economicamente inviável acima de ~50 kg</li>
+          <li>Seguro obrigatório — calculado sobre CIF (mercadoria+frete)</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-alerts">
+        <h4>🔔 Alertas / Dicas</h4>
+        <ul>
+          <li>Dica de otimização: <em>"Você tem 0.875 m³ disponíveis para completar 1 CBM — adicione mais produtos para diluir o frete"</em></li>
+          <li>Modal aéreo: aviso visual de custo elevado</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-ui">
+        <h4>🖥 Elementos de UI</h4>
+        <ul>
+          <li>Toggle <strong>Marítimo / Aéreo</strong></li>
+          <li>Cards de rota com preço e prazo</li>
+          <li>Seleção de rota por radio button</li>
+          <li>Indicador de CBM total + capacidade restante</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div class="arrow">
+      <svg viewBox="0 0 48 24" fill="none">
+        <path d="M2 12 H40 M32 5 L40 12 L32 19" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- STEP 4 — BRASIL -->
+    <div class="step step-4">
+      <div class="step-header">
+        <div class="step-icon">🇧🇷</div>
+        <div class="step-number">Etapa 4</div>
+        <div class="step-title">Brasil</div>
+        <div class="step-subtitle">Parâmetros fiscais de destino</div>
+      </div>
+
+      <div class="detail-block block-inputs">
+        <h4>📥 Inputs Necessários</h4>
+        <ul>
+          <li><strong>Estado de destino</strong> <em>(dropdown — define alíquota ICMS)</em></li>
+          <li>Tipo de empresa <em>(se aplicável — impacto no crédito ICMS)</em></li>
+          <li>CNPJ / dados fiscais do importador <em>(se exigido)</em></li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-generated">
+        <h4>✨ Dados Calculados</h4>
+        <ul>
+          <li><strong>Alíquota ICMS</strong> para o estado selecionado</li>
+          <li><strong>Crédito ICMS</strong> recuperável <em>(ex: -R$ 1.2M na demonstração)</em></li>
+          <li>Base de cálculo ajustada por estado</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-validation">
+        <h4>⚠ Validações / Regras</h4>
+        <ul>
+          <li>ICMS incide sobre CIF + II + IPI (base de cálculo "por dentro")</li>
+          <li>Alíquota varia: SP 18%, AM 20%, CE 20%, etc.</li>
+          <li>Crédito só disponível para contribuinte do ICMS (empresas)</li>
+          <li>Importação por conta própria vs. trading — impacto diferente</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-alerts">
+        <h4>🔔 Alertas</h4>
+        <ul>
+          <li>ANATEL: homologação deve ser feita antes do desembaraço</li>
+          <li>Diferença de alíquota pode mudar significativamente o custo final</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div class="arrow">
+      <svg viewBox="0 0 48 24" fill="none">
+        <path d="M2 12 H40 M32 5 L40 12 L32 19" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- STEP 5 — RESULTADO -->
+    <div class="step step-5">
+      <div class="step-header">
+        <div class="step-icon">📊</div>
+        <div class="step-number">Etapa 5</div>
+        <div class="step-title">Resultado</div>
+        <div class="step-subtitle">DDP completo em 3 abas</div>
+      </div>
+
+      <div class="detail-block block-generated">
+        <h4>✨ Aba 1 — Resumo</h4>
+        <ul>
+          <li><strong>Custo Produtos:</strong> R$ 44.000</li>
+          <li><strong>Frete + Seguro:</strong> R$ 37.8M <em>(bug de escala na demo)</em></li>
+          <li><strong>Impostos:</strong> R$ 9.3M</li>
+          <li><strong>Despesas Op.:</strong> R$ 1.4M</li>
+          <li><strong>Crédito ICMS:</strong> −R$ 1.2M</li>
+          <li><strong>Custo Unitário:</strong> R$ 94.851,79</li>
+          <li>Gráfico donut: proporção de cada componente</li>
+          <li>Fluxo de caixa: <strong>70% na confirmação / 30% na nacionalização</strong></li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-generated" style="border-color:#1e3a5f; background:#0d1525;">
+        <h4 style="color:#7dd3fc;">✨ Aba 2 — Por Produto</h4>
+        <ul>
+          <li><strong>CIF por produto</strong> (mercadoria + frete + seguro)</li>
+          <li><strong>II:</strong> 0% (zerado para NCM 8518)</li>
+          <li><strong>IPI:</strong> 9.75%</li>
+          <li><strong>PIS:</strong> 2.10%</li>
+          <li><strong>COFINS:</strong> 9.65%</li>
+          <li><strong>ICMS:</strong> calculado por estado</li>
+          <li><strong>Total por produto:</strong> R$ 48.6M</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-generated" style="border-color:#064e3b; background:#071a11;">
+        <h4 style="color:#6ee7b7;">✨ Aba 3 — Detalhado</h4>
+        <ul>
+          <li><strong>1. CIF:</strong> mercadoria + frete + seguro</li>
+          <li><strong>2. Impostos:</strong> II / IPI / PIS / COFINS / ICMS</li>
+          <li><strong>3. Despesas Operacionais:</strong></li>
+          <li>AFRMM (taxa marinha mercante)</li>
+          <li>Siscomex: R$ 214,50</li>
+          <li>Despacho aduaneiro: R$ 800</li>
+          <li>Armazenagem: R$ 500</li>
+          <li>Capatazia (movimentação): R$ 300</li>
+          <li>Transporte interno: R$ 500</li>
+          <li>Comissão TPC: R$ 1.4M</li>
+          <li><strong>4. Resumo Final:</strong> Custo Total / Crédito ICMS / Custo Efetivo / Custo Unitário</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-actions">
+        <h4>⚡ Ações Disponíveis</h4>
+        <ul>
+          <li><strong>"Registrar Meu Pedido"</strong> — CTA principal</li>
+          <li>Exportar / salvar cotação</li>
+          <li>Voltar e editar qualquer etapa anterior</li>
+          <li>Criar nova cotação</li>
+        </ul>
+      </div>
+
+      <div class="detail-block block-alerts">
+        <h4>🔔 Observações</h4>
+        <ul>
+          <li>Fluxo 70/30 é oposto ao da Conecta (30/70) — ponto de diferenciação</li>
+          <li>Resultado não inclui custo de produção / sourcing da fábrica</li>
+          <li>Ferramenta é calculadora — não executa o pedido real</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /flow -->
+</div><!-- /flow-wrapper -->
+
+
+<!-- ANALYSIS SECTION -->
+<div class="analysis">
+  <h2>🧠 Análise Estratégica — O que aprender do ImportAI.club</h2>
+  <div class="analysis-grid">
+
+    <div class="analysis-card card-plus">
+      <h3>✅ O que fazem bem</h3>
+      <ul>
+        <li>Wizard linear de 5 etapas — progressão clara, baixo atrito cognitivo</li>
+        <li>Extração automática de dados via URL do Alibaba — momento "uau"</li>
+        <li>Classificação NCM por IA com nível de confiança explícito</li>
+        <li>Alertas regulatórios contextuais por NCM (ANATEL, ICMS, TEC)</li>
+        <li>Dica de otimização de CBM — educa o usuário em tempo real</li>
+        <li>Três visões do resultado: resumo / por produto / detalhado</li>
+        <li>Desdobramento completo das despesas operacionais (Siscomex, despacho, capatazia, AFRMM)</li>
+        <li>Toggle marítimo/aéreo com comparação instantânea de custo e prazo</li>
+      </ul>
+    </div>
+
+    <div class="analysis-card card-minus">
+      <h3>❌ Limitações identificadas</h3>
+      <ul>
+        <li>É apenas uma calculadora — não executa nenhuma etapa do sourcing real</li>
+        <li>"Registrar Meu Pedido" não gera pedido real: provavelmente captura lead</li>
+        <li>Não encontra fábricas — o preço FOB é o do Alibaba, não do fabricante direto</li>
+        <li>Não tem chat com fornecedor / despachante</li>
+        <li>Não valida anti-dumping ou restrições Receita Federal / Anvisa / Exército</li>
+        <li>Sem tracking de pedido, sem gestão de produção, sem fluxo de pagamento real</li>
+        <li>Custo unitário R$ 94k para fone de R$ 17 sugere bug de cálculo na demo</li>
+        <li>Não tem versão multiusuário / white-label para operadores como a Conecta</li>
+      </ul>
+    </div>
+
+    <div class="analysis-card card-gap">
+      <h3>🟡 Gaps que a Conecta deve preencher</h3>
+      <ul>
+        <li>Sourcing ativo de fábricas — não só cotação, mas conexão real via 1688/Qimin</li>
+        <li>Chat mediado lojista ↔ despachante chinês (regra central da Conecta)</li>
+        <li>Fluxo de pagamento integrado via Wise (30% aprovação / 70% embarque)</li>
+        <li>Tracking logístico real da carga China → Brasil</li>
+        <li>Gestão de catálogo e seleção de produtos para sourcing</li>
+        <li>Validação anti-dumping e restrições regulatórias (Anvisa, IBAMA, Exército)</li>
+        <li>Painel do operador (Conecta gerencia múltiplos lojistas)</li>
+        <li>Wizard com estado persistente — usuário pode sair e retornar</li>
+      </ul>
+    </div>
+
+    <div class="analysis-card card-diff">
+      <h3>🔵 Diferencial da Conecta vs. ImportAI</h3>
+      <ul>
+        <li><strong>ImportAI:</strong> calculadora DDP — "quanto vai custar importar isso?"</li>
+        <li><strong>Conecta:</strong> plataforma de sourcing — "me ajuda a comprar isso da China"</li>
+        <li>Conecta tem especialista humano no loop (Erik + despachante chinês)</li>
+        <li>Conecta é B2B com multi-tenancy — escala de 5 para 100+ lojistas</li>
+        <li>Conecta tem vantagem de relacionamento com fábricas reais (cotas)</li>
+        <li>Cálculo DDP da Conecta será baseado em cotação real, não estimativa de CBM</li>
+        <li>ImportAI pode ser parceiro/referência, não necessariamente concorrente direto</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #1e293b;">
+    <h3 style="font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #7dd3fc; margin-bottom: 10px;">💡 Padrões de UX para adotar no design da Conecta</h3>
+    <p style="font-size: 0.82rem; line-height: 1.7; color: #94a3b8;">
+      O fluxo wizard de 5 passos com indicador de progresso visível funciona muito bem para reduzir o atrito em processos complexos como importação. A Conecta deve manter esse padrão mas estendê-lo para cobrir também a etapa de seleção de fornecedor e aprovação de cotação real. A extração automática via URL é o momento de maior valor percebido — reproduzir isso, seja via URL do 1688 ou via upload de catálogo VTEX. Os alertas regulatórios contextuais (ANATEL, ICMS por estado) devem ser incorporados no módulo NCM da Conecta como comportamento padrão, não como funcionalidade opcional. A visão de resultado em três camadas (resumo / por produto / detalhado) é o modelo correto para a tela de aprovação de DDP na Conecta — o lojista precisa das três perspectivas para tomar uma decisão de compra.
+    </p>
+  </div>
+</div>
+
+<footer>
+  <p>Análise gerada em 2026-05-02 · Sourcing Asia — Conecta Marketchup · Benchmark B1: ImportAI.club</p>
+</footer>
+
+</body>
+</html>

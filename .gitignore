@@ -1,0 +1,33 @@
+# Credenciais — nunca subir
+Secrets/
+
+# Documentos de texto e transcrições
+*.md
+*.txt
+
+# Imagens e binários
+*.jpg
+*.JPG
+*.jpeg
+*.png
+*.PNG
+*.pdf
+*.lnk
+
+# Pastas internas sem uso externo
+Ata Reunioes/
+UX Design/
+Prototipos/
+
+# Cópias de backup
+*Copia*
+*copia*
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ferramentas locais
+.claude/
+.obsidian/

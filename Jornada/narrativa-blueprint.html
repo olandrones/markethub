@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Narrativa do Service Blueprint — Conecta Market Hub</title>
+<style>
+  :root {
+    --paper: #f6f1e7;
+    --card: #fdfaf3;
+    --ink: #1b1510;
+    --ink-2: #3a2f23;
+    --ink-dim: #6b5e4e;
+    --line: #d9ceb4;
+    --accent: #c96442;
+    --serif: "Tiempos", "Source Serif Pro", "Iowan Old Style", Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink-2);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(201,100,66,.04) 0%, transparent 40%),
+      radial-gradient(circle at 85% 100%, rgba(74,108,138,.03) 0%, transparent 35%);
+  }
+  .shell { max-width: 760px; margin: 0 auto; padding: 60px 36px 120px; }
+  header { padding-bottom: 30px; border-bottom: 1px solid var(--line); margin-bottom: 36px; }
+  .eyebrow {
+    font-family: var(--sans); font-size: 12px; color: var(--accent);
+    letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600;
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-family: var(--serif); font-size: 36px; font-weight: 400;
+    letter-spacing: -0.012em; line-height: 1.15; color: var(--ink);
+    margin-bottom: 12px;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .subtitle {
+    font-family: var(--sans); font-size: 14px; color: var(--ink-dim);
+    line-height: 1.5;
+  }
+  h2 {
+    font-family: var(--serif); font-size: 26px; font-weight: 500;
+    color: var(--ink); margin-top: 48px; margin-bottom: 20px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--line);
+    letter-spacing: -0.005em;
+  }
+  h3 {
+    font-family: var(--serif); font-size: 20px; font-weight: 500;
+    color: var(--ink); margin-top: 30px; margin-bottom: 14px;
+    font-style: italic;
+  }
+  p { margin-bottom: 18px; }
+  p strong { color: var(--ink); font-weight: 600; }
+  .kicker {
+    font-family: var(--sans); font-size: 11.5px; color: var(--accent);
+    letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;
+    margin-top: 36px; margin-bottom: 6px;
+  }
+  footer {
+    margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--line);
+    font-family: var(--sans); font-size: 12px; color: var(--ink-dim);
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header>
+  <div class="eyebrow">Narrativa do Service Blueprint</div>
+  <h1>A operação completa do <em>Conecta Market Hub</em>, contada em palavras.</h1>
+  <p class="subtitle">Documento de leitura por voz. Acompanhe junto com o Service Blueprint visual em jornada.html, na primeira aba. Esta narrativa percorre o fluxo inteiro, das pessoas ao sistema, dos primeiros passos do cliente até o contêiner chegando no porto brasileiro.</p>
+</header>
+
+<h2>O que estamos construindo</h2>
+
+<p>O Conecta Market Hub é uma plataforma de software como serviço, do tipo que vende assinatura mensal para empresas. A função dela é orquestrar, do começo ao fim, o processo de comprar produtos na China e trazer pro Brasil. Hoje esse processo existe, mas é totalmente artesanal. Empresas que querem importar fazem tudo no WhatsApp, no e-mail, em planilhas, sem visibilidade nenhuma do que está acontecendo. O Conecta nasce justamente pra digitalizar esse caminho inteiro, e fazer isso usando inteligência artificial em vários pontos pra reduzir o trabalho manual ao mínimo possível.</p>
+
+<p>O cliente atual é uma empresa chamada Conecta, que já presta esse serviço de sourcing internacional há um tempo, mas operando de forma manual pra cinco clientes. A meta é escalar pra cento e cinquenta clientes em seis meses. Nessa nova operação, a Conecta vira a empresa operadora da plataforma, atendendo varejistas brasileiros que querem importar mercadoria de fabricantes chineses. O primeiro cliente pagante é a BB Trade, uma empresa que vende dentro do marketplace Bemol, plataforma hospedada em VTEX. A meta de receita é trezentos dólares por mês de assinatura, mais cinco por cento de comissão sobre cada importação fechada. Em média, isso dá uns quinhentos e cinquenta dólares por cliente por mês.</p>
+
+<p>O parceiro chinês ativo da Conecta se chama Market Union, fica em Yiwu, província de Zhejiang. Ele é quem realmente bate na porta das fábricas, negocia preço, acompanha produção. A arquitetura da plataforma já prevê que possam existir vários parceiros chineses no futuro, em cidades diferentes ou para nichos diferentes. Mas nesse primeiro momento Market Union é o único.</p>
+
+<p>O problema raiz que o Conecta resolve está em três frentes. A primeira é a opacidade da cadeia chinesa. No Alibaba, que é a vitrine mais usada no ocidente, entre setenta e oitenta por cento dos anunciantes não são fabricantes de verdade. São tradings, intermediários, que se vestem de fabricantes pra capturar margem. Identificar quem é fábrica real exige conhecimento técnico e tempo. Hoje esse trabalho é feito por uma pessoa interrogando uma inteligência artificial chinesa chamada KIMI, que é melhor do que os modelos ocidentais nesse tipo de busca dentro do mercado interno chinês. A plataforma vai automatizar essa busca. A segunda frente é o processo artesanal, que depende de memória e relacionamento pessoal. Não tem digitalização nenhuma, então cada importação vira um projeto único. A terceira frente é a falta de viabilidade integrada. O cliente não consegue tomar decisões boas porque não existe um fluxo que conecta o preço do fabricante chinês com o frete internacional, com os impostos brasileiros, com a margem de revenda. Hoje cada uma dessas pontas mora num lugar diferente, num arquivo diferente.</p>
+
+<h2>As pessoas envolvidas</h2>
+
+<p>Pra entender a operação inteira, antes de tudo é preciso entender quem são as personas que vão usar a plataforma. São seis no total, e cada uma tem um relacionamento muito diferente com o sistema.</p>
+
+<p>A primeira persona é o <strong>Cliente Varejista</strong>. Esse é o cara que paga a conta. É o lojista brasileiro, dono de uma operação de revenda, que quer importar mercadoria chinesa pra ganhar margem. No nosso caso piloto, é a BB Trade. Ele entra na plataforma de tempos em tempos, quando precisa renovar o catálogo dele. Não fica logado o dia inteiro. Tem conhecimento alto de comércio brasileiro, conhece bem o produto que vende, mas tem conhecimento médio de logística internacional e baixo de termos regulatórios brasileiros. Ele não sabe o que é uma classificação NCM, não sabe direito o que é anti-dumping, e não tem por que saber. A plataforma tem que abstrair essa complexidade pra ele. Ele aparece na operação tipicamente em três momentos: subindo catálogo, escolhendo o que quer importar, e decidindo se aprova a proposta final. Tudo o resto, ele aguarda.</p>
+
+<p>A segunda persona é o <strong>Operador Interno</strong>, que é o time da Conecta. Esse é o que mais usa a plataforma. Fica oito horas por dia em frente da tela. Ele é o ponto humano da inteligência artificial: confirma classificações, supervisiona o scraping de preços, ajusta traduções para chinês, define margens, aprova manualmente os casos fora do padrão. O Operador é também o gargalo conhecido da plataforma. Se a interface dele for lenta, a plataforma inteira não escala, porque cada decisão dele se multiplica por centenas de SKUs por dia. O sucesso da operação depende dele conseguir processar pelo menos quinze SKUs por minuto na confirmação de classificação. Ele tem alto conhecimento de comércio exterior e de sourcing chinês. Aprende a plataforma a cada nova versão. É descrito como border collie da operação, no sentido de que ele guia, conduz, mantém o rebanho de processos andando junto.</p>
+
+<p>A terceira persona é o <strong>Parceiro Chinês</strong>. Hoje é o pessoal da Market Union em Yiwu. Eles recebem pedidos de cotação da plataforma, vão até as fábricas de fato, negociam preço, retornam com cotações, depois acompanham fabricação até o embarque. Comunicam só em inglês ou mandarim. Não falam português, e por design não conversam diretamente com o cliente brasileiro. Toda a comunicação é mediada pela Conecta. Essa mediação é uma regra de produto, não detalhe técnico. Ela existe pra proteger a relação comercial: se cliente e parceiro chinês começam a falar direto, a Conecta perde o lugar de intermediação e perde a comissão.</p>
+
+<p>A quarta persona é o <strong>Despachante Aduaneiro</strong>. Esse é externo à Conecta. É o profissional brasileiro que cuida do desembaraço da mercadoria quando o contêiner chega no porto. Ele não usa diretamente a plataforma do Conecta, mas é fundamental por uma regra de negócio específica: o pagamento da segunda parcela só pode ser disparado depois que o despachante aprovou a invoice no sistema dele, que é o Logix. Sem essa aprovação, nada anda. Por isso ele aparece como gatekeeper do pagamento.</p>
+
+<p>A quinta persona são os <strong>Parceiros de Anuência</strong>. Esses são os órgãos brasileiros de regulação: Inmetro, Anatel, Anvisa, Ibama. Eles entram na história só quando o produto que o cliente quer importar exige licença prévia. Então a participação deles é pontual, reativa, e externa. Eles não logam na plataforma. Mas afetam o cronograma de forma imprevisível: uma anuência pode levar dias ou semanas, dependendo do órgão e do produto. Por isso aparecem como camada de support, junto com o despachante.</p>
+
+<p>A sexta persona é o <strong>Designer de Produtos</strong>. Esse é um papel que aparece num fluxo lateral, chamado fluxo OEM, que é abreviação de Original Equipment Manufacturer, ou marca própria. Quando o cliente brasileiro não quer só revender um produto chinês padrão, mas quer customizar, colocar a marca dele, mudar embalagem, mudar cor, o Designer entra desenhando essa customização junto com a fábrica. Esse fluxo está fora do escopo do produto mínimo, mas está no roadmap como possibilidade de expansão. O Designer hoje é placeholder no Service Blueprint, atuando só em duas etapas das dez.</p>
+
+<h2>A jornada de uma importação contada do começo ao fim</h2>
+
+<p>Agora vamos passar pela operação inteira como se fosse uma história. Imagina que a BB Trade decidiu testar a plataforma. Eles têm um catálogo grande, vendem na Bemol, e querem ver se conseguem trazer da China alguns produtos com preço melhor.</p>
+
+<h3>Etapa um. Catálogo.</h3>
+
+<p>O cliente entra na plataforma pela primeira vez. A primeira coisa que ele precisa fazer é trazer o catálogo dele pra dentro do sistema. Tem três caminhos. O primeiro e mais comum, no caso da BB Trade, é conectar diretamente com a VTEX. A plataforma puxa via API o catálogo inteiro, com SKUs, preços de venda, descrições, fotos, categorias. O segundo caminho é subir um arquivo em CSV, que é planilha estruturada, pra clientes que não estão em VTEX. O terceiro caminho é cadastro manual, item por item, pra casos específicos. Independente do caminho, depois que o catálogo está no sistema, o cliente precisa fazer uma coisa adicional, que é informar o preço de compra atual no Brasil de cada produto. Isso é obrigatório, é uma regra de negócio chamada RN sete, porque sem o preço de compra brasileiro o sistema não consegue calcular se vai dar economia importando da China. O comparativo só faz sentido quando esse dado existe. Isso é tudo o que o cliente faz nessa etapa. Atrás das cortinas, o Operador da Conecta acompanha o upload, valida campos, oferece suporte se algo der errado na conexão com a Bemol. Os sistemas envolvidos aqui são a API da VTEX, o importador de CSV, e a interface de cadastro manual.</p>
+
+<p>Emocionalmente, o cliente está ansioso. É a primeira vez. Ele se pergunta se vai conectar mesmo, se a plataforma vai conseguir ler tudo, se ele vai precisar digitar coisa de novo, se vai estragar o que já está montado na VTEX. Esse é o primeiro contato dele com o sistema, então a forma como esse onboarding é feito vai definir parte da percepção dele sobre a plataforma inteira.</p>
+
+<h3>Etapa dois. Classificação NCM.</h3>
+
+<p>Com o catálogo carregado, entra em ação um trabalho técnico que o cliente nem precisa entender direito. Cada produto importado precisa ser classificado segundo a Nomenclatura Comum do Mercosul, ou NCM. É um código de oito dígitos que identifica oficialmente o que aquele produto é, pros olhos da Receita Federal. Esse código é fundamental porque ele determina três coisas: quanto o cliente vai pagar de imposto de importação, quais licenças ele vai precisar, e se o produto está sujeito a alguma medida especial como anti-dumping. Sem NCM correto, todo o cálculo de viabilidade é inválido.</p>
+
+<p>O problema é que a tabela NCM tem entre dez e quinze mil códigos ativos. Distinguir entre códigos parecidos exige conhecimento técnico real sobre composição, função e uso do produto. A plataforma resolve isso com uma combinação de inteligência artificial e revisão humana. Funciona assim: primeiro, um modelo de linguagem mais econômico processa o catálogo em lote e sugere as três a cinco classificações mais prováveis pra cada item. Quando esse modelo está com confiança alta, acima de noventa por cento, a sugestão segue direto. Quando está com confiança mais baixa, entra um segundo modelo, mais caro, que olha também a foto do produto, não só a descrição em texto. Esse segundo modelo refina a sugestão. No final, todas as sugestões passam pelo Operador da Conecta, que confirma cada NCM final. Isso é uma regra de negócio chamada RN oito, que estabelece o human-in-the-loop, ou seja, sempre tem um humano confirmando.</p>
+
+<p>O motivo dessa rigidez é regulatório. A Receita Federal já usa inteligência artificial pra fiscalizar classificações erradas. Se a plataforma classificasse sozinha, sem revisão humana, e errasse, a empresa cliente poderia tomar multas que vão de quinhentos reais a vinte mil reais por erro, mais a diferença de impostos, mais juros. Por isso a confirmação humana é obrigatória. E é por isso que o workbench de NCM do Operador é tão crítico. Ele tem que ser muito rápido, com atalhos de teclado, com confirmação em lote pra grupos de produtos similares, com indicador visual claro da confiança da inteligência artificial. Se for lento, a plataforma inteira engasga.</p>
+
+<p>O cliente nessa etapa está esperando, e meio confuso. Ele recebe alertas sobre itens que precisam de confirmação, e provavelmente nem entende muito bem o que é NCM. A oportunidade aqui é ofuscar essa complexidade pra ele, dizendo simplesmente que o operador da Conecta está classificando o catálogo, sem precisar explicar o que é classificação.</p>
+
+<h3>Etapa três. Análise de restrições.</h3>
+
+<p>Com a classificação NCM confirmada, o sistema agora consegue cruzar cada produto com três bases diferentes pra ver se tem alguma restrição na importação. A primeira base são as anuências, que vêm da API do Siscomex, sistema do governo brasileiro de comércio exterior. Essa base diz se o produto exige licença de algum órgão, como Anvisa pra produtos de saúde, Anatel pra equipamentos de telecomunicação, Inmetro pra brinquedos e eletrodomésticos. A segunda base é a de medidas anti-dumping, que vem do Ministério do Desenvolvimento, Indústria e Comércio. Essa base diz se o produto, originário da China, tem alíquota extra como medida de defesa comercial. Hoje existem cento e quarenta e três medidas ativas no total, sendo quarenta e nove especificamente contra a China. A terceira base são as alíquotas de tributos por estado, que vêm do Instituto Brasileiro de Planejamento e Tributação.</p>
+
+<p>O sistema consolida tudo isso e classifica cada produto com uma cor. Verde significa que está livre, pode importar normalmente. Amarelo significa que exige licença, então o produto pode entrar mas com etapa adicional de obtenção de anuência. Vermelho significa que tem barreira séria, ou anti-dumping pesado, ou restrição especial, e precisa de avaliação manual antes de prosseguir.</p>
+
+<p>O Operador entra aqui pra avaliar cada produto vermelho. Ele decide se aceita seguir adiante com licença, se sugere ao cliente um produto similar sem restrição, ou se descarta. Esse trabalho hoje exige redação manual de explicações em português pro cliente, porque os termos regulatórios são todos jargão técnico. A oportunidade futura é uma biblioteca de explicações reutilizáveis, e um sugestor automático de alternativas.</p>
+
+<p>Pro cliente, esta etapa pode ser uma decepção. Ele esperava poder importar tudo o que selecionou, e aí descobre que três produtos estão vermelhos, um amarelo, e tem que repensar a estratégia. Esse é o primeiro momento crítico da plataforma, um daqueles que pode minar a confiança se for mal comunicado. Por isso a comunicação tem que ser muito clara e idealmente já vir junto com sugestões de alternativas viáveis.</p>
+
+<h3>Etapa quatro. Preços na China.</h3>
+
+<p>Agora chegamos no que talvez seja o momento mais importante da experiência do cliente, do ponto de vista emocional. O sistema, pra cada produto que sobreviveu às etapas anteriores, vai buscar automaticamente o preço na origem chinesa. Esse preço se chama preço FOB, que é abreviação de Free On Board, ou Livre A Bordo. É o preço da mercadoria já no porto de embarque chinês, sem incluir frete internacional, sem incluir impostos brasileiros. É o preço da fábrica.</p>
+
+<p>A plataforma usa serviços de scraping, que são raspagem de dados, em sites como Alibaba e seus equivalentes chineses internos. Os serviços usados são Apify, Oxylabs e Piloterr. Cada um tem suas características, e a plataforma testa qual está mais bem sucedido em cada momento, porque o Alibaba às vezes bloqueia. A busca é feita em inglês, traduzindo automaticamente o nome do produto do português pro inglês usando inteligência artificial pra capturar o sentido semântico, não tradução literal.</p>
+
+<p>Com os preços FOB coletados, a plataforma calcula a diferença em porcentagem entre o preço de compra atual no Brasil que o cliente informou na etapa um, e o preço FOB que o sistema encontrou. Esse percentual é a economia identificada. A média das economias encontradas em testes anteriores é de sessenta e dois por cento. Esse número, quando o cliente vê pela primeira vez, costuma ser o momento que ele se converte de cético em interessado. É a revelação. Por isso esse é o segundo momento de verdade da plataforma, mas dessa vez positivo. É um momento de surpresa boa.</p>
+
+<p>Mas aqui também tem armadilha. O cliente pode achar que o preço é bom demais pra ser verdade. A plataforma precisa carregar evidência junto, mostrando que aquele preço FOB veio de uma fonte específica do Alibaba, com link, com data, com nome do fornecedor. Sem isso, a credibilidade quebra. O Operador, do lado de dentro, está monitorando a qualidade do scraping, vendo se algum produto teve match ruim, se algum preço veio absurdo demais e precisa ser desconsiderado.</p>
+
+<h3>Etapa cinco. Seleção pelo cliente.</h3>
+
+<p>Agora o cliente tem uma tabela na frente dele. De um lado, o preço dele atual no Brasil. Do outro, o preço FOB na China. No meio, a economia em porcentagem. Os produtos verdes, amarelos e vermelhos das etapas anteriores estão lá com seus alertas. Ele precisa decidir quais produtos quer realmente prospectar, ou seja, quais quer levar adiante até cotação real com fábrica.</p>
+
+<p>Essa decisão é cem por cento humana. A plataforma não decide por ele. O sistema apenas oferece filtros, ranqueia por economia, mostra opções. Mas a escolha final é dele. Tipicamente, num primeiro contato com a plataforma, o cliente seleciona um lote pequeno pra testar. Cinco, dez produtos. Se a primeira importação der certo, ele escala depois.</p>
+
+<p>Aqui ele se sente empoderado, porque tem dados objetivos pra basear a decisão. Mas tem dúvidas práticas, como por exemplo qual quantidade pedir de cada produto, qual o MOQ, que é abreviação de Minimum Order Quantity, ou seja, quantidade mínima que a fábrica aceita produzir. A plataforma pode ajudar nesse ponto sugerindo um kit otimizado baseado na margem que o cliente declara querer.</p>
+
+<p>O Operador nessa etapa está em espera. Pode aproveitar o tempo pra adiantar trabalho, fazendo busca preventiva de fabricantes pros produtos com maior economia, antes mesmo do cliente confirmar a seleção.</p>
+
+<h3>Etapa seis. Sourcing.</h3>
+
+<p>Sourcing é o termo em inglês pra busca de fornecedores. Aqui é onde a plataforma faz uma das coisas mais sofisticadas que faz. Pega cada produto que o cliente selecionou, pega as especificações técnicas dele, e usa a inteligência artificial chinesa KIMI pra buscar fabricantes reais, não tradings, no mercado interno da China. KIMI tem acesso a dados que os modelos ocidentais não têm bem, então é a escolha pra esse caso específico. A arquitetura prevê fallback pra outros modelos, como DeepSeek, Claude ou GPT, caso KIMI fique indisponível.</p>
+
+<p>Com a lista de fabricantes possíveis, a plataforma gera automaticamente um pedido de cotação, que se chama RFQ, abreviação de Request For Quotation. Esse RFQ é gerado em formato bilíngue, em inglês e em mandarim, com as especificações do produto, fotos, quantidade desejada. É então enviado pro Parceiro Chinês, hoje a Market Union em Yiwu.</p>
+
+<p>O cliente nessa etapa volta pro modo de espera. Não tem ação dele. Mas é exatamente nesse ponto que a operação fica mais opaca pra ele. Ele não sabe o que está acontecendo. Não sabe se o pedido foi recebido, se a Market Union já contatou alguma fábrica, se está tendo dificuldade. Esse trecho do funil, das etapas seis até oito, é o que internamente o Operador chama de caixa preta, e é onde mora a maior dor recorrente do cliente. Pra resolver isso, a oportunidade é construir uma timeline narrada, mostrando passo a passo o que está acontecendo do outro lado do mundo.</p>
+
+<p>O Operador supervisiona o RFQ antes do envio, ajusta tradução de termos técnicos quando preciso. Termos como medida, voltagem, certificação, podem traduzir mal automaticamente, e isso vira cotação errada depois. Aqui mora uma alavanca de qualidade alta: investir em um glossário compartilhado dos termos técnicos do nicho do cliente em três idiomas, português, inglês e mandarim.</p>
+
+<h3>Etapa sete. Cotação.</h3>
+
+<p>O Parceiro Chinês recebeu o RFQ. Vai até as fábricas, fisicamente ou por telefone, dependendo da relação. Negocia preços. Recebe propostas de várias fábricas pra cada produto. Volta pra plataforma com os preços negociados, que vão entrando aos poucos.</p>
+
+<p>O Operador da Conecta agora faz uma conferência crítica. Compara os preços que voltaram com os preços FOB que o scraping tinha encontrado na etapa quatro. Se bater, ótimo. Se vier muito acima, sinal de que tem alguma fricção, talvez a fábrica é trading disfarçada, talvez a especificação foi mal entendida. Se vier muito abaixo, também é sinal de alerta, talvez a qualidade não seja a mesma. A confiabilidade do fabricante é cruzada com histórico e com dados que o KIMI pode trazer adicionalmente.</p>
+
+<p>O cliente nessa etapa está com expectativa. Aqui ele pode receber notificações de cotações chegando aos poucos, em formato drip, gota por gota, com cards mostrando que a fábrica X cotou o produto Y por preço Z. Isso ajuda a quebrar a sensação de caixa preta da etapa anterior.</p>
+
+<h3>Etapa oito. DDP e margens.</h3>
+
+<p>Com os preços negociados em mãos, a plataforma agora envia esses dados, junto com volume e dimensões dos produtos, pro sistema da Logix, que é uma plataforma da TOTVS especializada em logística internacional. A Logix calcula o que se chama DDP, abreviação de Delivered Duty Paid, ou Custo Total Nacionalizado. Esse cálculo soma preço FOB, mais frete internacional, mais impostos brasileiros, mais taxas portuárias, mais câmbio, mais qualquer outra coisa. É o custo real do produto colocado no estoque do cliente no Brasil.</p>
+
+<p>Com o DDP em mãos, o Operador define a margem que a Conecta vai cobrar em cima desse custo, pra fechar a proposta final pro cliente. Aqui entra uma regra de negócio importante, chamada RN um. Se o valor de compra na China estiver dentro de um range específico, entre vinte e cinco e trinta e cinco por cento do valor de compra atual no Brasil que o cliente informou, a aprovação da proposta é automática. Fora desse range, exige aprovação manual de um administrador da Conecta. Isso porque dentro do range é o ponto considerado padrão de mercado, e fora dele exige análise caso a caso. Pode ser que o produto venha barato demais e tenha problema de qualidade, ou que venha caro e ainda assim faça sentido por algum motivo específico.</p>
+
+<p>Pro Operador, esse é um momento de decisão financeira sob pressão. Apertar margem demais, o cliente fecha mas a Conecta perde comissão. Afrouxar demais, o cliente desiste da proposta. A oportunidade aqui é uma inteligência artificial que aprende com o histórico de margens aceitas por aquele cliente específico, e sugere ao Operador o ponto de aceitação mais provável.</p>
+
+<p>Pro cliente, é momento de tensão. Ele está esperando, sem visibilidade do cálculo. A oportunidade é tornar esse breakdown transparente, mostrando claramente qual a parte de FOB, qual a de frete, qual a de imposto, qual a margem.</p>
+
+<h3>Etapa nove. Aprovação.</h3>
+
+<p>O Operador empacota a proposta consolidada, que contém apenas os produtos que foram efetivamente aprovados em todas as etapas anteriores. Produtos que tinham alguma barreira insuperável foram descartados ao longo do caminho. A proposta vai pro cliente, em formato de documento ou painel, com todos os números na mesa.</p>
+
+<p>Esse é o terceiro momento de verdade da plataforma, e dessa vez é negativo no sentido de risco. Não porque seja ruim necessariamente, mas porque é o momento em que o cliente toma uma decisão financeira pesada, com risco real. Se ele aprovar e der errado, vai ter prejuízo no estoque. Se ele recusar, perde a oportunidade. Os sentimentos aqui são tensão, dúvida, busca de garantias. A oportunidade é oferecer a ele opções intermediárias, como por exemplo fazer só metade do pedido, ou pedir garantia adicional sobre qualidade. Reduzir o risco percebido, sem reduzir o tamanho da operação como um todo.</p>
+
+<h3>Etapa dez. Pagamento e entrega.</h3>
+
+<p>O cliente aprovou. Agora começa a fase financeira. Aqui entram dois sistemas externos importantes. O primeiro é a Wise, que é uma plataforma de pagamento internacional, processa transferências cross-border em dólar, yuan e real. O segundo é a Logix de novo, agora pro tracking logístico e pra integração com o despachante.</p>
+
+<p>O fluxo de pagamento é dividido em duas parcelas. Trinta por cento na aprovação inicial, e setenta por cento na prontidão de envio. Esses percentuais são o padrão, mas são configuráveis pelos administradores da Conecta caso o cliente negocie outra divisão, em uma regra de negócio chamada RN três. A primeira parcela, dos trinta por cento, é o que aciona o início da fabricação. Sem o pagamento dela, a fábrica não começa a produzir.</p>
+
+<p>Aqui entra outra regra de negócio crítica, a RN dois. O pagamento da segunda parcela só pode ser disparado depois que o despachante aduaneiro brasileiro aprovou a invoice no sistema dele, no Logix. Por que isso é assim? Porque o despachante é quem garante que toda a documentação fiscal está correta, que a empresa que está faturando, no caso uma empresa americana ligada à operação, pode emitir aquela nota legalmente. Sem essa aprovação, soltar pagamento é risco regulatório. Por isso o despachante é gatekeeper. Se ele atrasa, tudo trava.</p>
+
+<p>Enquanto isso, do outro lado do mundo, o Parceiro Chinês acompanha a fabricação. Quando os produtos estão prontos pra embarcar, ele sinaliza isso na plataforma. Esse sinal é o que aciona o pagamento dos setenta por cento restantes via Wise. Os produtos saem do porto chinês, atravessam o oceano, chegam no porto brasileiro, passam pelo desembaraço aduaneiro feito pelo despachante, e finalmente chegam no estoque do cliente.</p>
+
+<p>Pro cliente, é o quarto e último momento de verdade da plataforma, dessa vez positivo. É o momento de alívio. O contêiner chegou. A operação fechou. E aqui é onde nasce a fidelização. Se essa primeira experiência for boa, ele volta pra próxima importação. Se não for, ele cancela a assinatura e nunca mais volta. A oportunidade aqui é tornar o tracking visualmente rico, com fotos do parceiro chinês durante a fabricação, com estimativas precisas de chegada, com notificações no celular do cliente. Transformar o que poderia ser ansiedade em curiosidade.</p>
+
+<h2>As fronteiras invisíveis do serviço</h2>
+
+<p>Tudo o que foi descrito até agora aparece visualmente no Service Blueprint organizado em camadas. Cada camada tem um significado próprio, e as fronteiras entre as camadas têm nome.</p>
+
+<p>A camada mais alta é a do <strong>Cliente</strong>. Tudo o que ele faz, vê, pensa, sente. Logo abaixo está a chamada linha de interação, que é a primeira fronteira. Cruzar essa linha significa que estamos saindo da experiência direta do cliente e entrando no time que serve ele.</p>
+
+<p>Logo abaixo da linha de interação está a camada <strong>frontstage</strong>, que em termos de serviço significa quem está visível ao cliente. No nosso caso, é o Operador da Conecta. O cliente o vê, fala com ele em chat, recebe atualizações dele, identifica essa pessoa como o rosto da plataforma. O Operador é a frente do palco.</p>
+
+<p>Mais abaixo vem a linha de visibilidade. Essa é a fronteira mais importante do Service Blueprint, porque cruzá-la significa que o cliente perde de vista o que está acontecendo. É exatamente onde a sensação de caixa preta nasce, e onde mora a maior parte das dores recorrentes do cliente.</p>
+
+<p>Abaixo da linha de visibilidade está a camada <strong>backstage</strong>, que é quem está atuando mas o cliente não vê. No Conecta, é o Parceiro Chinês e o Designer de Produtos. Eles fazem o trabalho real lá no outro lado do mundo, mas o cliente brasileiro nunca conversa diretamente com eles. Toda a comunicação é mediada pela frontstage.</p>
+
+<p>Mais abaixo vem outra fronteira, chamada linha de interação interna. Cruzar essa linha significa que estamos entrando em parceiros externos, que não são parte do time da Conecta nem do parceiro chinês, mas atuam no fluxo. Aí está a camada <strong>support</strong>, onde mora o Despachante Aduaneiro e os Parceiros de Anuência. Eles são externos, têm seus próprios sistemas, suas próprias prioridades, e a Conecta tem que se coordenar com eles sem ter controle direto.</p>
+
+<p>Por fim, no rodapé do Blueprint, fica a camada de <strong>Sistemas</strong>. É a infraestrutura técnica que sustenta tudo. APIs, modelos de inteligência artificial, bancos de dados, scrapers. Cada etapa tem seus sistemas específicos. Catálogo depende da API da VTEX. Classificação NCM depende dos modelos de linguagem mais o Classif do Siscomex. Restrições dependem de Classif, do CSV do MDIC, da API do IBPT. Preços dependem de Apify, Oxylabs, Piloterr. Sourcing depende do KIMI. Cotação depende do portal próprio do parceiro chinês. DDP depende da API da Logix. Aprovação depende do gerador de PDF interno. Pagamento depende da API da Wise. Tracking depende da API da Logix de novo. Cada API é uma peça que precisa funcionar pra etapa não engasgar.</p>
+
+<h2>Os quatro momentos de verdade</h2>
+
+<p>Em metodologia de Service Blueprint, momentos de verdade são pontos do fluxo onde a relação com o cliente pode se fortalecer ou se romper. Não são todas as etapas, são as que pesam mais. No Conecta, quatro foram identificados como críticos.</p>
+
+<p>O primeiro momento de verdade, e é negativo, está na etapa três, na análise de restrições. É o momento em que o cliente descobre que aquele produto que ele tinha certeza que dava, na verdade não dá, ou exige uma licença que ele não esperava. É um momento de decepção. Se for mal comunicado, o cliente perde fé na plataforma logo no início. Se for bem comunicado, com linguagem clara em português e com sugestões de alternativas, o cliente entende que o sistema está protegendo ele.</p>
+
+<p>O segundo momento, agora positivo, está na etapa quatro, na revelação dos preços da China. É a hora em que o cliente vê pela primeira vez a economia de sessenta e dois por cento média. É um momento de surpresa boa, do tipo que faz ele se perguntar por que não fez isso antes. Esse é o momento em que a plataforma se vende sozinha, se a evidência estiver junto.</p>
+
+<p>O terceiro momento, negativo, está na etapa nove, na aprovação. É a hora da decisão financeira. O cliente tem a proposta na mão, e tem que decidir se aposta ou não. Se ele estiver com confiança baixa por causa de tempo morto longo nas etapas seis a oito, ele pode desistir. Por isso a comunicação proativa nas etapas anteriores é tão importante: ela compra credibilidade pra esse momento.</p>
+
+<p>O quarto momento, positivo, está na etapa dez, no recebimento da mercadoria. É o alívio. O contêiner chegou. A operação fechou. Esse é o momento que decide se o cliente vai voltar pra uma segunda importação. O tracking visual rico, com fotos durante a fabricação, com estimativa precisa de chegada, transforma esse momento em fidelização.</p>
+
+<h2>O futuro progressivo do produto</h2>
+
+<p>O Conecta não vai nascer pronto. Ele vai sendo entregue em quatro releases progressivas, cada uma adicionando capacidades novas e automatizando partes que antes eram manuais.</p>
+
+<p>O primeiro release se chama Foundation, ou fundação. É o R um. Nele, várias etapas são manuais. A classificação NCM é feita pelo Operador consultando manualmente o sistema do governo. As restrições são consultadas manualmente. O envio do RFQ pro parceiro chinês é via e-mail automático, mas a resposta volta também por e-mail e o Operador tem que digitar de volta na plataforma. O cálculo DDP é feito pelo Operador a partir de fontes abertas como o site do Banco Central pra câmbio, e a tabela NCM da Receita pra impostos. O pagamento ainda é feito fora da plataforma, em transferência manual. É um release do tipo wizard of oz, ou seja, com aparência de automação mas com humano operando os bastidores. Funciona pra começar a operar enquanto as integrações estão sendo construídas.</p>
+
+<p>O segundo release é o AI Engine, ou motor de inteligência artificial. É o R dois. Ativa as funcionalidades de IA do core: classificação NCM com modelos de linguagem, busca automática de restrições, scraping de preços FOB, comparativo automático, busca de fabricantes via KIMI, portal próprio do parceiro chinês substituindo o e-mail. Aqui o produto começa a ganhar a forma final que se vende como SaaS automatizado.</p>
+
+<p>O terceiro release é Financial. É o R três. Aqui entra a integração com a Logix pra cálculo automático de DDP. Antes, o Operador inputava manualmente os custos logísticos. Agora a Logix calcula sozinho via API. Também entra a Wise pra processar pagamentos cross-border das parcelas trinta e setenta. E entra o gerador de invoice pela empresa americana parceira, que é parte da estrutura fiscal da operação.</p>
+
+<p>O quarto release é Scale, ou escala. É o R quatro. Aqui entra o tracking real-time via Logix, com atualizações automáticas do status logístico. Entra também o modo demo, pra apresentação a novos clientes. Entra a recompra facilitada, pra clientes que já fizeram a primeira importação não terem que repetir todo o caminho de onboarding. E entra o painel completo de KPIs pros administradores da Conecta acompanharem a operação.</p>
+
+<p>Cada release é planejado pra entregar valor utilizável ao cliente, não só features técnicas. A regra do projeto é que cada mês tem que gerar uso real pro cliente, mesmo que parte do backend ainda seja humano. Não pode ter mês em que o cliente não consegue usar nada.</p>
+
+<h2>Por que esse Service Blueprint existe</h2>
+
+<p>Esse Blueprint não é decoração. Ele existe pra três coisas concretas. A primeira é alinhar o time, que tem perfis muito diferentes. O Renato é o Product Owner e cuida de gestão do conhecimento e relacionamento com o cliente. O Daniel é parceiro captador e está montando um MVP fake na Lovable pros eventos do cliente. O Railton é o desenvolvedor que vai construir o sistema real. O Erik é o cliente, especialista em comércio exterior, mora em Fortaleza e participa remotamente. Cada um tem uma cabeça diferente e o Blueprint é o documento que serve de referência comum.</p>
+
+<p>A segunda razão de existir é alinhar o cliente. O Erik é especialista em sourcing, mas a forma como o Conecta vai operar é nova até pra ele. O Blueprint mostra preto no branco como cada peça se encaixa, e é o material que a Conecta vai usar pra apresentar a visão completa nas reuniões.</p>
+
+<p>A terceira razão é guiar o desenvolvimento. Cada etapa do Blueprint vai virar um conjunto de telas, de APIs, de regras. O Service Blueprint funciona como mapa de orientação pra onde priorizar esforço. O workbench de classificação NCM é mais crítico do que o tracking final, por exemplo, e isso fica claro quando se olha o Blueprint inteiro e percebe que a etapa dois tem mais peso operacional do que a etapa dez.</p>
+
+<p>O Blueprint também serve pra pensar nos pontos de fricção do cliente final, que são os quatro momentos de verdade. E serve pra pensar nas dores do Operador interno, que apesar de ser persona secundária do ponto de vista de receita, é a primária do ponto de vista de uso da plataforma. Por isso a próxima rodada de desenho vai abrir uma jornada individual pro Operador, pra entrar mais fundo na experiência dele.</p>
+
+<p>Por fim, o Blueprint é um documento vivo. Conforme o produto evolui, conforme o cliente é entrevistado de novo, conforme novas regras de negócio aparecem, ele é atualizado. A versão atual é a v dois, e ela vai ganhar v dois ponto um nos próximos dias com a jornada completa do Operador, e nas semanas seguintes vai ganhar mapas de empatia pros parceiros externos.</p>
+
+<p>O que está em jogo é a operação inteira de uma empresa que hoje atende cinco clientes manualmente, e quer atender cento e cinquenta com a plataforma. O salto é de trinta vezes em volume com aproximadamente as mesmas pessoas, e isso só é possível se a inteligência artificial assume as partes repetitivas, se as integrações fluem sem fricção, e se a experiência humana é desenhada pra ser silenciosa e rápida onde precisa ser silenciosa e rápida, e calorosa onde precisa ser calorosa.</p>
+
+<footer>
+Narrativa do Service Blueprint v1. Documento de leitura por voz. Conecta Market Hub, Projeto Conecta. Maio de 2026. Acompanha o Service Blueprint visual em jornada.html.
+</footer>
+
+</div>
+</body>
+</html>

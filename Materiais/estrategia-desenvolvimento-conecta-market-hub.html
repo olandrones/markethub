@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conecta Market Hub — Estratégia de Desenvolvimento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0c1220;
+      --bg-base: #0f1628;
+      --bg-card: #141d33;
+      --bg-card-hover: #192540;
+      --bg-elevated: #1c2844;
+      --bg-code: #0e1424;
+      --border-subtle: rgba(198, 151, 91, 0.12);
+      --border-medium: rgba(198, 151, 91, 0.25);
+      --border-strong: rgba(198, 151, 91, 0.5);
+      --text-primary: #e8e6f0;
+      --text-secondary: #9ba8c0;
+      --text-muted: #607090;
+      --text-accent: #c6975b;
+      --accent-primary: #c6975b;
+      --accent-secondary: #3b7dd8;
+      --accent-glow: rgba(198, 151, 91, 0.2);
+      --accent-success: #34d399;
+      --accent-danger: #f87171;
+      --accent-warning: #fbbf24;
+      --navy: #1a365d;
+      --gradient-hero: linear-gradient(135deg, #1a365d 0%, #c6975b 50%, #234681 100%);
+      --gradient-card: linear-gradient(145deg, rgba(198, 151, 91, 0.04) 0%, rgba(26, 54, 93, 0.06) 100%);
+      --gradient-glow: radial-gradient(ellipse at center, rgba(198, 151, 91, 0.1) 0%, transparent 70%);
+      --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-xl: 24px;
+      --shadow-card: 0 4px 24px rgba(0,0,0,0.3), 0 0 0 1px var(--border-subtle);
+      --shadow-glow: 0 0 40px rgba(198,151,91,0.1);
+      --transition-fast: 150ms cubic-bezier(0.4,0,0.2,1);
+      --transition-base: 300ms cubic-bezier(0.4,0,0.2,1);
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    ::selection{background:rgba(198,151,91,0.35)}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font-body);background:var(--bg-base);color:var(--text-primary);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.015;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .container{max-width:1080px;margin:0 auto;padding:0 24px}
+
+    /* NAV */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,22,40,0.7);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border-subtle);transition:var(--transition-base)}
+    .nav.scrolled{background:rgba(15,22,40,0.92)}
+    .nav-inner{max-width:1080px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
+    .nav-brand{font-family:var(--font-display);font-size:1.15rem;color:var(--text-primary);text-decoration:none;display:flex;align-items:center;gap:8px}
+    .nav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent-primary);box-shadow:0 0 8px var(--accent-glow)}
+    .nav-links{display:flex;list-style:none;gap:6px}
+    .nav-links a{color:var(--text-secondary);text-decoration:none;font-size:0.78rem;font-weight:500;padding:6px 10px;border-radius:var(--radius-sm);transition:var(--transition-fast);position:relative}
+    .nav-links a:hover,.nav-links a.active{color:var(--text-accent)}
+    .nav-links a.active::after{content:'';position:absolute;bottom:0;left:10px;right:10px;height:2px;background:var(--accent-primary);border-radius:1px}
+    .nav-mobile-toggle{display:none;background:none;border:none;color:var(--text-secondary);cursor:pointer;padding:8px}
+
+    /* HERO */
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center;padding:100px 24px 60px}
+    .hero-bg{position:absolute;inset:0;z-index:0}
+    .orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:0.4}
+    .orb-1{width:500px;height:500px;top:-10%;left:-5%;background:var(--navy);animation:float 22s ease-in-out infinite}
+    .orb-2{width:400px;height:400px;bottom:-5%;right:-10%;background:rgba(198,151,91,0.3);animation:float 18s ease-in-out infinite reverse}
+    .orb-3{width:300px;height:300px;top:30%;right:20%;background:rgba(59,125,216,0.15);animation:float 25s ease-in-out infinite 3s}
+    @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-30px) scale(1.05)}66%{transform:translate(-20px,20px) scale(0.95)}}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(198,151,91,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(198,151,91,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
+    .hero-content{position:relative;z-index:1;max-width:800px}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(198,151,91,0.08);border:1px solid var(--border-medium);border-radius:100px;padding:6px 18px;font-family:var(--font-mono);font-size:0.72rem;font-weight:500;color:var(--text-accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:32px}
+    .pulse{width:6px;height:6px;border-radius:50%;background:var(--accent-primary);animation:pulse-anim 2s ease-in-out infinite}
+    @keyframes pulse-anim{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(198,151,91,0.5)}50%{opacity:0.7;box-shadow:0 0 0 6px rgba(198,151,91,0)}}
+    .hero-title{font-family:var(--font-display);font-weight:400;font-size:clamp(2.4rem,6vw,4rem);line-height:1.15;margin-bottom:24px}
+    .hero-title em{font-style:italic;background:var(--gradient-hero);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .hero-subtitle{font-size:clamp(1rem,2.5vw,1.15rem);color:var(--text-secondary);max-width:640px;margin:0 auto 40px;line-height:1.8}
+    .hero-meta{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em}
+    .hero-scroll-cue{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--text-muted);font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;animation:bounce 2s infinite}
+    .hero-scroll-cue svg{width:20px;height:20px}
+    @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+    /* SECTIONS */
+    .section{padding:100px 0;position:relative}
+    .section-label{font-family:var(--font-mono);font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent-primary);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+    .section-label::before{content:'';width:24px;height:2px;background:var(--accent-primary);border-radius:1px}
+    .section-title{font-family:var(--font-display);font-weight:400;font-size:clamp(2rem,4vw,3rem);line-height:1.2;margin-bottom:16px}
+    .section-subtitle{font-size:1.05rem;color:var(--text-secondary);max-width:640px;line-height:1.8}
+    .section-divider{height:1px;margin:0 auto;max-width:1080px;background:linear-gradient(90deg,transparent,var(--border-medium),transparent)}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1),transform 0.7s cubic-bezier(0.22,1,0.36,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:100ms}.reveal-delay-2{transition-delay:200ms}.reveal-delay-3{transition-delay:300ms}.reveal-delay-4{transition-delay:400ms}
+
+    /* METHOD GRID (3 cols) */
+    .method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+    .method-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:32px 28px;position:relative;overflow:hidden;transition:var(--transition-base)}
+    .method-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-hero)}
+    .method-card:hover{transform:translateY(-4px);border-color:var(--border-medium);box-shadow:var(--shadow-glow)}
+    .method-icon{font-size:2rem;margin-bottom:16px;display:block}
+    .method-card h3{font-family:var(--font-display);font-size:1.25rem;margin-bottom:12px}
+    .method-card p{font-size:0.9rem;color:var(--text-secondary);line-height:1.7}
+    .problem-stat{display:inline-block;margin-top:16px;padding:6px 14px;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);border-radius:100px;font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-danger);font-weight:600}
+
+    /* COMPARISON TABLE */
+    .table-wrapper{margin-top:48px;overflow-x:auto;border:1px solid var(--border-subtle);border-radius:var(--radius-lg)}
+    .comp-table{width:100%;border-collapse:collapse;font-size:0.85rem}
+    .comp-table thead{background:var(--bg-card)}
+    .comp-table th{padding:14px 18px;text-align:left;font-family:var(--font-mono);font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-accent);border-bottom:1px solid var(--border-medium)}
+    .comp-table td{padding:12px 18px;border-bottom:1px solid var(--border-subtle);color:var(--text-secondary)}
+    .comp-table tr:last-child td{border-bottom:none}
+    .comp-table tr:hover td{background:rgba(198,151,91,0.02)}
+    .comp-table .dim{font-weight:600;color:var(--text-primary)}
+    .check{color:var(--accent-success);font-weight:600}
+    .cross{color:var(--accent-danger);opacity:0.7}
+
+    /* FLOW STEPS */
+    .flow-container{margin-top:48px}
+    .flow-step{display:flex;gap:24px;align-items:flex-start;padding:24px 0;position:relative}
+    .flow-step+.flow-step{border-top:1px solid var(--border-subtle)}
+    .flow-number{flex-shrink:0;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:var(--bg-card);border:1px solid var(--border-medium);border-radius:var(--radius-md);font-family:var(--font-mono);font-size:0.85rem;font-weight:600;color:var(--text-accent)}
+    .flow-number.hl{background:rgba(198,151,91,0.1);border-color:var(--accent-primary)}
+    .flow-content{flex:1}
+    .flow-content h3{font-family:var(--font-display);font-size:1.12rem;margin-bottom:6px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .flow-content p{font-size:0.9rem;color:var(--text-secondary);line-height:1.7}
+    .ftag{display:inline-flex;padding:2px 10px;border-radius:100px;font-family:var(--font-mono);font-size:0.62rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+    .ftag-auto{background:rgba(52,211,153,0.1);color:var(--accent-success);border:1px solid rgba(52,211,153,0.2)}
+    .ftag-semi{background:rgba(251,191,36,0.1);color:var(--accent-warning);border:1px solid rgba(251,191,36,0.2)}
+    .ftag-manual{background:rgba(248,113,113,0.08);color:var(--accent-danger);border:1px solid rgba(248,113,113,0.2)}
+    .ftag-ia{background:rgba(59,125,216,0.1);color:var(--accent-secondary);border:1px solid rgba(59,125,216,0.2)}
+
+    /* TIMELINE */
+    .timeline{margin-top:48px;position:relative}
+    .timeline::before{content:'';position:absolute;left:28px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--accent-primary),var(--accent-secondary),var(--accent-primary));border-radius:1px}
+    .tl-release{position:relative;padding-left:72px;margin-bottom:48px}
+    .tl-release:last-child{margin-bottom:0}
+    .tl-dot{position:absolute;left:18px;top:4px;width:22px;height:22px;border-radius:50%;border:2px solid var(--accent-primary);background:var(--bg-base);z-index:1;display:flex;align-items:center;justify-content:center}
+    .tl-dot-inner{width:8px;height:8px;border-radius:50%;background:var(--accent-primary)}
+    .tl-release.r2 .tl-dot{border-color:var(--accent-secondary)}.tl-release.r2 .tl-dot-inner{background:var(--accent-secondary)}
+    .tl-release.r3 .tl-dot{border-color:var(--accent-success)}.tl-release.r3 .tl-dot-inner{background:var(--accent-success)}
+    .tl-release.r4 .tl-dot{border-color:#a78bfa}.tl-release.r4 .tl-dot-inner{background:#a78bfa}
+    .tl-header{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+    .tl-period{font-family:var(--font-mono);font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-accent);padding:3px 12px;background:rgba(198,151,91,0.08);border:1px solid var(--border-medium);border-radius:100px}
+    .tl-release.r2 .tl-period{color:var(--accent-secondary);background:rgba(59,125,216,0.08);border-color:rgba(59,125,216,0.25)}
+    .tl-release.r3 .tl-period{color:var(--accent-success);background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25)}
+    .tl-release.r4 .tl-period{color:#a78bfa;background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.25)}
+    .tl-title{font-family:var(--font-display);font-size:1.5rem}
+    .tl-desc{font-size:0.9rem;color:var(--text-secondary);margin-bottom:16px;line-height:1.7}
+    .tl-features{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .tl-feat{display:flex;align-items:flex-start;gap:8px;font-size:0.82rem;color:var(--text-secondary);padding:8px 12px;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-sm)}
+    .tl-feat .ci{color:var(--accent-success);font-weight:700;flex-shrink:0;margin-top:1px}
+    .tl-deliv{margin-top:16px;padding:14px 18px;background:var(--gradient-card);border:1px solid var(--border-medium);border-radius:var(--radius-md)}
+    .tl-deliv-label{font-family:var(--font-mono);font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-accent);margin-bottom:4px}
+    .tl-deliv p{font-size:0.9rem;color:var(--text-primary);font-weight:500}
+    .tl-prereqs{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+    .prereq-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-family:var(--font-mono);font-size:0.62rem;font-weight:600;background:rgba(248,113,113,0.06);color:var(--accent-danger);border:1px solid rgba(248,113,113,0.15)}
+    .prereq-badge.warn{background:rgba(251,191,36,0.06);color:var(--accent-warning);border-color:rgba(251,191,36,0.15)}
+
+    /* METRICS */
+    .metrics-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:48px}
+    .metric-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:28px 20px;text-align:center;transition:var(--transition-base)}
+    .metric-card:hover{border-color:var(--border-medium);transform:translateY(-2px);box-shadow:var(--shadow-glow)}
+    .metric-before{font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-danger);margin-bottom:4px;text-decoration:line-through;opacity:0.7}
+    .metric-value{font-family:var(--font-display);font-size:1.8rem;color:var(--accent-success);margin-bottom:8px}
+    .metric-label{font-size:0.78rem;color:var(--text-secondary);line-height:1.5}
+    .metric-imp{display:inline-block;margin-top:10px;padding:3px 10px;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.2);border-radius:100px;font-family:var(--font-mono);font-size:0.65rem;color:var(--accent-success);font-weight:600}
+
+    /* PENDING ITEMS */
+    .pending-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:32px}
+    .pending-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-left:3px solid var(--accent-warning);border-radius:var(--radius-md);padding:20px 24px;position:relative;transition:var(--transition-base)}
+    .pending-card:hover{transform:translateX(4px);border-color:var(--border-medium)}
+    .pending-num{position:absolute;top:12px;right:16px;font-family:var(--font-display);font-size:2rem;font-style:italic;color:var(--accent-warning);opacity:0.15}
+    .pending-card h4{font-family:var(--font-display);font-size:1.05rem;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+    .pending-card p{font-size:0.85rem;color:var(--text-muted);line-height:1.6}
+    .pending-tag{display:inline-flex;padding:2px 8px;border-radius:100px;font-family:var(--font-mono);font-size:0.6rem;font-weight:700;background:rgba(251,191,36,0.1);color:var(--accent-warning);border:1px solid rgba(251,191,36,0.2)}
+    .nfr-table{margin-top:24px}
+    .nfr-table .comp-table td:last-child{font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted)}
+
+    /* STACK */
+    .stack-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+    .stack-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:24px 20px;transition:var(--transition-base)}
+    .stack-card:hover{border-color:var(--border-medium);box-shadow:var(--shadow-glow)}
+    .stack-cat{font-family:var(--font-mono);font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-accent);margin-bottom:10px}
+    .stack-card h3{font-family:var(--font-display);font-size:1.05rem;margin-bottom:6px}
+    .stack-card p{font-size:0.82rem;color:var(--text-muted);line-height:1.6}
+
+    /* INTEGRATION TAGS */
+    .int-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+    .int-tag{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:100px;font-family:var(--font-mono);font-size:0.72rem;font-weight:500;color:var(--text-secondary);transition:var(--transition-fast)}
+    .int-tag:hover{border-color:var(--border-medium);color:var(--text-primary)}
+    .td{width:6px;height:6px;border-radius:50%}
+    .td-crit{background:var(--accent-danger)}.td-med{background:var(--accent-warning)}.td-low{background:var(--accent-success)}
+
+    /* INSIGHT */
+    .insight{background:var(--gradient-card);border-radius:var(--radius-md);padding:20px 24px;margin:20px 0;position:relative;overflow:hidden}
+    .insight::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gradient-hero)}
+    .insight-label{font-family:var(--font-mono);font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent-primary);margin-bottom:8px}
+    .insight p{font-size:0.9rem;color:var(--text-secondary);line-height:1.7}
+
+    /* BPMN FLOW DIAGRAMS */
+    .bpmn-dual{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px}
+    .bpmn-lane{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:28px 24px;position:relative;overflow:hidden}
+    .bpmn-lane::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+    .bpmn-lane.lane-asis::before{background:linear-gradient(90deg,var(--accent-danger),rgba(248,113,113,0.3))}
+    .bpmn-lane.lane-tobe::before{background:linear-gradient(90deg,var(--accent-success),rgba(52,211,153,0.3))}
+    .bpmn-lane-title{font-family:var(--font-mono);font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+    .lane-asis .bpmn-lane-title{color:var(--accent-danger)}
+    .lane-tobe .bpmn-lane-title{color:var(--accent-success)}
+    .bpmn-actors{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+    .bpmn-actor{padding:4px 12px;border-radius:100px;font-family:var(--font-mono);font-size:0.65rem;font-weight:600;border:1px solid var(--border-medium);color:var(--text-secondary)}
+    .bpmn-steps{display:flex;flex-direction:column;gap:0}
+    .bpmn-node{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:0.8rem;color:var(--text-secondary);line-height:1.4}
+    .bpmn-node-icon{flex-shrink:0;width:28px;height:28px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;border:1px solid var(--border-medium)}
+    .lane-asis .bpmn-node-icon{color:var(--accent-danger);background:rgba(248,113,113,0.06)}
+    .lane-tobe .bpmn-node-icon{color:var(--accent-success);background:rgba(52,211,153,0.06)}
+    .bpmn-arrow{text-align:center;color:var(--text-muted);font-size:0.7rem;padding:2px 0;opacity:0.5}
+    .bpmn-gateway{display:flex;align-items:center;gap:10px;padding:8px 14px;font-size:0.78rem;color:var(--text-accent);font-weight:600;font-family:var(--font-mono)}
+    .bpmn-gateway-icon{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;background:rgba(198,151,91,0.1);border:1px solid var(--border-medium);transform:rotate(45deg)}
+    .bpmn-gateway-icon span{transform:rotate(-45deg)}
+    .pain-points{margin-top:20px;display:flex;flex-wrap:wrap;gap:6px}
+    .pain-point{padding:4px 10px;border-radius:100px;font-family:var(--font-mono);font-size:0.62rem;font-weight:600;background:rgba(248,113,113,0.06);color:var(--accent-danger);border:1px solid rgba(248,113,113,0.15)}
+    .tobe-modules{margin-top:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .tobe-module{padding:10px 12px;background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);text-align:center}
+    .tobe-module-name{font-family:var(--font-mono);font-size:0.6rem;font-weight:700;color:var(--text-accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px}
+    .tobe-module-desc{font-size:0.72rem;color:var(--text-muted)}
+    .bpmn-rn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:32px}
+    .rn-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:16px;transition:var(--transition-fast)}
+    .rn-card:hover{border-color:var(--border-medium)}
+    .rn-code{font-family:var(--font-mono);font-size:0.65rem;font-weight:700;color:var(--accent-primary);margin-bottom:4px}
+    .rn-card h4{font-family:var(--font-display);font-size:0.95rem;margin-bottom:4px}
+    .rn-card p{font-size:0.78rem;color:var(--text-muted);line-height:1.5}
+    @media(max-width:900px){.bpmn-dual{grid-template-columns:1fr}.bpmn-rn-grid{grid-template-columns:1fr 1fr}.tobe-modules{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:768px){.bpmn-rn-grid{grid-template-columns:1fr}.tobe-modules{grid-template-columns:1fr}}
+
+    /* FINAL QUOTE */
+    .final-quote{padding:80px 24px;text-align:center;position:relative}
+    .final-quote::before{content:'';position:absolute;inset:0;background:var(--gradient-glow)}
+    .final-quote blockquote{position:relative;max-width:720px;margin:0 auto}
+    .quote-marks{font-family:var(--font-display);font-size:6rem;color:var(--accent-primary);opacity:0.15;position:absolute;top:-40px;left:-20px;line-height:1}
+    .final-quote p{font-family:var(--font-display);font-style:italic;font-size:clamp(1.2rem,3vw,1.6rem);line-height:1.7;color:var(--text-primary)}
+    .final-quote em{color:var(--text-accent);font-style:normal}
+
+    /* FOOTER */
+    .footer{padding:48px 0;text-align:center;border-top:1px solid var(--border-subtle)}
+    .footer-brand{font-family:var(--font-display);font-size:1.2rem;color:var(--text-primary);margin-bottom:4px}
+    .footer-meta{font-size:0.82rem;color:var(--text-muted);line-height:1.6}
+    .footer-divider{width:40px;height:2px;margin:16px auto;background:var(--accent-primary);border-radius:1px;opacity:0.3}
+
+    /* MOBILE */
+    @media(max-width:900px){.method-grid,.metrics-grid{grid-template-columns:1fr 1fr}.stack-grid{grid-template-columns:repeat(2,1fr)}.tl-features{grid-template-columns:1fr}}
+    @media(max-width:768px){.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:rgba(15,22,40,0.95);backdrop-filter:blur(20px);padding:16px 24px;gap:4px;border-bottom:1px solid var(--border-subtle)}.nav-mobile-toggle{display:block}.method-grid,.metrics-grid{grid-template-columns:1fr}.stack-grid{grid-template-columns:1fr}.section{padding:64px 0}}
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand"><span class="dot"></span> Conecta Market Hub</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#problema" data-section="problema">Problema</a></li>
+      <li><a href="#comparativo" data-section="comparativo">AS-IS vs TO-BE</a></li>
+      <li><a href="#fluxos" data-section="fluxos">Fluxos</a></li>
+      <li><a href="#processo" data-section="processo">Processo</a></li>
+      <li><a href="#cronograma" data-section="cronograma">Cronograma</a></li>
+      <li><a href="#metricas" data-section="metricas">Métricas</a></li>
+      <li><a href="#pendentes" data-section="pendentes">Pendentes</a></li>
+      <li><a href="#tecnologia" data-section="tecnologia">Tecnologia</a></li>
+    </ul>
+    <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="hero-grid"></div></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="pulse"></span> Plano de Desenvolvimento</div>
+    <h1 class="hero-title">Conecta Market Hub<br><em>Estratégia de Desenvolvimento</em></h1>
+    <p class="hero-subtitle">Plataforma SaaS que automatiza o pipeline completo de sourcing internacional China &rarr; Brasil, da importação de catálogo ao pagamento e rastreamento — eliminando intermediários e maximizando margens.</p>
+    <div class="hero-meta">
+      <span>4 releases</span><span>|</span><span>4 meses</span><span>|</span><span>10 etapas</span><span>|</span><span>~84% automação</span>
+    </div>
+  </div>
+  <div class="hero-scroll-cue"><span>scroll</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg></div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="section" id="problema">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">O Desafio</div>
+      <h2 class="section-title">Por que este projeto existe</h2>
+      <p class="section-subtitle">Três problemas raiz sustentam a ineficiência no sourcing internacional China &rarr; Brasil.</p>
+    </div>
+    <div class="method-grid">
+      <div class="method-card reveal reveal-delay-1">
+        <span class="method-icon">&#128269;</span>
+        <h3>Cadeia Opaca</h3>
+        <p>No Alibaba, a maioria dos anunciantes são trading companies — não fabricantes reais. Identificar fabricantes exige conhecimento especializado e buscas manuais via LLM.</p>
+        <span class="problem-stat">70-80% são intermediários</span>
+      </div>
+      <div class="method-card reveal reveal-delay-2">
+        <span class="method-icon">&#128221;</span>
+        <h3>Processo Artesanal</h3>
+        <p>O sourcing é operado manualmente via Excel, WhatsApp e e-mail. Nenhuma etapa — da pesquisa ao pagamento — está digitalizada de forma integrada.</p>
+        <span class="problem-stat">1-2 semanas por produto</span>
+      </div>
+      <div class="method-card reveal reveal-delay-3">
+        <span class="method-icon">&#128200;</span>
+        <h3>Sem Viabilidade Integrada</h3>
+        <p>Não existe um fluxo automatizado que conecte preço FOB, custos logísticos, impostos e margem final em um único estudo de viabilidade.</p>
+        <span class="problem-stat">0% de integração</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- COMPARATIVO AS-IS vs TO-BE -->
+<section class="section" id="comparativo">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Transformação Digital</div>
+      <h2 class="section-title">Antes e depois da plataforma</h2>
+      <p class="section-subtitle">Comparativo detalhado entre o processo manual atual e a plataforma digitalizada — incluindo classificação NCM e análise de restrições.</p>
+    </div>
+    <div class="table-wrapper reveal">
+      <table class="comp-table">
+        <thead><tr><th>Dimensão</th><th>Processo Atual (AS-IS)</th><th>Plataforma (TO-BE)</th></tr></thead>
+        <tbody>
+          <tr><td class="dim">Classificação NCM</td><td class="cross">Manual (despachante/consultor)</td><td class="check">IA assistida + confirmação humana (RN8)</td></tr>
+          <tr><td class="dim">Restrições / Anti-dumping</td><td class="cross">Consulta manual (Portal Único + planilha)</td><td class="check">Automático: Classif API + CSV MDIC + IBPT (RN9)</td></tr>
+          <tr><td class="dim">Pesquisa de preços</td><td class="cross">KIMI manual, 1-2 semanas</td><td class="check">Scraping APIs + IA, &lt; 48 horas</td></tr>
+          <tr><td class="dim">Comunicação CN</td><td class="cross">WhatsApp/e-mail direto</td><td class="check">Chat IA mediado (RN4)</td></tr>
+          <tr><td class="dim">Viabilidade (DDP)</td><td class="cross">PDF manual da Logix</td><td class="check">API Logix, DDP automático</td></tr>
+          <tr><td class="dim">Aprovação</td><td class="cross">E-mail/telefone</td><td class="check">Range automático 25-35% (RN1)</td></tr>
+          <tr><td class="dim">Pagamento</td><td class="cross">Wire bancário manual</td><td class="check">Wise API, 30/70 configurável (RN2, RN3)</td></tr>
+          <tr><td class="dim">Visibilidade</td><td class="cross">Zero</td><td class="check">Dashboard real-time</td></tr>
+          <tr><td class="dim">Dados</td><td class="cross">Excel fragmentado</td><td class="check">Banco unificado, multi-tenant</td></tr>
+          <tr><td class="dim">Escala</td><td class="cross">3-5 clientes (capacidade manual)</td><td class="check">100+ clientes</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FLUXOS BPMN -->
+<section class="section" id="fluxos">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Fluxos de Processo</div>
+      <h2 class="section-title">Do processo manual à plataforma inteligente</h2>
+      <p class="section-subtitle">Visão lado a lado de como o sourcing funciona hoje (manual) versus como funcionará com a plataforma (digitalizado).</p>
+    </div>
+
+    <div class="bpmn-dual">
+      <!-- AS-IS -->
+      <div class="bpmn-lane lane-asis reveal reveal-delay-1">
+        <div class="bpmn-lane-title">&#x26A0; Processo Atual (AS-IS)</div>
+        <div class="bpmn-actors">
+          <span class="bpmn-actor">Cliente</span>
+          <span class="bpmn-actor">Operador</span>
+          <span class="bpmn-actor">Market Union</span>
+          <span class="bpmn-actor">Logix</span>
+          <span class="bpmn-actor">Despachante</span>
+        </div>
+        <div class="bpmn-steps">
+          <div class="bpmn-node"><div class="bpmn-node-icon">1</div> Cliente envia lista por e-mail/WhatsApp</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">2</div> Operador pesquisa preços no Alibaba manualmente</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">3</div> Pesquisa fabricantes via KIMI manualmente</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">4</div> Monta briefing em planilha Excel</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">5</div> Envia ao Parceiro CN por WhatsApp/e-mail</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">6</div> Parceiro cota e devolve por WhatsApp</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">7</div> Consolida dados em planilha Excel</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">8</div> Solicita viabilidade à Logix por e-mail</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">9</div> Recebe PDF, analisa margens manualmente</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">10</div> Monta proposta em planilha/doc</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-gateway"><div class="bpmn-gateway-icon"><span>?</span></div> Cliente aprova?</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">11</div> Pagamento via wire bancário manual</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">12</div> Consulta status na Logix manualmente</div>
+        </div>
+        <div class="pain-points">
+          <span class="pain-point">1-2 semanas/produto</span>
+          <span class="pain-point">Zero visibilidade</span>
+          <span class="pain-point">Dados fragmentados</span>
+          <span class="pain-point">Sem rastreabilidade</span>
+          <span class="pain-point">Máx. 3-5 clientes</span>
+          <span class="pain-point">0% automação</span>
+        </div>
+      </div>
+
+      <!-- TO-BE -->
+      <div class="bpmn-lane lane-tobe reveal reveal-delay-2">
+        <div class="bpmn-lane-title">&#x2705; Plataforma (TO-BE)</div>
+        <div class="bpmn-actors">
+          <span class="bpmn-actor">Cliente</span>
+          <span class="bpmn-actor">Plataforma</span>
+          <span class="bpmn-actor">IA/LLM</span>
+          <span class="bpmn-actor">Portal CN</span>
+          <span class="bpmn-actor">Logix API</span>
+          <span class="bpmn-actor">Wise API</span>
+        </div>
+        <div class="bpmn-steps">
+          <div class="bpmn-node"><div class="bpmn-node-icon">1</div> Importa catálogo (VTEX/CSV/Manual)</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">2</div> IA classifica NCM (batch Tier 3 + visual Tier 1)</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-gateway"><div class="bpmn-gateway-icon"><span>?</span></div> Confiança &#8805; 90%?</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">3</div> Operador confirma NCM (human-in-the-loop)</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">4</div> Lookup restrições (Classif + MDIC + IBPT)</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-gateway"><div class="bpmn-gateway-icon"><span>?</span></div> &#x1F7E2; Livre / &#x1F7E1; Licença / &#x1F534; Bloqueado</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">5</div> Scraping preços FOB + comparativo automático</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">6</div> Cliente seleciona produtos (decisão humana)</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">7</div> IA busca fabricantes + RFQ bilíngue ao Portal CN</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">8</div> Parceiro CN cota e inputa preços no Portal</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">9</div> Logix API calcula DDP + margens definidas</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-gateway"><div class="bpmn-gateway-icon"><span>?</span></div> Range 25-35%? Auto/Manual (RN1)</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">10</div> Proposta consolidada ao cliente</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-gateway"><div class="bpmn-gateway-icon"><span>?</span></div> Despachante aprova invoice? (RN2)</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">11</div> Wise API: 30% &#8594; fabricação &#8594; 70% (RN3)</div>
+          <div class="bpmn-arrow">&#8595;</div>
+          <div class="bpmn-node"><div class="bpmn-node-icon">12</div> Tracking real-time via Logix API</div>
+        </div>
+        <div class="tobe-modules">
+          <div class="tobe-module"><div class="tobe-module-name">M2 Catálogo</div><div class="tobe-module-desc">Import + NCM</div></div>
+          <div class="tobe-module"><div class="tobe-module-name">M3 Motor IA</div><div class="tobe-module-desc">LLM + Scraping</div></div>
+          <div class="tobe-module"><div class="tobe-module-name">M4 Portal CN</div><div class="tobe-module-desc">RFQ + Chat</div></div>
+          <div class="tobe-module"><div class="tobe-module-name">M5 Viabilidade</div><div class="tobe-module-desc">DDP + Margens</div></div>
+          <div class="tobe-module"><div class="tobe-module-name">M6 Financeiro</div><div class="tobe-module-desc">Wise + Invoice</div></div>
+          <div class="tobe-module"><div class="tobe-module-name">M7 Tracking</div><div class="tobe-module-desc">Logix real-time</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGRAS DE NEGÓCIO -->
+    <div style="margin-top:64px">
+      <div class="reveal">
+        <h3 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:8px">Regras de Negócio nos Fluxos</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:20px">9 regras codificadas que governam os gateways e decisões do processo TO-BE.</p>
+      </div>
+      <div class="bpmn-rn-grid">
+        <div class="rn-card reveal reveal-delay-1"><div class="rn-code">RN1</div><h4>Aprovação Automática</h4><p>Range 25-35%: auto-aprovação. Fora: aprovação manual dos admins.</p></div>
+        <div class="rn-card reveal reveal-delay-1"><div class="rn-code">RN2</div><h4>Pagamento via Despachante</h4><p>Wise só inicia após despachante aprovar invoice na Logix.</p></div>
+        <div class="rn-card reveal reveal-delay-1"><div class="rn-code">RN3</div><h4>Parcelas 30/70</h4><p>30% na aprovação, 70% na prontidão. Splits configuráveis.</p></div>
+        <div class="rn-card reveal reveal-delay-2"><div class="rn-code">RN4</div><h4>Chat IA Mediado</h4><p>Cliente e CN nunca conversam diretamente. IA media tudo.</p></div>
+        <div class="rn-card reveal reveal-delay-2"><div class="rn-code">RN5</div><h4>Fotos do Cliente</h4><p>Fotos primárias são do cliente. Alibaba é complementar.</p></div>
+        <div class="rn-card reveal reveal-delay-2"><div class="rn-code">RN6</div><h4>IA Fora do Cadastro</h4><p>IA NÃO é usada no cadastro de catálogo. Apenas a partir do NCM.</p></div>
+        <div class="rn-card reveal reveal-delay-3"><div class="rn-code">RN7</div><h4>Preço BR Obrigatório</h4><p>Preço de compra no Brasil é pré-requisito para o pipeline.</p></div>
+        <div class="rn-card reveal reveal-delay-3"><div class="rn-code">RN8</div><h4>NCM Human-in-the-Loop</h4><p>IA sugere top 3-5 NCMs. Operador confirma. Penalidade: 1% VA.</p></div>
+        <div class="rn-card reveal reveal-delay-3"><div class="rn-code">RN9</div><h4>Restrições Obrigatórias</h4><p>Anuências + anti-dumping + alíquotas por NCM antes do sourcing.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PROCESSO — 10 ETAPAS -->
+<section class="section" id="processo">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Pipeline Completo</div>
+      <h2 class="section-title">10 etapas do sourcing digitalizado</h2>
+      <p class="section-subtitle">Do catálogo do cliente ao rastreamento da entrega — incluindo classificação NCM e análise de restrições antes da pesquisa de preços.</p>
+    </div>
+    <div class="flow-container">
+      <div class="flow-step reveal">
+        <div class="flow-number hl">01</div>
+        <div class="flow-content">
+          <h3>Catálogo <span class="ftag ftag-auto">automático</span></h3>
+          <p>Cliente importa produtos via VTEX API, CSV ou cadastro manual. Enriquece com preço de compra no Brasil (obrigatório), fotos e características. IA não é usada nesta etapa (RN6).</p>
+        </div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="flow-number hl">02</div>
+        <div class="flow-content">
+          <h3>Classificação NCM <span class="ftag ftag-ia">ia + human-in-the-loop</span></h3>
+          <p>IA pré-classifica cada produto na tabela NCM (8 dígitos) via LLM econômico em batch. Se confiança &lt; 90%, refinamento visual multimodal com foto. Operador confirma NCM entre top 3-5 sugestões. Classificação obrigatória — determina alíquotas e restrições (RN8).</p>
+        </div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="flow-number hl">03</div>
+        <div class="flow-content">
+          <h3>Análise de Restrições <span class="ftag ftag-auto">automático</span></h3>
+          <p>Com NCM confirmado, sistema verifica: anuências (Classif API, requer certificado digital), anti-dumping (CSV MDIC, 49 medidas contra China), alíquotas (IBPT API interim / Classif oficial). Alertas visuais: &#x1F7E2; Livre / &#x1F7E1; Requer licença / &#x1F534; Bloqueado (RN9).</p>
+        </div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="flow-number">04</div>
+        <div class="flow-content">
+          <h3>Pesquisa Preços China <span class="ftag ftag-ia">ia + scraping</span></h3>
+          <p>APIs de scraping buscam preços FOB no Alibaba. Tradução semântica PT&rarr;EN via LLM. Plataforma calcula diferença percentual entre preço brasileiro e FOB China.</p>
+        </div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="flow-number">05</div>
+        <div class="flow-content">
+          <h3>Seleção <span class="ftag ftag-manual">decisão humana</span></h3>
+          <p>Cliente visualiza comparativo de preços com alertas de restrições e seleciona quais produtos deseja importar. Decisão 100% humana — a plataforma informa, o cliente decide.</p>
+        </div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="flow-number hl">06</div>
+        <div class="flow-content">
+          <h3>Sourcing <span class="ftag ftag-ia">ia core</span></h3>
+          <p>IA busca fabricantes chineses reais usando specs do produto. Sistema gera RFQ bilíngue (EN + &#20013;&#25991;) e envia ao Parceiro CN. Comunicação mediada — cliente e fornecedor nunca conversam diretamente (RN4).</p>
+        </div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="flow-number">07</div>
+        <div class="flow-content">
+          <h3>Cotação <span class="ftag ftag-semi">semi-auto</span></h3>
+          <p>Parceiro CN (Market Union) negocia presencialmente com fábricas e devolve preços FOB reais negociados via Portal do Parceiro.</p>
+        </div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="flow-number hl">08</div>
+        <div class="flow-content">
+          <h3>Viabilidade (DDP) <span class="ftag ftag-auto">automático</span></h3>
+          <p>Logix calcula custo total nacionalizado (DDP). Conecta Market Hub define margens. Aprovação automática se valor CN está entre 25%-35% do valor BR; fora do range, admins aprovam ou reprovam manualmente (RN1).</p>
+        </div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="flow-number">09</div>
+        <div class="flow-content">
+          <h3>Aprovação <span class="ftag ftag-auto">automático</span></h3>
+          <p>Cliente recebe proposta consolidada apenas com produtos aprovados, com estudo de viabilidade completo — preço FOB, custos, impostos, margem e preço final.</p>
+        </div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="flow-number hl">10</div>
+        <div class="flow-content">
+          <h3>Pagamento + Rastreamento <span class="ftag ftag-semi">semi-auto</span></h3>
+          <p>Invoice via empresa US. Pagamento só inicia após despachante aprovar invoice na Logix (RN2). 30% na aprovação, 70% na prontidão de envio (RN3, configurável). Via Wise API. Rastreamento integrado via Logix em tempo real.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CRONOGRAMA -->
+<section class="section" id="cronograma">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Estratégia de Releases</div>
+      <h2 class="section-title">Cronograma de 4 meses</h2>
+      <p class="section-subtitle">Automação progressiva — a plataforma é operacional desde o R1, com o operador fazendo bridge manual enquanto os módulos são desenvolvidos.</p>
+    </div>
+    <div class="timeline">
+      <!-- R1 -->
+      <div class="tl-release r1 reveal">
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-header">
+          <span class="tl-period">Mês 1-2 &bull; 8-10 semanas</span>
+          <h3 class="tl-title">R1 — Foundation</h3>
+        </div>
+        <p class="tl-desc">Base operacional da plataforma. Todos os portais funcionais com bridge manual do operador para etapas ainda não automatizadas.</p>
+        <div class="tl-features">
+          <div class="tl-feat"><span class="ci">&#10003;</span> Catálogo com import VTEX/CSV/Manual</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Portal do cliente e dashboard operador</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Autenticação multi-tenant (Supabase RLS)</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> E-mail automático de RFQ para Parceiro CN</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> DDP manual/semi-auto (câmbio BCB)</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Classificação NCM manual (consulta Siscomex)</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Consulta manual restrições (Portal Único + MDIC)</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Dashboards básicos e tracking consumo</div>
+        </div>
+        <div class="tl-deliv"><div class="tl-deliv-label">Entrega</div><p>Plataforma operacional — catálogo, seleção, RFQ por e-mail e viabilidade com input manual.</p></div>
+      </div>
+      <!-- R2 -->
+      <div class="tl-release r2 reveal">
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-header">
+          <span class="tl-period">Mês 3 &bull; 6-8 semanas</span>
+          <h3 class="tl-title">R2 — AI Engine + Portal CN</h3>
+        </div>
+        <p class="tl-desc">Motor de inteligência artificial ativado e parceiro chinês digitalizado. Classificação NCM, restrições, comparativo de preços e busca de fabricantes automatizados.</p>
+        <div class="tl-features">
+          <div class="tl-feat"><span class="ci">&#10003;</span> Classificação NCM assistida por IA (pipeline 4 etapas)</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Análise automática restrições/anti-dumping</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Scraping Alibaba + comparativo BR vs CN</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Busca de fabricantes via LLM</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Portal do Parceiro CN (substitui e-mail)</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Chat IA mediado Cliente &harr; CN</div>
+        </div>
+        <div class="tl-prereqs">
+          <span class="prereq-badge">Pré-req: Certificado digital e-CNPJ A1 (~R$ 200/ano)</span>
+          <span class="prereq-badge warn">Pré-req: Registro IBPT com CNPJ</span>
+          <span class="prereq-badge warn">Pré-req: Job sync CSV anti-dumping MDIC</span>
+        </div>
+        <div class="tl-deliv"><div class="tl-deliv-label">Entrega</div><p>Inteligência artificial ativa — pesquisa de preços, NCM, restrições, fabricantes e comunicação mediada.</p></div>
+      </div>
+      <!-- R3 -->
+      <div class="tl-release r3 reveal">
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-header">
+          <span class="tl-period">Mês 3-4 &bull; 6-8 semanas</span>
+          <h3 class="tl-title">R3 — Financial + Logix</h3>
+        </div>
+        <p class="tl-desc">Pipeline financeiro automatizado. DDP manual substituído pela API Logix e pagamentos processados via Wise.</p>
+        <div class="tl-features">
+          <div class="tl-feat"><span class="ci">&#10003;</span> Integração Logix API (DDP automático)</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Integração Wise (pagamentos 30/70)</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Invoices automáticas via empresa US</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Aprovação com range configurável (25-35%)</div>
+        </div>
+        <div class="tl-prereqs">
+          <span class="prereq-badge">Pré-req: Reunião técnica com Logix</span>
+          <span class="prereq-badge">Pré-req: Consulta legal (entidade US, scraping, NDA)</span>
+          <span class="prereq-badge warn">Pré-req: Onboarding Wise Business API</span>
+        </div>
+        <div class="tl-deliv"><div class="tl-deliv-label">Entrega</div><p>Pipeline financeiro completo — DDP automático, pagamentos internacionais e invoices integrados.</p></div>
+      </div>
+      <!-- R4 -->
+      <div class="tl-release r4 reveal">
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-header">
+          <span class="tl-period">Mês 4 &bull; 4-6 semanas</span>
+          <h3 class="tl-title">R4 — Scale</h3>
+        </div>
+        <p class="tl-desc">Plataforma completa e pronta para escalar. Tracking em tempo real, dashboards executivos, modo demo e recompra.</p>
+        <div class="tl-features">
+          <div class="tl-feat"><span class="ci">&#10003;</span> Tracking real-time via Logix</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Dashboards completos e KPIs</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Alertas baseados em regras</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Modo demo para vendas</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Recompra facilitada</div>
+          <div class="tl-feat"><span class="ci">&#10003;</span> Relatórios executivos</div>
+        </div>
+        <div class="tl-deliv"><div class="tl-deliv-label">Entrega</div><p>Plataforma completa e escalável — pronta para 100+ clientes simultâneos.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- MÉTRICAS -->
+<section class="section" id="metricas">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Impacto da Transformação</div>
+      <h2 class="section-title">Métricas: antes e depois</h2>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric-card reveal reveal-delay-1">
+        <div class="metric-before">2 semanas</div>
+        <div class="metric-value">&lt; 48h</div>
+        <div class="metric-label">Tempo de pesquisa por produto</div>
+        <span class="metric-imp">&#8595; 85% redução</span>
+      </div>
+      <div class="metric-card reveal reveal-delay-2">
+        <div class="metric-before">Zero</div>
+        <div class="metric-value">Real-time</div>
+        <div class="metric-label">Visibilidade do cliente</div>
+        <span class="metric-imp">Dashboard completo</span>
+      </div>
+      <div class="metric-card reveal reveal-delay-3">
+        <div class="metric-before">Nenhuma</div>
+        <div class="metric-value">End-to-end</div>
+        <div class="metric-label">Integração entre etapas</div>
+        <span class="metric-imp">100% integrado</span>
+      </div>
+      <div class="metric-card reveal reveal-delay-4">
+        <div class="metric-before">3-5 clientes</div>
+        <div class="metric-value">100+</div>
+        <div class="metric-label">Escalabilidade</div>
+        <span class="metric-imp">&#8593; 20x capacidade</span>
+      </div>
+      <div class="metric-card reveal reveal-delay-4">
+        <div class="metric-before">0%</div>
+        <div class="metric-value">~84%</div>
+        <div class="metric-label">Automação do processo</div>
+        <span class="metric-imp">47% auto + 37% semi</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ITENS PENDENTES -->
+<section class="section" id="pendentes">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Itens em Definição</div>
+      <h2 class="section-title">Fluxos de exceção e requisitos não-funcionais</h2>
+      <p class="section-subtitle">Cenários identificados pela auditoria de documentação que precisam de definição antes do início do desenvolvimento.</p>
+    </div>
+
+    <div style="margin-top:48px">
+      <div class="reveal"><h3 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:8px">Fluxos de Exceção</h3><p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:16px">O que acontece quando o caminho feliz não funciona? 7 cenários a definir no PRD.</p></div>
+      <div class="pending-grid">
+        <div class="pending-card reveal"><div class="pending-num">01</div><h4><span class="pending-tag">a definir</span> Cancelamento pelo cliente após pagamento de 30%</h4><p>Reembolsável? Quem arca com custo de fabricação iniciada? Estado no SourcingProject?</p></div>
+        <div class="pending-card reveal"><div class="pending-num">02</div><h4><span class="pending-tag">a definir</span> Cancelamento pelo fabricante / Parceiro CN</h4><p>Quem assume o prejuízo? Busca fabricante alternativo automaticamente?</p></div>
+        <div class="pending-card reveal"><div class="pending-num">03</div><h4><span class="pending-tag">a definir</span> Timeout de cotação do Parceiro CN</h4><p>Prazo máximo para devolver cotação? Escalação automática? Outro parceiro acionado?</p></div>
+        <div class="pending-card reveal"><div class="pending-num">04</div><h4><span class="pending-tag">a definir</span> Falha no desembaraço aduaneiro</h4><p>Responsabilidades? Notificação ao cliente? Estado no SourcingProject?</p></div>
+        <div class="pending-card reveal"><div class="pending-num">05</div><h4><span class="pending-tag">a definir</span> Produto não-conforme (divergente do especificado)</h4><p>Fluxo de dispute? Pagamento 70% retido até resolução? Devolução?</p></div>
+        <div class="pending-card reveal"><div class="pending-num">06</div><h4><span class="pending-tag">a definir</span> Todos os produtos reprovados na proposta</h4><p>SourcingProject cancelado automaticamente? Cliente notificado? Re-submissão possível?</p></div>
+        <div class="pending-card reveal"><div class="pending-num">07</div><h4><span class="pending-tag">a definir</span> API externa indisponível</h4><p>Graceful degradation para scraping, LLM, Logix, Wise? Fila de retry? Notificação ao admin?</p></div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px">
+      <div class="reveal"><h3 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:8px">Requisitos Não-Funcionais</h3><p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:16px">NFRs a quantificar para dimensionar infraestrutura e critérios de aceite.</p></div>
+      <div class="table-wrapper nfr-table reveal">
+        <table class="comp-table">
+          <thead><tr><th>Categoria</th><th>Requisito</th><th>Sugestão</th></tr></thead>
+          <tbody>
+            <tr><td class="dim">Performance</td><td>Latência máx. carregamento de página</td><td>&lt; 2s (P95)</td></tr>
+            <tr><td class="dim">Performance</td><td>Importação de catálogo (1.000 SKUs)</td><td>&lt; 30s</td></tr>
+            <tr><td class="dim">Performance</td><td>Classificação NCM (batch 10 produtos)</td><td>&lt; 15s</td></tr>
+            <tr><td class="dim">Disponibilidade</td><td>SLA de uptime</td><td>99.5%</td></tr>
+            <tr><td class="dim">Disponibilidade</td><td>RPO / RTO</td><td>&lt; 1h / &lt; 4h</td></tr>
+            <tr><td class="dim">Segurança</td><td>OWASP Top 10</td><td>Obrigatório</td></tr>
+            <tr><td class="dim">Segurança</td><td>Criptografia (trânsito / repouso)</td><td>TLS 1.3 / AES-256</td></tr>
+            <tr><td class="dim">Escalabilidade</td><td>Clientes simultâneos (R1 / R4)</td><td>10 / 100+</td></tr>
+            <tr><td class="dim">Escalabilidade</td><td>SKUs por catálogo (máximo)</td><td>3.000</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- TECNOLOGIA -->
+<section class="section" id="tecnologia">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Fundação Técnica</div>
+      <h2 class="section-title">Stack tecnológica</h2>
+      <p class="section-subtitle">Tecnologias modernas, escaláveis e de mercado — escolhidas para performance, produtividade e manutenibilidade.</p>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-card reveal reveal-delay-1"><div class="stack-cat">Frontend</div><h3>Next.js + Tailwind</h3><p>4 portais (cliente, operador, parceiro CN, admin) com componentes compartilhados e SSR.</p></div>
+      <div class="stack-card reveal reveal-delay-2"><div class="stack-cat">Backend</div><h3>Node.js + Fastify</h3><p>API de alta performance com TypeScript end-to-end e gateway unificado.</p></div>
+      <div class="stack-card reveal reveal-delay-3"><div class="stack-cat">Database</div><h3>PostgreSQL (Supabase)</h3><p>Multi-tenancy com Row Level Security. Realtime, auth e storage integrados.</p></div>
+      <div class="stack-card reveal reveal-delay-4"><div class="stack-cat">Inteligência Artificial</div><h3>Gateway Multi-Provider</h3><p>KIMI, DeepSeek, Claude, GPT — roteamento por custo/qualidade com fallback automático.</p></div>
+      <div class="stack-card reveal reveal-delay-1"><div class="stack-cat">Pagamentos</div><h3>Wise API</h3><p>Pagamentos cross-border USD/CNY/BRL com splits configuráveis (30/70).</p></div>
+      <div class="stack-card reveal reveal-delay-2"><div class="stack-cat">Logística</div><h3>Logix API (TOTVS)</h3><p>DDP automático, rastreamento em tempo real e integração com despachante.</p></div>
+      <div class="stack-card reveal reveal-delay-3"><div class="stack-cat">Queue System</div><h3>BullMQ + Redis</h3><p>Jobs assíncronos para scraping, chamadas LLM e integrações com retry e backoff.</p></div>
+      <div class="stack-card reveal reveal-delay-4"><div class="stack-cat">Hosting</div><h3>Vercel + Supabase</h3><p>Deploy serverless com CDN global. Edge Functions para operações de baixa latência.</p></div>
+    </div>
+
+    <div style="margin-top:48px">
+      <div class="reveal"><h3 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:8px">Integrações</h3><p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:16px">Sistemas externos conectados à plataforma, classificados por criticidade.</p></div>
+      <div class="int-tags reveal">
+        <span class="int-tag"><span class="td td-med"></span> VTEX/Bemol — Catálogo</span>
+        <span class="int-tag"><span class="td td-crit"></span> Alibaba — Scraping APIs</span>
+        <span class="int-tag"><span class="td td-crit"></span> KIMI API — Busca Fabricantes</span>
+        <span class="int-tag"><span class="td td-crit"></span> Logix/TOTVS — DDP + Tracking</span>
+        <span class="int-tag"><span class="td td-med"></span> Wise — Pagamentos Internacionais</span>
+        <span class="int-tag"><span class="td td-crit"></span> Classif API — NCM + Restrições (certificado digital)</span>
+        <span class="int-tag"><span class="td td-crit"></span> MDIC — Anti-dumping (CSV, não API)</span>
+        <span class="int-tag"><span class="td td-med"></span> IBPT — Alíquotas (interim, aproximado)</span>
+        <span class="int-tag"><span class="td td-med"></span> BCB — Câmbio USD/BRL</span>
+        <span class="int-tag"><span class="td td-med"></span> LLM Multi-Provider — Gateway IA</span>
+      </div>
+      <div class="insight reveal" style="margin-top:20px">
+        <div class="insight-label">Nota sobre fontes de alíquotas</div>
+        <p>A <strong>IBPT API</strong> fornece alíquotas <em style="color:var(--text-accent)">aproximadas</em> (metodologia própria do instituto) — é fonte <strong>interim</strong> até o certificado digital estar disponível. A <strong>Classif API</strong> (Portal Único Siscomex) é a fonte <em style="color:var(--text-accent)">oficial</em> da Receita Federal, mas requer certificado digital ICP-Brasil (~R$ 200/ano). Diferenças de 2-3% possíveis entre IBPT e dados oficiais.</p>
+      </div>
+      <p class="reveal" style="margin-top:16px;font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted)">
+        <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent-danger);margin-right:4px;vertical-align:middle"></span> Criticidade alta &nbsp;&nbsp;
+        <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent-warning);margin-right:4px;vertical-align:middle"></span> Criticidade média
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- QUOTE -->
+<div class="final-quote reveal">
+  <blockquote>
+    <span class="quote-marks">&ldquo;</span>
+    <p>De um processo artesanal que atende 3 clientes com Excel e WhatsApp para uma plataforma inteligente com 10 etapas orquestradas, classificação NCM por IA, análise automática de restrições regulatórias e rastreamento end-to-end — escalável para 100+ clientes.<br><br><em>Conecta Market Hub — Sourcing Internacional Digitalizado.</em></p>
+  </blockquote>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-brand">Conecta Market Hub</div>
+    <p class="footer-meta">Plataforma de Desenvolvimento de Fornecedores Chineses</p>
+    <div class="footer-divider"></div>
+    <p class="footer-meta">Plano de Desenvolvimento — Abril 2026<br><span style="opacity:0.6">&copy; 2026 Conecta Market Hub</span></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var ro=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting)en.target.classList.add('visible')})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el)});
+  var nav=document.getElementById('mainNav');
+  window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>50)},{passive:true});
+  var secs=document.querySelectorAll('.section[id],.hero[id]');
+  var nls=document.querySelectorAll('.nav-links a');
+  var so=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting){var id=en.target.id;nls.forEach(function(l){l.classList.toggle('active',l.getAttribute('data-section')===id)})}})},{threshold:0.3,rootMargin:'-80px 0px -50% 0px'});
+  secs.forEach(function(s){so.observe(s)});
+  var nt=document.getElementById('navToggle'),nl=document.getElementById('navLinks');
+  nt.addEventListener('click',function(){nl.classList.toggle('open')});
+  nl.querySelectorAll('a').forEach(function(l){l.addEventListener('click',function(){nl.classList.remove('open')})});
+})();
+</script>
+</body>
+</html>
