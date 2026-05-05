@@ -358,6 +358,26 @@
   }
   footer a { color: var(--accent); text-decoration: none; }
 
+  /* ── Tooltips ── */
+  .tip {
+    position: fixed; z-index: 9999; max-width: 320px;
+    background: var(--ink); color: #f4ead6;
+    font-family: var(--serif); font-size: 12.5px; line-height: 1.55;
+    padding: 12px 15px; border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.35);
+    pointer-events: none; opacity: 0; transition: opacity 0.15s;
+  }
+  .tip.visible { opacity: 1; }
+  .tip strong { color: var(--warn); font-weight: 600; }
+  .tip .tip-tag {
+    display: inline-block; background: var(--warn); color: white;
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    padding: 1px 6px; border-radius: 6px; letter-spacing: 0.08em; margin-bottom: 6px;
+  }
+  .tip .tip-row { display: flex; gap: 6px; margin-top: 4px; font-size: 11.5px; color: #b3a78d; }
+  .tip .tip-row b { color: #f4ead6; font-weight: 600; }
+  .etapa-h.step-new { cursor: help; }
+
   @media (max-width: 760px) {
     .intro, .persona-card { grid-template-columns: 1fr; }
     .toggle-bar { flex-wrap: wrap; }
@@ -379,7 +399,7 @@
   </div>
   <div class="toggle-info" id="toggle-info-12" style="display:none;">
     <span class="dot"></span>
-    Inclui <span class="toggle-gap-tag">+ Amostra Física</span> e <span class="toggle-gap-tag">+ Inspeção de Qualidade</span> — gaps vs. Método 12P
+    Inclui <span class="toggle-gap-tag">+ Amostra Física</span> e <span class="toggle-gap-tag">+ Inspeção de Qualidade</span> — gaps confirmados vs. Benchmark B2 (P07 e P10 do Método 12P). Passe o mouse nas colunas âmbar para ver a análise.
   </div>
 </div>
 
@@ -412,12 +432,13 @@
 
     <div class="intro">
       <div>
-        <h2>Como ler</h2>
-        <p>Tempo flui da esquerda para a direita. <strong>Em modo 12 etapas</strong>, as colunas âmbar são os dois passos novos — Amostra (após Cotação) e Inspeção (após Aprovação). Os números das etapas entre eles se atualizam automaticamente.</p>
+        <h2>De onde vêm as 2 etapas novas</h2>
+        <p>Do <strong>Benchmark B2 · Método 12P</strong> — assessoria de Santos-SP que opera o processo de importação China→Brasil via WhatsApp e Excel. Os passos <strong>P07 (Peça Amostra)</strong> e <strong>P10 (Inspeção de Qualidade)</strong> são etapas reais do seu processo, confirmadas também como serviços ativos: "Gestão Completa de Amostras" é listado explicitamente no portfólio do concorrente. A comparação aqui não é especulativa — é baseada no material publicado.</p>
       </div>
       <div>
-        <h2>O que muda</h2>
-        <p>A <strong>Amostra Física</strong> entra entre Cotação e DDP — garante que o produto recebido bate com o spec antes de fabricar em escala. A <strong>Inspeção de Qualidade</strong> entra entre Aprovação e Pagamento — agente local valida o lote antes do embarque.</p>
+        <h2>O que cada etapa nova resolve</h2>
+        <p><strong>Amostra Física</strong> — gate antes de fabricar em escala. O cliente valida que o produto físico bate com o spec do catálogo. Elimina o principal risco de lote fora do padrão. Custo real: USD 80–200 por courier + 1–3 semanas de prazo.</p>
+        <p style="margin-top:8px;"><strong>Inspeção de Qualidade</strong> — agente local visita a fábrica e valida o lote concluído antes do embarque. Evita desembaraço complicado no Brasil. Custo real: USD 150–300 por visita (Yiwu / Guangzhou).</p>
       </div>
     </div>
 
@@ -447,11 +468,11 @@
         <div class="etapa-h"><div class="etapa-num">06</div><div class="etapa-title">Sourcing</div><div class="etapa-tag">KIMI · RFQ</div></div>
         <div class="etapa-h"><div class="etapa-num">07</div><div class="etapa-title">Cotação</div><div class="etapa-tag">fábricas · Portal CN</div></div>
         <!-- NOVO: Amostra -->
-        <div class="etapa-h step-new"><div class="etapa-num">08</div><div class="etapa-title">Amostra Física</div><div class="etapa-tag">P07 Método 12P</div><span class="new-badge">+ novo</span></div>
+        <div class="etapa-h step-new" data-tip="amostra"><div class="etapa-num">08</div><div class="etapa-title">Amostra Física</div><div class="etapa-tag">P07 Método 12P</div><span class="new-badge">+ novo</span></div>
         <div class="etapa-h"><div class="etapa-num"><span class="num-10">08</span><span class="num-12">09</span></div><div class="etapa-title">DDP &amp; Margens</div><div class="etapa-tag">Logix · range</div></div>
         <div class="etapa-h"><div class="etapa-num"><span class="num-10">09</span><span class="num-12">10</span></div><div class="etapa-title">Aprovação</div><div class="etapa-tag">cliente decide<span class="mot neg">MoT−</span></div></div>
         <!-- NOVO: Inspeção -->
-        <div class="etapa-h step-new"><div class="etapa-num">11</div><div class="etapa-title">Inspeção Qualidade</div><div class="etapa-tag">P10 Método 12P</div><span class="new-badge">+ novo</span></div>
+        <div class="etapa-h step-new" data-tip="inspecao"><div class="etapa-num">11</div><div class="etapa-title">Inspeção Qualidade</div><div class="etapa-tag">P10 Método 12P</div><span class="new-badge">+ novo</span></div>
         <div class="etapa-h"><div class="etapa-num"><span class="num-10">10</span><span class="num-12">12</span></div><div class="etapa-title">Pagto &amp; Entrega</div><div class="etapa-tag">Wise · tracking<span class="mot pos">MoT+</span></div></div>
 
         <!-- EMOÇÃO DO CLIENTE -->
@@ -589,12 +610,15 @@
     </div>
 
     <div class="notes">
-      <h2>O que muda ao ativar as 2 etapas novas</h2>
+      <h2>Análise comparativa · quando o modo 12 faz sentido</h2>
       <ul>
-        <li><strong>Etapa 08 (Amostra)</strong> — gate de qualidade antes de fabricar em escala. Reduz risco de receber lote errado, mas adiciona 1-3 semanas ao lead time.</li>
-        <li><strong>Etapa 11 (Inspeção)</strong> — validação do lote antes do embarque por agente local. Evita surpresas no desembaraço, mas requer custo e prazo extra.</li>
-        <li class="new-note"><strong>DDP em modo 12</strong> — o custo da amostra (courier) e da inspeção (agente local) precisam ser incorporados ao cálculo. Hoje o Logix não cobre isso.</li>
-        <li><strong>Decisão para o MVP:</strong> estas etapas são opcionais — o cliente pode ativar ou não por produto/pedido. Não devem bloquear o fluxo padrão de 10 etapas.</li>
+        <li><strong>Etapa 08 (Amostra) — vantagem:</strong> gate físico antes de fabricar em escala. O cliente valida que o produto é exatamente o que viu no catálogo. Elimina o principal vetor de insatisfação pós-entrega. O Método 12P confirma: "Gestão Completa de Amostras" é serviço ativo e diferencial do concorrente (S07).</li>
+        <li><strong>Etapa 08 (Amostra) — desvantagem:</strong> courier internacional custa USD 80–200 por envio e leva 1–3 semanas. Para o BB Trade, que opera no marketplace Bemol com ciclos de reposição curtos, isso pode ser impeditivo em produtos de baixo risco. Não deve ser obrigatório.</li>
+        <li><strong>Etapa 11 (Inspeção) — vantagem:</strong> agente local (Yiwu / Guangzhou) valida conformidade do lote antes do embarque. Evita desembaraço complicado no Brasil por produto fora de spec ou com embalagem incorreta — custo de um problema desses é muito maior que o da inspeção.</li>
+        <li><strong>Etapa 11 (Inspeção) — desvantagem:</strong> USD 150–300 por visita de inspeção. Faz sentido apenas para pedidos acima de certo valor FOB (a definir com Erik) ou para produtos de maior risco (🟡 anuência, OEM, Private Label).</li>
+        <li class="new-note"><strong>Gap crítico no DDP:</strong> o custo da amostra e da inspeção não estão no cálculo atual do Logix. Se o cliente ativar o modo 12, precisa de um campo de custos adicionais visível na proposta. Definir com Erik antes de codificar.</li>
+        <li class="new-note"><strong>Outros gaps revelados pelo benchmark B2</strong> (além das 2 etapas): RADAR (habilitação federal para importar — pré-requisito não mapeado para novos clientes), Compartilhamento de Container LCL (redução de frete para volumes menores), Consultoria Fiscal PIS/COFINS/ICMS. Estes não aparecem nos grids porque estão fora do pipeline, mas são perguntas a fazer ao Erik.</li>
+        <li><strong>Recomendação de produto:</strong> apresentar Amostra e Inspeção como "Importação com Garantia" — opcional, por SKU, com custo transparente. Ativa em R2 como feature flag. Não obrigatório no fluxo padrão de 10 etapas.</li>
       </ul>
     </div>
   </section>
@@ -736,11 +760,14 @@
     </div>
 
     <div class="notes">
-      <h2>Impacto das 2 etapas novas na jornada do Cliente</h2>
+      <h2>O que o Cliente ganha e perde com as 2 etapas novas</h2>
       <ul>
-        <li><strong>Etapa 08 (Amostra)</strong> — cria um novo pico emocional positivo (receber algo físico da China). Mas adiciona espera e custo não-obvio. A UX precisa tornar essa etapa opcional e explicar claramente o trade-off.</li>
-        <li class="new-note"><strong>Oportunidade de fidelização:</strong> o momento em que o cliente toca a amostra física é o "wow" mais tangível do processo. Uma foto da amostra chegando via portal pode virar conteúdo para o cliente usar no seu próprio marketing.</li>
-        <li><strong>Etapa 11 (Inspeção)</strong> — para o cliente, é espera invisível. O risco é ansiedade sem informação. Mitigação: push proativo "inspeção aprovada ✓" antes que ele pergunte.</li>
+        <li><strong>Amostra (E08) — o que ganha:</strong> certeza física de que o produto bate com o spec antes de fabricar o lote inteiro. Reduz risco de estoque morto por produto fora do padrão. Para o BB Trade, que vende no marketplace Bemol, produto errado = devolução + nota negativa + perda de ranking.</li>
+        <li><strong>Amostra (E08) — o que perde:</strong> 1–3 semanas a mais no lead time + custo de courier (USD 80–200) que não estava no orçamento inicial. O cliente precisa saber disso antes de ativar, não depois. UX deve mostrar "Amostra ativa: +15 dias, +R$ 400 estimados" com transparência total.</li>
+        <li class="new-note"><strong>Momento de fidelização subestimado:</strong> tocar a amostra física é o único momento tangível do processo antes do contêiner chegar. Uma foto da amostra no portal — enviada pelo Parceiro CN com nota do Operador — pode virar conteúdo que o cliente usa no seu próprio marketing interno ("olha o produto que vamos lançar"). Alto valor emocional, baixo custo de execução.</li>
+        <li><strong>Inspeção (E11) — o que ganha:</strong> garantia de que o lote está conforme antes de embarcar. Evita o pior cenário: desembaraço no Brasil com lote fora de spec, produto retido ou destruído pela Receita. Para produtos com anuência 🟡 (Inmetro, Anatel), a inspeção é ainda mais crítica.</li>
+        <li><strong>Inspeção (E11) — o que perde:</strong> mais 3–7 dias de espera. Para o cliente, é espera invisível — ele não age, só aguarda. O risco é ansiedade sem contexto. Mitigação simples: push "Inspeção aprovada ✓ · embarque autorizado" antes que o cliente pergunte onde está o pedido.</li>
+        <li><strong>Para quem ativar o modo 12:</strong> clientes com produtos de maior risco (🟡), pedidos de alto valor FOB, ou que estejam importando uma categoria pela primeira vez. Para recompra de produto já aprovado, o modo 10 é suficiente.</li>
       </ul>
     </div>
   </section>
@@ -882,11 +909,14 @@
     </div>
 
     <div class="notes">
-      <h2>Impacto das 2 etapas novas na jornada do Operador</h2>
+      <h2>O que o Operador ganha e perde com as 2 etapas novas</h2>
       <ul>
-        <li><strong>Etapa 08 (Amostra)</strong> — adiciona uma tarefa de coordenação que hoje não existe. O risco é virar e-mail/WhatsApp se o portal não tiver o módulo certo. Alta prioridade de UX para manter tudo dentro da plataforma.</li>
-        <li class="new-note"><strong>Gap financeiro crítico:</strong> o custo da amostra (courier internacional) e da inspeção (agente local) precisam estar no DDP ou em linha-item separada. Se não, o Operador absorve sem visibilidade. Discutir com o Erik antes de codificar.</li>
-        <li><strong>Etapa 11 (Inspeção)</strong> — decisão de maior responsabilidade do Operador. Aprovação do embarque com base em relatório fotográfico. Erro aqui = lote errado no Brasil. UX precisa deixar a decisão clara e auditável.</li>
+        <li><strong>Amostra (E08) — carga operacional real:</strong> o Operador precisa solicitar a amostra ao Parceiro CN, acompanhar o envio via courier, registrar chegada, coletar feedback do cliente e confirmar aprovação ou rejeição. Sem suporte de sistema isso vira WhatsApp — exatamente o problema que o Conecta quer resolver. O Método 12P (S07: "Gestão Completa de Amostras") tem esse processo estruturado. O Conecta precisaria de um módulo de amostra próprio para não regredir ao manual.</li>
+        <li><strong>Amostra (E08) — vantagem operacional:</strong> um gate de amostra aprovado reduz drasticamente o risco de retrabalho pós-entrega — que é muito mais caro em tempo e relacionamento do que o processo de amostra em si. Um lote rejeitado na inspeção custa muito menos do que um lote errado desembarcado no Brasil.</li>
+        <li class="new-note"><strong>Gap financeiro não resolvido:</strong> custo do courier de amostra (USD 80–200) e do agente de inspeção local (USD 150–300 por visita em Yiwu/Guangzhou) não estão no DDP calculado pela Logix. O Operador não tem onde lançar esse custo hoje. Antes de codificar qualquer coisa do modo 12, definir com Erik: quem paga, como aparece na proposta, e se entra no DDP ou é linha-item separada.</li>
+        <li><strong>Inspeção (E11) — a decisão de maior peso do Operador:</strong> ao aprovar o embarque com base no relatório fotográfico do agente, o Operador está garantindo ao cliente que o lote está conforme. Erro aqui = lote errado no Brasil, desembaraço complicado, possível perda de mercadoria. UX precisa tornar essa decisão auditável — quem aprovou, quando, com base em qual relatório.</li>
+        <li><strong>Inspeção (E11) — rede de agentes:</strong> o Operador precisaria de uma rede pré-aprovada de agentes de inspeção em Yiwu e Guangzhou. O Parceiro CN (Market Union) pode indicar, mas é risco de conflito de interesse. Terceiro independente é mais seguro. Definir com Erik se Market Union tem essa estrutura ou se é necessário parceiro adicional.</li>
+        <li><strong>Escala em modo 12:</strong> se o Operador gerencia 15+ clientes em paralelo, a gestão de amostras e inspeções sem automação vira gargalo imediato. A feature de amostra precisa ter SLA automático, alertas e status visível sem intervenção manual a cada etapa.</li>
       </ul>
     </div>
   </section>
@@ -925,6 +955,47 @@
       document.querySelector(`.tab-section[data-tab="${btn.dataset.tab}"]`).classList.add('active');
     });
   });
+
+  // ── Tooltips ──
+  const tipContent = {
+    amostra: `<div class="tip-tag">P07 · Método 12P · S07 confirmado</div>
+<strong>Peça Amostra</strong> — amostra física do produto antes da produção em escala.<br><br>
+O Benchmark B2 confirma: "Gestão Completa de Amostras" é serviço ativo e listado no portfólio do concorrente (S07). Não é teoria — é prática do mercado.<br><br>
+<div class="tip-row"><b>Custo real:</b> USD 80–200 por courier internacional</div>
+<div class="tip-row"><b>Prazo:</b> 1–3 semanas adicionais</div>
+<div class="tip-row"><b>Quando incluir:</b> produtos 🟡, OEM/Private Label, pedidos > USD 500 FOB ou 1ª compra de categoria</div>
+<div class="tip-row"><b>Gap atual:</b> custo não está no DDP do Logix — definir com Erik</div>`,
+    inspecao: `<div class="tip-tag">P10 · Método 12P</div>
+<strong>Inspeção de Qualidade</strong> — agente local valida lote concluído antes do embarque.<br><br>
+Risco de não ter: lote fora de spec chega ao Brasil → desembaraço complicado, possível perda de mercadoria, prejuízo para o cliente. Para produtos com anuência 🟡 (Inmetro, Anatel), risco ainda maior.<br><br>
+<div class="tip-row"><b>Custo real:</b> USD 150–300 por visita (Yiwu / Guangzhou)</div>
+<div class="tip-row"><b>Prazo:</b> 3–7 dias adicionais</div>
+<div class="tip-row"><b>Quando incluir:</b> pedidos de alto valor, produtos 🟡, OEM, reincidência de problema anterior</div>
+<div class="tip-row"><b>Gap atual:</b> custo não está no DDP — agente de inspeção não está mapeado</div>`
+  };
+
+  const tip = document.createElement('div');
+  tip.className = 'tip';
+  document.body.appendChild(tip);
+
+  document.querySelectorAll('[data-tip]').forEach(el => {
+    el.addEventListener('mouseenter', e => {
+      tip.innerHTML = tipContent[el.dataset.tip] || '';
+      tip.classList.add('visible');
+      moveTip(e);
+    });
+    el.addEventListener('mousemove', moveTip);
+    el.addEventListener('mouseleave', () => tip.classList.remove('visible'));
+  });
+
+  function moveTip(e) {
+    const x = e.clientX + 14;
+    const y = e.clientY + 14;
+    const w = tip.offsetWidth;
+    const h = tip.offsetHeight;
+    tip.style.left = (x + w > window.innerWidth - 12 ? e.clientX - w - 14 : x) + 'px';
+    tip.style.top  = (y + h > window.innerHeight - 12 ? e.clientY - h - 14 : y) + 'px';
+  }
 
   // ── Mode toggle ──
   function setMode(n) {
