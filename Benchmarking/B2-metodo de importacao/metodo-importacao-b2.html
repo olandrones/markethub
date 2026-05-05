@@ -6,58 +6,38 @@
 <title>B2 · Método 12P · Benchmark · Conecta Market Hub</title>
 <style>
   :root {
-    --paper: #f6f1e7;
-    --paper-2: #efe8d8;
-    --paper-3: #e8dfc9;
-    --card: #fdfaf3;
-    --card-2: #f9f3e4;
-    --ink: #1b1510;
-    --ink-2: #3a2f23;
-    --ink-dim: #6b5e4e;
-    --ink-faint: #a89a82;
-    --line: #d9ceb4;
-    --line-2: #c4b694;
-    --accent: #c96442;
-    --accent-2: #a94e30;
-    --accent-soft: #f2d8cc;
-    --ok: #5c8a4f;
-    --ok-soft: #dfe9d4;
-    --warn: #b88a2a;
-    --warn-soft: #f4e6c2;
-    --risk: #b84a3c;
-    --risk-soft: #f2d4ce;
-    --info: #4a6c8a;
-    --info-soft: #d6e2ec;
-    --serif: "Tiempos", "Source Serif Pro", "Iowan Old Style", Georgia, serif;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
-    --mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
-    --shadow-sm: 0 1px 2px rgba(40,28,12,.05), 0 1px 1px rgba(40,28,12,.04);
-    --shadow-md: 0 2px 6px rgba(40,28,12,.06), 0 6px 16px rgba(40,28,12,.05);
+    --paper: #f6f1e7; --paper-2: #efe8d8; --paper-3: #e8dfc9;
+    --card: #fdfaf3; --card-2: #f9f3e4;
+    --ink: #1b1510; --ink-2: #3a2f23; --ink-dim: #6b5e4e; --ink-faint: #a89a82;
+    --line: #d9ceb4; --line-2: #c4b694;
+    --accent: #c96442; --accent-2: #a94e30; --accent-soft: #f2d8cc;
+    --ok: #5c8a4f; --ok-soft: #dfe9d4;
+    --warn: #b88a2a; --warn-soft: #f4e6c2;
+    --risk: #b84a3c; --risk-soft: #f2d4ce;
+    --info: #4a6c8a; --info-soft: #d6e2ec;
+    --serif: "Tiempos","Source Serif Pro","Iowan Old Style",Georgia,serif;
+    --sans: -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
+    --mono: ui-monospace,"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+    --shadow-sm: 0 1px 2px rgba(40,28,12,.05),0 1px 1px rgba(40,28,12,.04);
+    --shadow-md: 0 2px 6px rgba(40,28,12,.06),0 6px 16px rgba(40,28,12,.05);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 14px;
-    line-height: 1.55;
+    background: var(--paper); color: var(--ink);
+    font-family: var(--sans); font-size: 14px; line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     background-image:
       radial-gradient(circle at 15% 0%, rgba(201,100,66,.05) 0%, transparent 40%),
       radial-gradient(circle at 85% 100%, rgba(74,108,138,.04) 0%, transparent 35%);
   }
-
   .shell { max-width: 1200px; margin: 0 auto; padding: 32px 28px 80px; }
 
   /* Hero */
   header.hero {
-    display: grid; grid-template-columns: 1fr auto;
-    gap: 28px; align-items: end;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 24px;
+    display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: end;
+    padding-bottom: 20px; border-bottom: 1px solid var(--line); margin-bottom: 24px;
   }
   .eyebrow { font-family: var(--mono); font-size: 10.5px; color: var(--accent);
     letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; margin-bottom: 8px; }
@@ -81,169 +61,118 @@
   .section-label {
     font-family: var(--mono); font-size: 10.5px; color: var(--ink-dim);
     letter-spacing: 0.18em; text-transform: uppercase;
-    margin: 24px 0 14px; display: flex; align-items: center; gap: 12px;
+    margin: 28px 0 14px; display: flex; align-items: center; gap: 12px;
   }
   .section-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
 
-  /* ─── FLOW GRID ─── */
+  /* ─── FLOW GRID (12 passos) ─── */
   .flow-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; border: 1px solid var(--line); border-radius: 14px;
+    overflow: hidden; box-shadow: var(--shadow-md);
   }
-
-  .flow-row {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  /* Row direction arrows */
+  .flow-row { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr); }
   .flow-row.ltr .step-card:not(:last-child)::after {
-    content: "→";
-    position: absolute; right: -18px; top: 50%;
-    transform: translateY(-50%);
-    color: var(--accent); font-size: 18px; font-weight: 700;
-    z-index: 2;
+    content: "→"; position: absolute; right: -18px; top: 50%;
+    transform: translateY(-50%); color: var(--accent); font-size: 18px; font-weight: 700; z-index: 2;
   }
   .flow-row.rtl .step-card:not(:last-child)::after {
-    content: "←";
-    position: absolute; left: -18px; top: 50%;
-    transform: translateY(-50%);
-    color: var(--accent); font-size: 18px; font-weight: 700;
-    z-index: 2;
+    content: "←"; position: absolute; left: -18px; top: 50%;
+    transform: translateY(-50%); color: var(--accent); font-size: 18px; font-weight: 700; z-index: 2;
   }
-
-  /* Row connector (vertical between rows) */
   .row-connector {
-    grid-column: 1 / -1;
-    height: 32px;
-    background: var(--paper-2);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+    grid-column: 1 / -1; height: 32px; background: var(--paper-2);
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
     display: flex; align-items: center; justify-content: center;
-    font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
-    letter-spacing: 0.1em;
+    font-family: var(--mono); font-size: 10px; color: var(--ink-faint); letter-spacing: 0.1em;
   }
-  .row-connector .arrow-down {
-    font-size: 16px; color: var(--accent); margin: 0 8px;
-  }
-
-  /* Step card */
+  .row-connector .arrow-down { font-size: 16px; color: var(--accent); margin: 0 8px; }
   .step-card {
-    background: var(--card);
-    border-right: 1px solid var(--line);
-    padding: 20px 18px 18px;
-    position: relative;
-    display: flex; flex-direction: column; gap: 8px;
-    transition: background 0.15s;
+    background: var(--card); border-right: 1px solid var(--line);
+    padding: 20px 18px 18px; position: relative;
+    display: flex; flex-direction: column; gap: 8px; transition: background 0.15s;
   }
   .step-card:last-child { border-right: 0; }
   .step-card:hover { background: var(--card-2); }
-
-  .step-card.gate {
-    background: var(--warn-soft);
-    border-left: 4px solid var(--warn);
-  }
+  .step-card.gate { background: var(--warn-soft); border-left: 4px solid var(--warn); }
   .step-card.gate:hover { background: #eeddb0; }
-
-  .step-card.final {
-    background: var(--ok-soft);
-    border-left: 4px solid var(--ok);
-  }
+  .step-card.final { background: var(--ok-soft); border-left: 4px solid var(--ok); }
   .step-card.final:hover { background: #d2e3c8; }
-
-  .step-num {
-    font-family: var(--mono); font-size: 9.5px;
-    color: var(--accent); letter-spacing: 0.2em;
-    text-transform: uppercase; font-weight: 700;
-  }
+  .step-num { font-family: var(--mono); font-size: 9.5px; color: var(--accent);
+    letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; }
   .step-card.gate .step-num { color: var(--warn); }
   .step-card.final .step-num { color: var(--ok); }
-
-  .step-title {
-    font-family: var(--serif); font-size: 15px; font-weight: 500;
-    color: var(--ink); line-height: 1.25;
-  }
-
-  .step-desc {
-    font-family: var(--serif); font-size: 12.5px;
-    color: var(--ink-dim); line-height: 1.5;
-  }
-
-  .step-tool {
-    font-family: var(--mono); font-size: 10px;
-    color: var(--ink-faint); margin-top: 4px;
-    display: flex; align-items: center; gap: 5px;
-  }
+  .step-title { font-family: var(--serif); font-size: 15px; font-weight: 500; color: var(--ink); line-height: 1.25; }
+  .step-desc { font-family: var(--serif); font-size: 12.5px; color: var(--ink-dim); line-height: 1.5; }
+  .step-tool { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); margin-top: 4px;
+    display: flex; align-items: center; gap: 5px; }
   .step-tool::before { content: "⚙"; font-size: 9px; }
-
-  .gate-badge {
-    display: inline-flex; align-items: center; gap: 5px;
+  .gate-badge { display: inline-flex; align-items: center; gap: 5px;
     background: var(--warn); color: white;
     font-family: var(--mono); font-size: 10px; font-weight: 700;
-    padding: 3px 8px; border-radius: 12px; letter-spacing: 0.08em;
-    margin-top: 4px; align-self: flex-start;
-  }
+    padding: 3px 8px; border-radius: 12px; letter-spacing: 0.08em; margin-top: 4px; align-self: flex-start; }
 
-  /* ─── ANÁLISE DE GAPS ─── */
-  .gap-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-top: 4px;
+  /* ─── SERVIÇOS GRID ─── */
+  .service-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 4px;
   }
+  .service-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 18px; display: flex; flex-direction: column; gap: 8px;
+    box-shadow: var(--shadow-sm); transition: background 0.15s;
+  }
+  .service-card:hover { background: var(--card-2); }
+  .service-card.ok   { border-top: 3px solid var(--ok); }
+  .service-card.warn { border-top: 3px solid var(--warn); }
+  .service-card.risk { border-top: 3px solid var(--risk); }
+  .service-num { font-family: var(--mono); font-size: 9px; color: var(--ink-faint);
+    letter-spacing: 0.15em; text-transform: uppercase; }
+  .service-name { font-family: var(--serif); font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.2; }
+  .service-12p { font-family: var(--serif); font-size: 12px; color: var(--ink-dim); line-height: 1.4; }
+  .service-12p strong { color: var(--ink-2); }
+  .service-conecta { font-family: var(--serif); font-size: 12px; line-height: 1.4; }
+  .service-card.ok   .service-conecta { color: var(--ok); }
+  .service-card.warn .service-conecta { color: var(--warn); }
+  .service-card.risk .service-conecta { color: var(--risk); }
+  .service-label {
+    display: inline-block; font-family: var(--mono); font-size: 9px; font-weight: 700;
+    padding: 2px 7px; border-radius: 8px; letter-spacing: 0.08em; align-self: flex-start;
+  }
+  .service-card.ok   .service-label { background: var(--ok-soft); color: var(--ok); }
+  .service-card.warn .service-label { background: var(--warn-soft); color: var(--warn); }
+  .service-card.risk .service-label { background: var(--risk-soft); color: var(--risk); }
+
+  /* ─── GAPS ─── */
+  .gap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 4px; }
   .gap-card {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 16px 18px;
-    box-shadow: var(--shadow-sm);
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 18px; box-shadow: var(--shadow-sm);
   }
-  .gap-card h4 {
-    font-family: var(--mono); font-size: 9.5px;
-    text-transform: uppercase; letter-spacing: 0.15em;
-    color: var(--ink-dim); margin-bottom: 8px;
-    padding-bottom: 6px; border-bottom: 1px solid var(--line);
-  }
+  .gap-card h4 { font-family: var(--mono); font-size: 9.5px; text-transform: uppercase;
+    letter-spacing: 0.15em; color: var(--ink-dim); margin-bottom: 8px;
+    padding-bottom: 6px; border-bottom: 1px solid var(--line); }
   .gap-card.pain h4 { color: var(--risk); }
-  .gap-card.opp h4 { color: var(--ok); }
+  .gap-card.opp h4  { color: var(--ok); }
   .gap-card.note h4 { color: var(--info); }
-
-  .gap-list {
-    list-style: none; display: flex; flex-direction: column; gap: 6px;
-  }
-  .gap-list li {
-    font-family: var(--serif); font-size: 12.5px;
-    color: var(--ink-2); line-height: 1.45;
-    display: flex; gap: 7px; align-items: flex-start;
-  }
+  .gap-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .gap-list li { font-family: var(--serif); font-size: 12.5px; color: var(--ink-2);
+    line-height: 1.45; display: flex; gap: 7px; align-items: flex-start; }
   .gap-list li::before { flex-shrink: 0; margin-top: 1px; }
   .gap-card.pain .gap-list li::before { content: "⚠"; color: var(--risk); }
-  .gap-card.opp .gap-list li::before { content: "💡"; font-size: 10px; }
+  .gap-card.opp  .gap-list li::before { content: "💡"; font-size: 10px; }
   .gap-card.note .gap-list li::before { content: "·"; color: var(--info); font-size: 16px; line-height: 1; }
+  .gap-list li strong { color: var(--ink); font-weight: 600; }
 
-  /* ─── MAPEAMENTO COM CONECTA ─── */
+  /* ─── MAPEAMENTO TABLE ─── */
   .map-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12.5px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    overflow: hidden; box-shadow: var(--shadow-sm);
   }
   .map-table thead th {
-    font-family: var(--mono); font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.15em;
-    background: var(--paper-2); color: var(--ink-dim);
-    padding: 10px 14px; text-align: left;
-    border-bottom: 2px solid var(--line-2);
+    font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.15em; background: var(--paper-2); color: var(--ink-dim);
+    padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--line-2);
   }
   .map-table tbody td {
     padding: 9px 14px; vertical-align: top;
@@ -252,15 +181,17 @@
   }
   .map-table tbody tr:last-child td { border-bottom: 0; }
   .map-table tbody tr:hover td { background: var(--card-2); }
-  .map-table td:first-child {
-    font-family: var(--mono); font-size: 11px;
-    color: var(--accent); font-weight: 600; white-space: nowrap;
+  .map-table tbody tr.section-row td {
+    background: var(--paper-2); font-family: var(--mono); font-size: 9.5px;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-dim);
+    padding: 6px 14px; border-bottom: 1px solid var(--line-2);
   }
+  .map-table td:first-child { font-family: var(--mono); font-size: 11px; color: var(--accent); font-weight: 600; white-space: nowrap; }
   .badge {
     display: inline-block; font-family: var(--mono); font-size: 9.5px;
     padding: 2px 7px; border-radius: 10px; font-weight: 600; letter-spacing: 0.06em;
   }
-  .badge.ok { background: var(--ok-soft); color: var(--ok); }
+  .badge.ok   { background: var(--ok-soft); color: var(--ok); }
   .badge.warn { background: var(--warn-soft); color: var(--warn); }
   .badge.risk { background: var(--risk-soft); color: var(--risk); }
   .badge.info { background: var(--info-soft); color: var(--info); }
@@ -275,7 +206,7 @@
 
   @media (max-width: 900px) {
     .flow-row { grid-template-columns: repeat(2, 1fr); }
-    .gap-grid { grid-template-columns: 1fr; }
+    .gap-grid, .service-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -286,13 +217,13 @@
     <div>
       <div class="eyebrow">Benchmarking · B2 · Método 12P</div>
       <h1>O processo tradicional de importação <em>antes</em> da plataforma.</h1>
-      <p class="lead">Método divulgado por uma assessoria de Santos-SP via Instagram (@metodo12p). 12 passos sequenciais do sourcing à entrega, operados manualmente via WhatsApp e Excel. Referência de benchmark para entender o que o Conecta Market Hub substitui.</p>
+      <p class="lead">Assessoria de Santos-SP que vende o "Método 12P" via Instagram. Opera com WhatsApp e Excel. Vai além dos 12 passos de processo: oferece 9 serviços de consultoria, incluindo tributação fiscal, RADAR e gestão de amostras — revelando gaps importantes para o Conecta Market Hub.</p>
     </div>
     <div class="meta">
       <div class="v">CONECTA · BENCHMARK</div>
       <div>ref · B2</div>
       <div>fonte · @metodo12p (Instagram)</div>
-      <div>data · mai/2026</div>
+      <div>atualizado · mai/2026</div>
       <div>autor · Renato + Claude</div>
     </div>
   </header>
@@ -300,23 +231,23 @@
   <div class="context-strip">
     <div>
       <strong>Origem</strong>
-      Assessoria de Santos-SP. Vende o "Método 12P" como curso online via Instagram.
+      Assessoria de Santos-SP. Vende o "Método 12P" como curso + consultoria via Instagram (@metodo12p). Modelo de negócio: WhatsApp + planilha Excel para acompanhar operações.
     </div>
     <div>
-      <strong>Ferramentas usadas</strong>
-      Grupo de WhatsApp + planilha Excel para desenvolvimento de produto e acompanhamento de operações.
+      <strong>Portfólio real</strong>
+      Além dos 12 passos, oferece 9 serviços ativos: negociação, tributação fiscal (PIS/COFINS/ICMS), RADAR, gestão de amostras, compartilhamento de container, análise de mercado.
     </div>
     <div>
       <strong>Leitura para o projeto</strong>
-      Representa o estado da arte da concorrência artesanal. É exatamente esse processo que o Conecta Market Hub quer digitalizar, orquestrar e tornar rastreável.
+      É o estado da arte da concorrência artesanal. Mapeia exatamente o que o Conecta Market Hub precisa digitalizar — e revela serviços que ainda não estão no pipeline atual.
     </div>
   </div>
 
+  <!-- ─── OS 12 PASSOS ─── -->
   <div class="section-label">Os 12 passos · fluxo snake (→ / ← / →)</div>
 
   <div class="flow-grid">
 
-    <!-- Linha 1: passos 1→4 -->
     <div class="flow-row ltr">
       <div class="step-card">
         <div class="step-num">Passo 01</div>
@@ -339,19 +270,17 @@
       <div class="step-card">
         <div class="step-num">Passo 04</div>
         <div class="step-title">Target Price</div>
-        <div class="step-desc">Definição do preço-alvo: quanto o importador está disposto a pagar pelo produto (FOB ou DDP).</div>
+        <div class="step-desc">Definição do preço-alvo: quanto o importador está disposto a pagar (FOB ou DDP).</div>
         <div class="step-tool">Excel · cálculo manual</div>
       </div>
     </div>
 
-    <!-- Conector 1→2 -->
     <div class="row-connector">
       <span>retorna pelo lado direito</span>
       <span class="arrow-down">↓</span>
       <span>passo 4 conecta ao passo 5</span>
     </div>
 
-    <!-- Linha 2: passos 8←7←6←5 (lidos da direita pra esquerda no fluxo real) -->
     <div class="flow-row rtl">
       <div class="step-card">
         <div class="step-num">Passo 08</div>
@@ -368,9 +297,9 @@
       <div class="step-card gate">
         <div class="step-num">Passo 06</div>
         <div class="step-title">Deu Preço?</div>
-        <div class="step-desc">Gate de decisão: o preço negociado com o fornecedor está dentro do target definido no Passo 04?</div>
+        <div class="step-desc">Gate de decisão: o preço negociado está dentro do target do Passo 04?</div>
         <div class="gate-badge">⚡ decisão</div>
-        <div class="step-desc" style="margin-top:6px;font-size:11.5px;color:var(--warn);">Sim → avança. Não → renegocia ou descarta produto.</div>
+        <div class="step-desc" style="margin-top:6px;font-size:11.5px;color:var(--warn);">Sim → avança. Não → renegocia ou descarta.</div>
       </div>
       <div class="step-card">
         <div class="step-num">Passo 05</div>
@@ -380,14 +309,12 @@
       </div>
     </div>
 
-    <!-- Conector 2→3 -->
     <div class="row-connector">
       <span>retorna pelo lado esquerdo</span>
       <span class="arrow-down">↓</span>
       <span>passo 8 conecta ao passo 9</span>
     </div>
 
-    <!-- Linha 3: passos 9→12 -->
     <div class="flow-row ltr">
       <div class="step-card">
         <div class="step-num">Passo 09</div>
@@ -404,7 +331,7 @@
       <div class="step-card">
         <div class="step-num">Passo 11</div>
         <div class="step-title">Embarque da Carga</div>
-        <div class="step-desc">Consolidação do contêiner, emissão do BL (Bill of Lading) e despacho da mercadoria do porto chinês.</div>
+        <div class="step-desc">Consolidação do contêiner, emissão do BL e despacho da mercadoria do porto chinês.</div>
         <div class="step-tool">Agente de cargas · documentação aduaneira</div>
       </div>
       <div class="step-card final">
@@ -417,7 +344,87 @@
 
   </div>
 
-  <div class="section-label">Gaps identificados vs. Conecta Market Hub</div>
+  <!-- ─── SERVIÇOS ALÉM DOS 12 PASSOS ─── -->
+  <div class="section-label">9 serviços ativos · além dos 12 passos de processo</div>
+
+  <div class="service-grid">
+
+    <div class="service-card ok">
+      <div class="service-num">S01</div>
+      <div class="service-name">Negociação Estratégica com Fornecedores</div>
+      <div class="service-12p"><strong>12P:</strong> Negociação manual via WhatsApp com fábricas e traders da China.</div>
+      <div class="service-conecta">Conecta cobre via KIMI (busca fabricantes reais) + RFQ bilíngue + Portal CN (R2).</div>
+      <span class="service-label">mapeado</span>
+    </div>
+
+    <div class="service-card warn">
+      <div class="service-num">S02</div>
+      <div class="service-name">Consultoria em Contabilidade e Tributação</div>
+      <div class="service-12p"><strong>12P:</strong> Consultoria ativa em PIS, COFINS, ICMS, aproveitamento de créditos tributários e monitoramento de normas.</div>
+      <div class="service-conecta">Conecta calcula DDP (alíquotas via IBPT), mas não oferece consultoria fiscal ativa. O cliente não tem orientação sobre créditos ou riscos de autuação.</div>
+      <span class="service-label">parcial — gap fiscal</span>
+    </div>
+
+    <div class="service-card warn">
+      <div class="service-num">S03</div>
+      <div class="service-name">Simulações Ilimitadas de Custo e Viabilidade</div>
+      <div class="service-12p"><strong>12P:</strong> Planilhas Excel com simulações sob demanda para qualquer cenário de custo.</div>
+      <div class="service-conecta">Conecta tem DDP automatizado via Logix (R3), mas o self-service de "simulações ilimitadas" ainda não está mapeado como feature do cliente.</div>
+      <span class="service-label">parcial — falta self-service</span>
+    </div>
+
+    <div class="service-card warn">
+      <div class="service-num">S04</div>
+      <div class="service-name">Catálogo de Produtos e Indicação de Projetos</div>
+      <div class="service-12p"><strong>12P:</strong> O assessor indica produtos com potencial e sugere projetos personalizados ao cliente.</div>
+      <div class="service-conecta">Conecta tem o catálogo do cliente + scraping de preços CN. Falta a camada de "indicação proativa" de novos produtos com potencial de margem.</div>
+      <span class="service-label">parcial — indicação ativa ausente</span>
+    </div>
+
+    <div class="service-card risk">
+      <div class="service-num">S05</div>
+      <div class="service-name">Análise de Mercado e Tendências</div>
+      <div class="service-12p"><strong>12P:</strong> Assessor monitora tendências de mercado CN→BR e indica novos projetos com potencial.</div>
+      <div class="service-conecta">Não está no pipeline atual. Seria uma camada de inteligência de mercado além do sourcing reativo. Feature de R4+ ou produto separado.</div>
+      <span class="service-label">gap — não mapeado</span>
+    </div>
+
+    <div class="service-card risk">
+      <div class="service-num">S06</div>
+      <div class="service-name">Habilitação do RADAR para Importação</div>
+      <div class="service-12p"><strong>12P:</strong> O assessor ajuda o cliente a se habilitar no RADAR (sistema da Receita Federal que autoriza pessoas jurídicas a importar).</div>
+      <div class="service-conecta">Pré-requisito legal que não está mapeado no pipeline. Sem RADAR ativo, o cliente não pode importar diretamente. Gap crítico para novos clientes.</div>
+      <span class="service-label">gap crítico — pré-requisito</span>
+    </div>
+
+    <div class="service-card risk">
+      <div class="service-num">S07</div>
+      <div class="service-name">Gestão Completa de Amostras</div>
+      <div class="service-12p"><strong>12P:</strong> Coordena solicitação, envio via courier, rastreamento e aprovação da amostra física com o cliente.</div>
+      <div class="service-conecta">Mapeado como gap P07 — confirmado pelo portfólio de serviços. Não está no pipeline TO-BE atual. Candidata à E08 do comparativo 10×12 etapas.</div>
+      <span class="service-label">gap confirmado — candidata E08</span>
+    </div>
+
+    <div class="service-card risk">
+      <div class="service-num">S08</div>
+      <div class="service-name">Compartilhamento de Container</div>
+      <div class="service-12p"><strong>12P:</strong> Consolida cargas de múltiplos clientes em um mesmo contêiner para reduzir custo de frete (LCL — Less than Container Load).</div>
+      <div class="service-conecta">Não está mapeado. Seria uma feature de logística colaborativa entre clientes da plataforma — potencial diferencial competitivo significativo para clientes com volumes menores.</div>
+      <span class="service-label">gap — oportunidade de produto</span>
+    </div>
+
+    <div class="service-card ok">
+      <div class="service-num">S09</div>
+      <div class="service-name">Acesso à Plataforma e Conteúdos</div>
+      <div class="service-12p"><strong>12P:</strong> Acesso exclusivo à plataforma 12P e conteúdos educativos sobre importação.</div>
+      <div class="service-conecta">Equivalente: a própria plataforma Conecta Market Hub é o acesso. Conteúdos educativos podem ser uma feature de onboarding (glossário, tutoriais, NCM explained).</div>
+      <span class="service-label">equivalente</span>
+    </div>
+
+  </div>
+
+  <!-- ─── GAPS IDENTIFICADOS ─── -->
+  <div class="section-label">Análise de gaps · processo + serviços vs. Conecta Market Hub</div>
 
   <div class="gap-grid">
     <div class="gap-card pain">
@@ -425,39 +432,48 @@
       <ul class="gap-list">
         <li>Zero rastreabilidade — tudo em WhatsApp e Excel, sem histórico centralizado</li>
         <li>Processo linear e lento — cada passo espera o anterior, sem paralelismo</li>
-        <li>Simulação de importação (Passo 5) é artesanal — planilha sujeita a erro humano</li>
-        <li>Gate "Deu Preço?" (Passo 6) não tem critério objetivo automatizado</li>
-        <li>Auditoria de fábrica (Passo 8) depende de agente local ou viagem — caro e lento</li>
-        <li>Sem visibilidade para o cliente final durante a operação</li>
+        <li>Simulação de importação (P05) é artesanal — planilha sujeita a erro humano</li>
+        <li>Gate "Deu Preço?" (P06) não tem critério objetivo automatizado</li>
+        <li>Auditoria de fábrica (P08) depende de agente local ou viagem — caro e lento</li>
+        <li>Sem visibilidade para o cliente durante a operação</li>
+        <li><strong>RADAR não integrado</strong> — cliente descobre a barreira tarde demais</li>
+        <li><strong>Compartilhamento de container</strong> gerenciado manualmente, sem visibilidade de outros lotes compatíveis</li>
       </ul>
     </div>
     <div class="gap-card opp">
       <h4>O que o Conecta Market Hub resolve</h4>
       <ul class="gap-list">
-        <li>Passos 1-2 → Catálogo + Sourcing com IA (KIMI busca fabricantes reais)</li>
-        <li>Passo 3 → RFQ bilíngue gerado automaticamente pela plataforma</li>
-        <li>Passo 5 → DDP calculado via Logix API (automatizado em R3)</li>
-        <li>Passo 6 → aprovação automática se margem 25-35% (RN1)</li>
-        <li>Passos 9-12 → tracking em tempo real via Logix + notificações mobile ao cliente</li>
-        <li>Toda a comunicação mediada pela plataforma — sem WhatsApp avulso</li>
+        <li>P01-P02 → Catálogo + Sourcing com IA (KIMI busca fabricantes reais)</li>
+        <li>P03 → RFQ bilíngue gerado automaticamente pela plataforma</li>
+        <li>P04 → preço de compra BR informado no catálogo (RN7)</li>
+        <li>P05 → DDP calculado via Logix API com alíquotas IBPT (R3)</li>
+        <li>P06 → aprovação automática se margem 25-35% (RN1)</li>
+        <li>P09-P12 → tracking em tempo real via Logix + notificações mobile</li>
+        <li>Toda a comunicação mediada — sem WhatsApp avulso</li>
+        <li><strong>S01 mapeado:</strong> negociação via Portal CN + RFQ estruturado</li>
       </ul>
     </div>
     <div class="gap-card note">
-      <h4>O que o método tem que o Conecta não cobre ainda</h4>
+      <h4>O que o Método 12P tem que o Conecta não cobre</h4>
       <ul class="gap-list">
-        <li>Passo 7 (Amostra) — fluxo de amostra física não está mapeado no MVP</li>
-        <li>Passo 8 (Auditoria de fábrica) — fora do escopo; seria feature de R4+</li>
-        <li>Passo 10 (Inspeção de qualidade) — não está no pipeline TO-BE atual</li>
-        <li>Estes três passos representam a camada de "confiança na fábrica" — gap relevante para produtos de maior risco</li>
+        <li><strong>P07 (Amostra):</strong> fluxo de amostra física ausente do pipeline — gap confirmado como serviço ativo do 12P</li>
+        <li><strong>P08 (Auditoria de fábrica):</strong> fora do escopo MVP; seria R4+ via parceiro</li>
+        <li><strong>P10 (Inspeção de qualidade):</strong> não no pipeline TO-BE atual</li>
+        <li><strong>S02 (Fiscal):</strong> sem consultoria em PIS/COFINS/ICMS ou créditos tributários</li>
+        <li><strong>S06 (RADAR):</strong> pré-requisito crítico não mapeado para novos clientes</li>
+        <li><strong>S08 (Container LCL):</strong> potencial diferencial competitivo para clientes com baixo volume</li>
+        <li><strong>S05 (Inteligência de mercado):</strong> tendências e indicação proativa de produtos</li>
       </ul>
     </div>
   </div>
 
-  <div class="section-label">Mapeamento passo a passo · Método 12P → Pipeline Conecta</div>
+  <!-- ─── MAPEAMENTO COMPLETO ─── -->
+  <div class="section-label">Mapeamento completo · 12 passos + 9 serviços → Pipeline Conecta</div>
 
   <table class="map-table">
     <thead>
       <tr>
+        <th>Referência</th>
         <th>Método 12P</th>
         <th>Equivalente no Conecta Market Hub</th>
         <th>Release</th>
@@ -465,84 +481,166 @@
       </tr>
     </thead>
     <tbody>
+      <tr class="section-row">
+        <td colspan="5">12 Passos de Processo</td>
+      </tr>
       <tr>
-        <td>P01 · Escolha do Produto</td>
+        <td>P01</td>
+        <td>Escolha do Produto</td>
         <td>Etapa 1 — Catálogo: cliente importa via VTEX/CSV e seleciona produtos</td>
         <td>R1</td>
         <td><span class="badge ok">mapeado</span></td>
       </tr>
       <tr>
-        <td>P02 · Busca do Fornecedor</td>
+        <td>P02</td>
+        <td>Busca do Fornecedor</td>
         <td>Etapa 6 — Sourcing: KIMI busca fabricantes reais a partir das specs</td>
         <td>R2</td>
         <td><span class="badge ok">mapeado</span></td>
       </tr>
       <tr>
-        <td>P03 · Proforma Invoice / Packing List</td>
+        <td>P03</td>
+        <td>Proforma Invoice / Packing List</td>
         <td>Etapa 6 — RFQ bilíngue gerado pela plataforma e enviado ao Parceiro CN</td>
         <td>R1</td>
         <td><span class="badge ok">mapeado</span></td>
       </tr>
       <tr>
-        <td>P04 · Target Price</td>
-        <td>Etapa 1 — preço de compra BR informado pelo cliente (RN7); base para comparativo</td>
+        <td>P04</td>
+        <td>Target Price</td>
+        <td>Etapa 1 — preço de compra BR informado pelo cliente (RN7); base do comparativo</td>
         <td>R1</td>
         <td><span class="badge ok">mapeado</span></td>
       </tr>
       <tr>
-        <td>P05 · Simulação de Importação</td>
+        <td>P05</td>
+        <td>Simulação de Importação</td>
         <td>Etapa 8 — DDP calculado via Logix API + margens definidas pelo Operador</td>
         <td>R3</td>
         <td><span class="badge warn">R3</span></td>
       </tr>
       <tr>
-        <td>P06 · Deu Preço? (gate)</td>
+        <td>P06</td>
+        <td>Deu Preço? (gate de decisão)</td>
         <td>RN1 — aprovação automática se margem 25-35%; manual fora do range</td>
         <td>R1</td>
         <td><span class="badge ok">mapeado</span></td>
       </tr>
       <tr>
-        <td>P07 · Peça Amostra</td>
-        <td>Não mapeado no pipeline atual</td>
+        <td>P07</td>
+        <td>Peça Amostra</td>
+        <td>Não mapeado no pipeline atual — gap confirmado (veja S07). Candidato à E08 no comparativo 10×12.</td>
         <td>—</td>
         <td><span class="badge risk">gap</span></td>
       </tr>
       <tr>
-        <td>P08 · Audite a Fábrica</td>
+        <td>P08</td>
+        <td>Audite a Fábrica</td>
         <td>Parcialmente: KIMI verifica se é fábrica vs. trader; auditoria presencial fora do escopo</td>
         <td>R2</td>
         <td><span class="badge warn">parcial</span></td>
       </tr>
       <tr>
-        <td>P09 · Inicie a Produção</td>
+        <td>P09</td>
+        <td>Inicie a Produção</td>
         <td>Etapa 9-10 — aprovação do cliente + pagamento 30% via Wise (RN3)</td>
         <td>R3</td>
         <td><span class="badge warn">R3</span></td>
       </tr>
       <tr>
-        <td>P10 · Inspeção de Qualidade</td>
-        <td>Não mapeado no pipeline atual</td>
+        <td>P10</td>
+        <td>Inspeção de Qualidade</td>
+        <td>Não mapeado no pipeline atual. Candidato à E11 no comparativo 10×12.</td>
         <td>—</td>
         <td><span class="badge risk">gap</span></td>
       </tr>
       <tr>
-        <td>P11 · Embarque da Carga</td>
+        <td>P11</td>
+        <td>Embarque da Carga</td>
         <td>Etapa 10 — tracking via Logix; Parceiro CN sinaliza prontidão de envio</td>
         <td>R3/R4</td>
         <td><span class="badge warn">R3/R4</span></td>
       </tr>
       <tr>
-        <td>P12 · Entrega da Carga</td>
+        <td>P12</td>
+        <td>Entrega da Carga</td>
         <td>Etapa 10 — desembaraço aprovado pelo Despachante (RN2) + tracking real-time</td>
         <td>R4</td>
         <td><span class="badge info">R4</span></td>
+      </tr>
+
+      <tr class="section-row">
+        <td colspan="5">9 Serviços Adicionais (além dos passos de processo)</td>
+      </tr>
+      <tr>
+        <td>S01</td>
+        <td>Negociação Estratégica com Fornecedores</td>
+        <td>KIMI + RFQ bilíngue + Portal CN com Market Union (Yiwu)</td>
+        <td>R2</td>
+        <td><span class="badge ok">mapeado</span></td>
+      </tr>
+      <tr>
+        <td>S02</td>
+        <td>Consultoria Contábil e Fiscal (PIS/COFINS/ICMS + créditos)</td>
+        <td>DDP calcula alíquotas via IBPT, mas sem consultoria fiscal ativa ou gestão de créditos tributários</td>
+        <td>—</td>
+        <td><span class="badge risk">gap fiscal</span></td>
+      </tr>
+      <tr>
+        <td>S03</td>
+        <td>Simulações Ilimitadas de Custos e Viabilidade</td>
+        <td>DDP automatizado existe (R3), mas self-service de simulação pelo cliente ainda não mapeado</td>
+        <td>R3+</td>
+        <td><span class="badge warn">parcial</span></td>
+      </tr>
+      <tr>
+        <td>S04</td>
+        <td>Catálogo de Produtos e Indicação de Projetos</td>
+        <td>Catálogo do cliente existe; indicação proativa de novos produtos com potencial de margem ausente</td>
+        <td>—</td>
+        <td><span class="badge warn">parcial</span></td>
+      </tr>
+      <tr>
+        <td>S05</td>
+        <td>Análise de Mercado e Tendências para Novos Projetos</td>
+        <td>Não mapeado. Seria inteligência de mercado CN→BR — feature de R4+ ou produto separado</td>
+        <td>—</td>
+        <td><span class="badge risk">gap</span></td>
+      </tr>
+      <tr>
+        <td>S06</td>
+        <td>Habilitação do RADAR para Importação</td>
+        <td>Pré-requisito legal para importar (Receita Federal). Não mapeado — gap crítico para onboarding de novos clientes</td>
+        <td>—</td>
+        <td><span class="badge risk">gap crítico</span></td>
+      </tr>
+      <tr>
+        <td>S07</td>
+        <td>Gestão Completa de Amostras</td>
+        <td>Não mapeado. Confirma gap P07. Candidato à Etapa 8 no pipeline de 12 etapas (comparativo 10×12)</td>
+        <td>—</td>
+        <td><span class="badge risk">gap confirmado</span></td>
+      </tr>
+      <tr>
+        <td>S08</td>
+        <td>Compartilhamento de Container (LCL)</td>
+        <td>Não mapeado. Potencial feature colaborativa entre clientes da plataforma para reduzir custo de frete</td>
+        <td>—</td>
+        <td><span class="badge risk">gap — oportunidade</span></td>
+      </tr>
+      <tr>
+        <td>S09</td>
+        <td>Acesso à Plataforma e Conteúdos Exclusivos</td>
+        <td>A própria plataforma Conecta. Conteúdos educativos podem virar feature de onboarding</td>
+        <td>R1</td>
+        <td><span class="badge ok">equivalente</span></td>
       </tr>
     </tbody>
   </table>
 
   <footer>
-    <div>B2 · Método 12P · benchmark · Conecta Market Hub · documento de trabalho</div>
-    <div><a href="../B1-ImportAI.club/importai-club-flow.html">← B1 ImportAI.club</a> · fonte: <a href="https://www.instagram.com/metodo12p" target="_blank">@metodo12p no Instagram</a></div>
+    <div>B2 · Método 12P · benchmark · Conecta Market Hub · documento de trabalho · mai/2026</div>
+    <div><a href="../B1-ImportAI.club/importai-club-flow.html">← B1 ImportAI.club</a> · <a href="../../Jornada/jornada-comparativo.html">Comparativo 10×12 etapas →</a> · fonte: <a href="https://www.instagram.com/metodo12p" target="_blank">@metodo12p</a></div>
   </footer>
 
 </div>
