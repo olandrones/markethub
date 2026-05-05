@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparativo 10 × 12 Etapas · Conecta Market Hub</title>
+<style>
+  :root {
+    --paper: #f6f1e7; --paper-2: #efe8d8; --paper-3: #e8dfc9;
+    --card: #fdfaf3; --card-2: #f9f3e4;
+    --ink: #1b1510; --ink-2: #3a2f23; --ink-dim: #6b5e4e; --ink-faint: #a89a82;
+    --line: #d9ceb4; --line-2: #c4b694;
+    --accent: #c96442; --accent-2: #a94e30; --accent-soft: #f2d8cc;
+    --ok: #5c8a4f; --ok-soft: #dfe9d4;
+    --warn: #b88a2a; --warn-soft: #f4e6c2;
+    --risk: #b84a3c; --risk-soft: #f2d4ce;
+    --info: #4a6c8a; --info-soft: #d6e2ec;
+    --persona-cliente: #4a6c8a; --persona-operador: #c96442;
+    --persona-cn: #b84a3c; --persona-despach: #6a5b9a;
+    --persona-anu: #5c8a4f; --persona-design: #b88a2a;
+    --serif: "Tiempos","Source Serif Pro","Iowan Old Style",Georgia,serif;
+    --sans: -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
+    --mono: ui-monospace,"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+    --shadow-sm: 0 1px 2px rgba(40,28,12,.05),0 1px 1px rgba(40,28,12,.04);
+    --shadow-md: 0 2px 6px rgba(40,28,12,.06),0 6px 16px rgba(40,28,12,.05);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: var(--sans); font-size: 14px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(201,100,66,.05) 0%, transparent 40%),
+      radial-gradient(circle at 85% 100%, rgba(74,108,138,.04) 0%, transparent 35%);
+  }
+  .shell { max-width: 100%; margin: 0 auto; padding: 0 28px 80px; }
+
+  /* ── Toggle Bar (sticky) ── */
+  .toggle-bar {
+    position: sticky; top: 0; z-index: 200;
+    background: var(--card); border-bottom: 2px solid var(--line);
+    padding: 10px 28px; display: flex; align-items: center; gap: 18px;
+    box-shadow: 0 2px 10px rgba(40,28,12,.09);
+  }
+  .toggle-label {
+    font-family: var(--mono); font-size: 10.5px; color: var(--ink-dim);
+    text-transform: uppercase; letter-spacing: 0.12em;
+  }
+  .toggle-btn {
+    display: flex; align-items: center; gap: 0;
+    border: 1.5px solid var(--line-2); border-radius: 24px;
+    overflow: hidden; background: var(--paper-2); cursor: pointer;
+  }
+  .toggle-opt {
+    padding: 7px 18px; font-family: var(--mono); font-size: 11px; font-weight: 600;
+    cursor: pointer; transition: all 0.18s; letter-spacing: 0.06em;
+    border: none; background: transparent; color: var(--ink-dim);
+  }
+  .toggle-opt.active-10 { background: var(--card); color: var(--accent); }
+  .toggle-opt.active-12 { background: var(--warn); color: white; }
+  .toggle-sep { width: 1.5px; background: var(--line-2); align-self: stretch; }
+  .toggle-info {
+    font-family: var(--serif); font-size: 12.5px; color: var(--ink-dim);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .toggle-info .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--warn); }
+  .toggle-gap-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--warn-soft); color: var(--warn);
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    padding: 2px 7px; border-radius: 10px; letter-spacing: 0.08em;
+    border: 1px solid color-mix(in srgb, var(--warn) 25%, transparent);
+  }
+
+  /* ── New step visibility ──
+     !important nos dois lados: .journey .j-cell [0,2,0] definiria display:flex depois
+     dessas regras e ganharia no empate de especificidade sem !important */
+  .step-new { display: none !important; }
+  body.mode-12 .swim .step-new,
+  body.mode-12 .journey .step-new { display: flex !important; }
+
+  .num-10 { display: inline; }
+  .num-12 { display: none; }
+  body.mode-12 .num-10 { display: none; }
+  body.mode-12 .num-12 { display: inline; }
+
+  /* ── Grid columns change ── */
+  .swim    { display: grid; grid-template-columns: 160px repeat(10, minmax(110px, 1fr)); min-width: 0; width: 100%; }
+  .journey { display: grid; grid-template-columns: 160px repeat(10, minmax(110px, 1fr)); min-width: 0; width: 100%; }
+  body.mode-12 .swim    { grid-template-columns: 160px repeat(12, minmax(100px, 1fr)); }
+  body.mode-12 .journey { grid-template-columns: 160px repeat(12, minmax(100px, 1fr)); }
+
+  /* ── New step visual style ── */
+  .etapa-h.step-new {
+    background: color-mix(in srgb, var(--warn-soft) 80%, var(--card-2));
+    border-left: 2px solid var(--warn);
+  }
+  .etapa-h.step-new .etapa-num { color: var(--warn); }
+  .new-badge {
+    display: inline-block; background: var(--warn); color: white;
+    font-family: var(--mono); font-size: 8.5px; font-weight: 700;
+    padding: 1px 5px; border-radius: 8px; margin-top: 4px;
+    letter-spacing: 0.08em;
+  }
+  .cell.step-new:not(.empty) {
+    background: color-mix(in srgb, var(--warn-soft) 45%, var(--card));
+  }
+  .cell.step-new.empty {
+    background: repeating-linear-gradient(45deg,
+      color-mix(in srgb, var(--warn-soft) 40%, var(--paper-2)),
+      color-mix(in srgb, var(--warn-soft) 40%, var(--paper-2)) 6px,
+      color-mix(in srgb, var(--warn-soft) 15%, var(--card)) 6px,
+      color-mix(in srgb, var(--warn-soft) 15%, var(--card)) 12px);
+    opacity: 0.65;
+  }
+  .j-cell.step-new {
+    background: color-mix(in srgb, var(--warn-soft) 40%, var(--card));
+  }
+  .j-cell.step-new.emo { background: color-mix(in srgb, var(--warn-soft) 40%, var(--card)); }
+
+  /* ── Hero ── */
+  header.hero {
+    display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: end;
+    padding: 28px 0 20px; border-bottom: 1px solid var(--line); margin-bottom: 20px;
+  }
+  .eyebrow { font-family: var(--mono); font-size: 10.5px; color: var(--accent);
+    letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; margin-bottom: 8px; }
+  h1 { font-family: var(--serif); font-size: 28px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.15; }
+  h1 em { font-style: italic; color: var(--accent); }
+  .lead { font-family: var(--serif); font-size: 14px; color: var(--ink-2); margin-top: 10px; max-width: 720px; }
+  .meta { text-align: right; font-family: var(--mono); font-size: 10.5px; color: var(--ink-dim); line-height: 1.7; }
+  .meta .v { color: var(--accent); font-weight: 600; font-size: 11.5px; }
+
+  /* ── Tabs ── */
+  nav.tabs {
+    display: flex; flex-wrap: wrap; gap: 4px;
+    border-bottom: 2px solid var(--line); margin-bottom: 24px;
+  }
+  .tab-btn {
+    font-family: var(--sans); font-size: 12.5px; font-weight: 500;
+    padding: 10px 16px; background: transparent;
+    border: 0; border-bottom: 3px solid transparent;
+    color: var(--ink-dim); cursor: pointer; margin-bottom: -2px; transition: all 0.15s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tab-btn:hover { color: var(--ink); background: var(--card); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+  .tab-section { display: none; }
+  .tab-section.active { display: block; }
+
+  /* ── Section label ── */
+  .section-label {
+    font-family: var(--mono); font-size: 10.5px; color: var(--ink-dim);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin: 18px 0 10px; display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  /* ── Intro / V0 warn ── */
+  .intro {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 22px; margin-bottom: 20px; box-shadow: var(--shadow-sm);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 26px;
+  }
+  .intro h2 { font-family: var(--serif); font-size: 17px; font-weight: 500; margin-bottom: 6px; }
+  .intro p { font-family: var(--serif); color: var(--ink-2); font-size: 13.5px; line-height: 1.55; margin-bottom: 6px; }
+  .v0-warn {
+    background: var(--warn-soft); border-left: 3px solid var(--warn);
+    border-radius: 0 8px 8px 0; padding: 10px 14px; margin-bottom: 16px;
+    font-family: var(--serif); font-size: 13px; color: var(--ink-2);
+  }
+  .v0-warn strong { color: var(--warn); }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 12px 20px;
+    font-family: var(--mono); font-size: 10.5px; color: var(--ink-dim);
+    margin-bottom: 16px; padding: 10px 14px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-icon { font-size: 12px; }
+  .legend-new { background: var(--warn-soft); color: var(--warn); padding: 1px 6px; border-radius: 6px; font-weight: 700; }
+
+  /* ── Blueprint swimlane ── */
+  .swim-wrap {
+    overflow-x: auto; background: var(--card);
+    border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: var(--shadow-md); padding: 0;
+  }
+  .corner {
+    background: var(--card); border-bottom: 2px solid var(--line-2); border-right: 2px solid var(--line-2);
+    padding: 12px 14px; position: sticky; left: 0; top: 0; z-index: 30;
+    font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-faint); display: flex; align-items: end;
+  }
+  .etapa-h {
+    background: var(--card-2); border-bottom: 2px solid var(--line-2); border-right: 1px solid var(--line);
+    padding: 10px 12px; position: sticky; top: 0; z-index: 20; text-align: left;
+    display: flex; flex-direction: column;
+  }
+  .etapa-num { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.15em; margin-bottom: 3px; font-weight: 600; }
+  .etapa-title { font-family: var(--serif); font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.2; }
+  .etapa-tag { font-size: 9.5px; color: var(--ink-dim); margin-top: 3px; }
+  .etapa-h .mot {
+    display: inline-block; font-size: 9px; font-family: var(--mono);
+    margin-top: 4px; padding: 1px 5px; border-radius: 8px; font-weight: 600; letter-spacing: 0.05em;
+  }
+  .etapa-h .mot.pos { background: var(--ok-soft); color: var(--ok); }
+  .etapa-h .mot.neg { background: var(--risk-soft); color: var(--risk); }
+
+  /* Emoção do cliente na blueprint */
+  .swim-emo-cell {
+    background: var(--card-2); border-right: 1px solid var(--line); border-bottom: 2px solid var(--line-2);
+    text-align: center; padding: 8px 4px; min-height: 64px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  }
+  .swim-emo-cell:last-child { border-right: 0; }
+  .emo-icon { font-size: 22px; line-height: 1; }
+  .emo-label { font-family: var(--mono); font-size: 9px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .layer-label {
+    grid-column: 1 / -1; font-family: var(--mono); font-size: 9px;
+    text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700;
+    background: var(--paper-2); color: var(--ink-dim);
+    padding: 6px 14px; border-bottom: 1px solid var(--line); border-top: 1px solid var(--line);
+  }
+  .layer-label.cliente { background: #e8eef5; color: #3a5570; }
+  .layer-label.frontstage { background: #f5e8e0; color: #8a4520; }
+  .layer-label.backstage { background: #f0e0d8; color: #6a3815; }
+  .layer-label.support { background: #ebe2d4; color: #5a4020; }
+  .layer-label.systems { background: #1b1510; color: #f4ead6; border-color: var(--ink-2); }
+  .layer-label .line-name { float: right; font-style: italic; font-weight: 500; color: inherit; opacity: 0.6; letter-spacing: 0.08em; }
+
+  .persona-h {
+    background: var(--card); border-right: 2px solid var(--line-2); border-bottom: 1px solid var(--line);
+    padding: 12px 14px; position: sticky; left: 0; z-index: 10;
+    display: flex; flex-direction: column; justify-content: center; gap: 3px;
+  }
+  .persona-name { font-family: var(--serif); font-size: 13px; font-weight: 500; color: var(--ink); display: flex; align-items: center; gap: 6px; }
+  .persona-tag { font-size: 10px; color: var(--ink-dim); font-family: var(--mono); }
+  .persona-h.cliente { border-left: 4px solid var(--persona-cliente); }
+  .persona-h.operador { border-left: 4px solid var(--persona-operador); }
+  .persona-h.cn { border-left: 4px solid var(--persona-cn); }
+  .persona-h.despach { border-left: 4px solid var(--persona-despach); }
+  .persona-h.anu { border-left: 4px solid var(--persona-anu); }
+  .persona-h.design { border-left: 4px solid var(--persona-design); }
+  .persona-h.systems { border-left: 4px solid var(--ink-2); background: #1b1510; color: #f4ead6; }
+  .persona-h.systems .persona-tag { color: #b3a78d; }
+
+  .cell {
+    background: var(--card); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 9px 11px; min-height: 80px; font-size: 12px; color: var(--ink-2);
+    display: flex; flex-direction: column; gap: 4px; transition: background 0.15s;
+  }
+  .cell:last-child { border-right: 0; }
+  .cell:hover:not(.empty) { background: var(--card-2); }
+  .cell.empty {
+    background: repeating-linear-gradient(45deg, var(--paper-2), var(--paper-2) 6px, var(--card) 6px, var(--card) 12px);
+    opacity: 0.55;
+  }
+  .cell-action { font-family: var(--serif); font-size: 12.5px; color: var(--ink); line-height: 1.35; font-weight: 500; }
+  .cell-system { font-family: var(--mono); font-size: 10px; color: #b3a78d; line-height: 1.4; }
+  .cell-pain { font-size: 11px; line-height: 1.4; display: flex; gap: 4px; align-items: flex-start; color: var(--risk); }
+  .cell-opp  { font-size: 11px; line-height: 1.4; display: flex; gap: 4px; align-items: flex-start; color: var(--ok); }
+  .cell-pain::before { content: "⚠"; flex-shrink: 0; }
+  .cell-opp::before  { content: "💡"; flex-shrink: 0; font-size: 10px; }
+  .cell.handoff-out { box-shadow: inset -3px 0 0 var(--accent); }
+  .cell.handoff-in  { box-shadow: inset  3px 0 0 var(--accent); }
+  .cell.cliente  { border-left: 3px solid color-mix(in srgb, var(--persona-cliente)  25%, transparent); }
+  .cell.operador { border-left: 3px solid color-mix(in srgb, var(--persona-operador) 25%, transparent); }
+  .cell.cn       { border-left: 3px solid color-mix(in srgb, var(--persona-cn)       25%, transparent); }
+  .cell.despach  { border-left: 3px solid color-mix(in srgb, var(--persona-despach)  25%, transparent); }
+  .cell.anu      { border-left: 3px solid color-mix(in srgb, var(--persona-anu)       25%, transparent); }
+  .cell.design   { border-left: 3px solid color-mix(in srgb, var(--persona-design)   25%, transparent); }
+  .cell.systems  { background: #241c14; color: #f4ead6; border-color: var(--ink-2); }
+  .cell.systems:hover { background: #2c2418; }
+
+  /* ── Journey map ── */
+  .journey-wrap {
+    overflow-x: auto; background: var(--card);
+    border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow-md);
+  }
+  .journey .row-label {
+    background: var(--card); border-right: 2px solid var(--line-2); border-bottom: 1px solid var(--line);
+    padding: 12px 14px; position: sticky; left: 0; z-index: 10;
+    display: flex; flex-direction: column; justify-content: center; gap: 3px;
+    font-family: var(--mono); font-size: 11px; color: var(--ink);
+    text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;
+  }
+  .journey .row-label .row-icon { font-size: 16px; }
+  .journey .row-emo .row-icon   { color: var(--accent); }
+  .journey .row-action .row-icon { color: var(--ink); }
+  .journey .row-think .row-icon  { color: var(--info); }
+  .journey .row-touch .row-icon  { color: var(--persona-design); }
+  .journey .row-pain .row-icon   { color: var(--risk); }
+  .journey .row-opp .row-icon    { color: var(--ok); }
+  .journey .j-cell {
+    background: var(--card); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 10px 12px; font-size: 12px; line-height: 1.45;
+    display: flex; flex-direction: column; gap: 3px; min-height: 60px;
+  }
+  .journey .j-cell:last-child { border-right: 0; }
+  .j-cell.emo { text-align: center; align-items: center; justify-content: center; min-height: 80px; gap: 4px; }
+  .j-cell.emo .emo-big { font-size: 30px; line-height: 1; }
+  .j-cell.emo .emo-name { font-family: var(--mono); font-size: 9.5px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+  .j-cell.emo .emo-name.peak-pos { color: var(--ok); font-weight: 700; }
+  .j-cell.emo .emo-name.peak-neg { color: var(--risk); font-weight: 700; }
+  .j-cell.action { font-family: var(--serif); font-size: 12.5px; color: var(--ink); font-weight: 500; }
+  .j-cell.think  { font-family: var(--serif); font-style: italic; color: var(--info); }
+  .j-cell.touch  { font-family: var(--mono); font-size: 10.5px; color: var(--persona-design); }
+  .j-cell.pain   { color: var(--risk); font-size: 12px; }
+  .j-cell.opp    { color: var(--ok);  font-size: 12px; }
+
+  /* ── Persona card ── */
+  .persona-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 20px 24px; margin-bottom: 20px; box-shadow: var(--shadow-sm);
+    display: grid; grid-template-columns: 130px 1fr 1fr 1fr; gap: 24px;
+  }
+  .persona-card .avatar {
+    background: var(--persona-cliente); color: white;
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 36px; min-height: 100px;
+  }
+  .persona-card .field h4 {
+    font-family: var(--mono); font-size: 9.5px; text-transform: uppercase;
+    letter-spacing: 0.13em; color: var(--ink-dim); margin-bottom: 4px;
+    padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  .persona-card .field p { font-family: var(--serif); font-size: 12.5px; color: var(--ink-2); line-height: 1.5; }
+  .persona-name-big { font-family: var(--serif); font-size: 21px; font-weight: 500; color: var(--ink); }
+  .persona-tag-big  { font-family: var(--mono); font-size: 11px; color: var(--ink-dim); }
+
+  /* ── Notes ── */
+  .notes { margin-top: 22px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px 22px; }
+  .notes h2 { font-family: var(--serif); font-size: 17px; font-weight: 500; margin-bottom: 10px; }
+  .notes ul { font-family: var(--serif); font-size: 13.5px; color: var(--ink-2); line-height: 1.6; padding-left: 22px; }
+  .notes li { margin-bottom: 5px; }
+  .notes li strong { color: var(--accent); font-weight: 600; }
+  .notes li.new-note strong { color: var(--warn); }
+
+  /* ── Placeholder ── */
+  .placeholder {
+    text-align: center; padding: 60px 40px;
+    background: var(--card); border: 1px dashed var(--line-2); border-radius: 14px; color: var(--ink-dim);
+  }
+  .placeholder h3 { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--ink-2); margin-bottom: 8px; }
+  .placeholder p  { font-family: var(--serif); font-size: 14.5px; max-width: 520px; margin: 0 auto 12px; line-height: 1.5; }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: 10.5px; color: var(--ink-dim);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 760px) {
+    .intro, .persona-card { grid-template-columns: 1fr; }
+    .toggle-bar { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ TOGGLE BAR (sticky) ═══════════════ -->
+<div class="toggle-bar">
+  <span class="toggle-label">Pipeline:</span>
+  <div class="toggle-btn">
+    <button class="toggle-opt active-10" id="btn10" onclick="setMode(10)">10 etapas</button>
+    <div class="toggle-sep"></div>
+    <button class="toggle-opt" id="btn12" onclick="setMode(12)">12 etapas</button>
+  </div>
+  <div class="toggle-info" id="toggle-info-10">
+    Pipeline atual do Conecta Market Hub (R1–R4)
+  </div>
+  <div class="toggle-info" id="toggle-info-12" style="display:none;">
+    <span class="dot"></span>
+    Inclui <span class="toggle-gap-tag">+ Amostra Física</span> e <span class="toggle-gap-tag">+ Inspeção de Qualidade</span> — gaps vs. Método 12P
+  </div>
+</div>
+
+<div class="shell">
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Comparativo · Jornadas · Conecta Market Hub</div>
+      <h1>Pipeline <em>10 etapas</em> versus <em>12 etapas</em></h1>
+      <p class="lead">Toggle acima alterna entre o pipeline atual (10 etapas, R1–R4) e a versão expandida com os dois passos identificados como gaps no Benchmarking B2 — Método 12P: <strong>Amostra Física</strong> (P07) e <strong>Inspeção de Qualidade</strong> (P10). Células âmbar indicam o que é novo.</p>
+    </div>
+    <div class="meta">
+      <div class="v">CONECTA · COMPARATIVO</div>
+      <div>base · jornada.html v2</div>
+      <div>ref benchmark · B2 Método 12P</div>
+      <div>data · mai/2026</div>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="overview">📊 Service Blueprint</button>
+    <button class="tab-btn" data-tab="cliente">🇧🇷 Cliente Varejista</button>
+    <button class="tab-btn" data-tab="operador">🧑‍💼 Operador</button>
+    <button class="tab-btn" data-tab="cn">🇨🇳 Parceiro CN <span style="font-family:var(--mono);font-size:9px;background:var(--paper-3);color:var(--ink-faint);padding:1px 5px;border-radius:8px;margin-left:4px;">a fazer</span></button>
+    <button class="tab-btn" data-tab="despach">📋 Despachante <span style="font-family:var(--mono);font-size:9px;background:var(--paper-3);color:var(--ink-faint);padding:1px 5px;border-radius:8px;margin-left:4px;">a fazer</span></button>
+  </nav>
+
+  <!-- ═══════════ ABA 1 — SERVICE BLUEPRINT ═══════════ -->
+  <section class="tab-section active" data-tab="overview">
+
+    <div class="intro">
+      <div>
+        <h2>Como ler</h2>
+        <p>Tempo flui da esquerda para a direita. <strong>Em modo 12 etapas</strong>, as colunas âmbar são os dois passos novos — Amostra (após Cotação) e Inspeção (após Aprovação). Os números das etapas entre eles se atualizam automaticamente.</p>
+      </div>
+      <div>
+        <h2>O que muda</h2>
+        <p>A <strong>Amostra Física</strong> entra entre Cotação e DDP — garante que o produto recebido bate com o spec antes de fabricar em escala. A <strong>Inspeção de Qualidade</strong> entra entre Aprovação e Pagamento — agente local valida o lote antes do embarque.</p>
+      </div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><span class="legend-icon">●</span><strong>Ação</strong> da persona</div>
+      <div class="legend-item"><span class="legend-icon">⌗</span><strong>Hachurado</strong> — persona ausente</div>
+      <div class="legend-item"><span class="legend-icon">⚠</span><strong>Pain point</strong></div>
+      <div class="legend-item"><span class="legend-icon">💡</span><strong>Oportunidade UX</strong></div>
+      <div class="legend-item"><span class="legend-icon" style="color:var(--accent)">▎</span><strong>Handoff</strong></div>
+      <div class="legend-item"><span class="legend-icon" style="color:var(--ok)">●</span><strong>MoT+</strong></div>
+      <div class="legend-item"><span class="legend-icon" style="color:var(--risk)">●</span><strong>MoT−</strong></div>
+      <div class="legend-item"><span class="legend-new">+ novo</span><strong style="margin-left:4px;">Etapa só no modo 12</strong></div>
+    </div>
+
+    <div class="section-label">Service Blueprint · 6 personas · <span class="num-10">10</span><span class="num-12">12</span> etapas</div>
+
+    <div class="swim-wrap">
+      <div class="swim">
+
+        <!-- CABEÇALHO DE ETAPAS -->
+        <div class="corner">Persona ↓ · Etapa →</div>
+        <div class="etapa-h"><div class="etapa-num">01</div><div class="etapa-title">Catálogo</div><div class="etapa-tag">VTEX · CSV</div></div>
+        <div class="etapa-h"><div class="etapa-num">02</div><div class="etapa-title">Classif. NCM</div><div class="etapa-tag">IA + humano</div></div>
+        <div class="etapa-h"><div class="etapa-num">03</div><div class="etapa-title">Restrições</div><div class="etapa-tag">anuências · anti-dump<span class="mot neg">MoT−</span></div></div>
+        <div class="etapa-h"><div class="etapa-num">04</div><div class="etapa-title">Preços CN</div><div class="etapa-tag">scraping FOB<span class="mot pos">MoT+</span></div></div>
+        <div class="etapa-h"><div class="etapa-num">05</div><div class="etapa-title">Seleção</div><div class="etapa-tag">decisão humana</div></div>
+        <div class="etapa-h"><div class="etapa-num">06</div><div class="etapa-title">Sourcing</div><div class="etapa-tag">KIMI · RFQ</div></div>
+        <div class="etapa-h"><div class="etapa-num">07</div><div class="etapa-title">Cotação</div><div class="etapa-tag">fábricas · Portal CN</div></div>
+        <!-- NOVO: Amostra -->
+        <div class="etapa-h step-new"><div class="etapa-num">08</div><div class="etapa-title">Amostra Física</div><div class="etapa-tag">P07 Método 12P</div><span class="new-badge">+ novo</span></div>
+        <div class="etapa-h"><div class="etapa-num"><span class="num-10">08</span><span class="num-12">09</span></div><div class="etapa-title">DDP &amp; Margens</div><div class="etapa-tag">Logix · range</div></div>
+        <div class="etapa-h"><div class="etapa-num"><span class="num-10">09</span><span class="num-12">10</span></div><div class="etapa-title">Aprovação</div><div class="etapa-tag">cliente decide<span class="mot neg">MoT−</span></div></div>
+        <!-- NOVO: Inspeção -->
+        <div class="etapa-h step-new"><div class="etapa-num">11</div><div class="etapa-title">Inspeção Qualidade</div><div class="etapa-tag">P10 Método 12P</div><span class="new-badge">+ novo</span></div>
+        <div class="etapa-h"><div class="etapa-num"><span class="num-10">10</span><span class="num-12">12</span></div><div class="etapa-title">Pagto &amp; Entrega</div><div class="etapa-tag">Wise · tracking<span class="mot pos">MoT+</span></div></div>
+
+        <!-- EMOÇÃO DO CLIENTE -->
+        <div class="persona-h cliente" style="background:var(--card-2);">
+          <div class="persona-name" style="font-size:11px;color:var(--persona-cliente);">😐 Emoção</div>
+          <div class="persona-tag">como o cliente se sente</div>
+        </div>
+        <div class="swim-emo-cell"><div class="emo-icon">😟</div><div class="emo-label">ansiedade</div></div>
+        <div class="swim-emo-cell"><div class="emo-icon">🤔</div><div class="emo-label">confusão</div></div>
+        <div class="swim-emo-cell"><div class="emo-icon">😬</div><div class="emo-label">decepção</div></div>
+        <div class="swim-emo-cell"><div class="emo-icon">😍</div><div class="emo-label" style="color:var(--ok);font-weight:700;">surpresa+</div></div>
+        <div class="swim-emo-cell"><div class="emo-icon">😎</div><div class="emo-label">empoderado</div></div>
+        <div class="swim-emo-cell"><div class="emo-icon">😐</div><div class="emo-label">espera</div></div>
+        <div class="swim-emo-cell"><div class="emo-icon">🤞</div><div class="emo-label">expectativa</div></div>
+        <div class="swim-emo-cell step-new"><div class="emo-icon">🤩</div><div class="emo-label" style="color:var(--warn);">amostra!</div></div>
+        <div class="swim-emo-cell"><div class="emo-icon">😬</div><div class="emo-label">tensão</div></div>
+        <div class="swim-emo-cell"><div class="emo-icon">🤔</div><div class="emo-label" style="color:var(--risk);font-weight:700;">decisão−</div></div>
+        <div class="swim-emo-cell step-new"><div class="emo-icon">😐</div><div class="emo-label" style="color:var(--warn);">espera inspeção</div></div>
+        <div class="swim-emo-cell"><div class="emo-icon">🎉</div><div class="emo-label" style="color:var(--ok);font-weight:700;">alívio+</div></div>
+
+        <!-- CAMADA: CLIENTE -->
+        <div class="layer-label cliente">Cliente <span class="line-name">— linha de interação ↓ ↓ ↓</span></div>
+
+        <div class="persona-h cliente"><div class="persona-name">🇧🇷 Cliente</div><div class="persona-tag">varejista BR · BB Trade</div></div>
+        <div class="cell cliente handoff-out"><div class="cell-action">Importa catálogo &amp; informa preço de compra BR</div><div class="cell-opp">Wizard guiado, mobile-first</div></div>
+        <div class="cell empty"></div>
+        <div class="cell cliente"><div class="cell-action">Vê alertas 🟢🟡🔴 nos seus produtos</div><div class="cell-pain">Termos técnicos confusos</div></div>
+        <div class="cell empty"></div>
+        <div class="cell cliente handoff-out"><div class="cell-action">Seleciona produtos para sourcing</div><div class="cell-opp">Comparativo BR×CN com economia %</div></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <!-- NOVO: Amostra - Cliente -->
+        <div class="cell cliente step-new handoff-in"><div class="cell-action">Aprova ou rejeita amostra recebida</div><div class="cell-pain">Custo e prazo do courier</div><div class="cell-opp">Foto no portal antes do envio</div></div>
+        <div class="cell empty"></div>
+        <div class="cell cliente handoff-in"><div class="cell-action">Recebe proposta &amp; decide importar</div><div class="cell-pain">Tempo morto até a proposta</div></div>
+        <!-- NOVO: Inspeção - Cliente -->
+        <div class="cell empty step-new"></div>
+        <div class="cell cliente"><div class="cell-action">Paga 30/70 &amp; acompanha tracking</div><div class="cell-opp">Notificações mobile · status real-time</div></div>
+
+        <!-- CAMADA: FRONTSTAGE -->
+        <div class="layer-label frontstage">Frontstage <span class="line-name">— linha de visibilidade ↓ ↓ ↓</span></div>
+
+        <div class="persona-h operador"><div class="persona-name">🧑‍💼 Operador</div><div class="persona-tag">interno · Conecta</div></div>
+        <div class="cell operador"><div class="cell-action">Onboarding &amp; suporte na carga</div></div>
+        <div class="cell operador handoff-in"><div class="cell-action">Confirma NCM final entre top 3-5 da IA</div><div class="cell-pain">Workbench precisa ser ~15 SKUs/min</div></div>
+        <div class="cell operador"><div class="cell-action">Avalia produtos 🔴 bloqueados</div></div>
+        <div class="cell operador"><div class="cell-action">Monitora qualidade do scraping</div></div>
+        <div class="cell empty"></div>
+        <div class="cell operador"><div class="cell-action">Supervisiona RFQs · ajusta tradução</div></div>
+        <div class="cell operador"><div class="cell-action">Revisa cotações</div></div>
+        <!-- NOVO: Amostra - Operador -->
+        <div class="cell operador step-new"><div class="cell-action">Coordena envio da amostra com Parceiro CN. Registra aprovação/reprovação do cliente.</div><div class="cell-opp">Checklist de aprovação no portal</div></div>
+        <div class="cell operador handoff-out"><div class="cell-action">Define margens · aprova fora do range 25-35%</div><div class="cell-opp">Aprovação automática quando dentro</div></div>
+        <div class="cell operador"><div class="cell-action">Empacota proposta · envia ao cliente</div></div>
+        <!-- NOVO: Inspeção - Operador -->
+        <div class="cell operador step-new handoff-out"><div class="cell-action">Solicita inspeção ao agente local. Valida relatório. Aprova embarque.</div><div class="cell-pain">Custo da inspeção não está no DDP</div></div>
+        <div class="cell operador"><div class="cell-action">Gerencia financeiro &amp; acompanha logística</div></div>
+
+        <!-- CAMADA: BACKSTAGE -->
+        <div class="layer-label backstage">Backstage <span class="line-name">— linha de interação interna ↓ ↓ ↓</span></div>
+
+        <div class="persona-h cn"><div class="persona-name">🇨🇳 Parceiro CN</div><div class="persona-tag">Market Union · Yiwu</div></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell cn handoff-in"><div class="cell-action">Recebe RFQ bilíngue no Portal CN</div></div>
+        <div class="cell cn handoff-out"><div class="cell-action">Cota com fábricas &amp; inputa preços</div><div class="cell-pain">Comunicação só EN/中文</div></div>
+        <!-- NOVO: Amostra - CN -->
+        <div class="cell cn step-new"><div class="cell-action">Solicita amostra à fábrica · envia via courier ao BR</div><div class="cell-opp">Foto + código de rastreio no Portal</div></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <!-- NOVO: Inspeção - CN -->
+        <div class="cell cn step-new"><div class="cell-action">Coordena acesso da fábrica ao agente inspetor</div></div>
+        <div class="cell cn"><div class="cell-action">Sinaliza fabricação &amp; prontidão de envio</div></div>
+
+        <div class="persona-h design"><div class="persona-name">🎨 Designer</div><div class="persona-tag">OEM / Private Label</div></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell design"><div class="cell-action">Atua quando cliente quer marca própria</div><div class="cell-opp">Fluxo OEM = upsell</div></div>
+        <div class="cell design"><div class="cell-action">Aprova mock-up junto à fábrica</div></div>
+        <!-- NOVO: Amostra - Designer -->
+        <div class="cell design step-new"><div class="cell-action">Valida acabamento, material e cores na amostra</div></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <!-- NOVO: Inspeção - Designer -->
+        <div class="cell empty step-new"></div>
+        <div class="cell empty"></div>
+
+        <!-- CAMADA: SUPPORT -->
+        <div class="layer-label support">Support · parceiros externos</div>
+
+        <div class="persona-h despach"><div class="persona-name">📋 Despachante</div><div class="persona-tag">desembaraço BR</div></div>
+        <div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div>
+        <div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div>
+        <div class="cell empty step-new"></div>
+        <div class="cell empty"></div><div class="cell empty"></div>
+        <div class="cell empty step-new"></div>
+        <div class="cell despach handoff-in"><div class="cell-action">Aprova invoice na Logix · faz desembaraço</div><div class="cell-pain">Gatekeeper do pagamento (RN2)</div></div>
+
+        <div class="persona-h anu"><div class="persona-name">🛂 Anuências</div><div class="persona-tag">Inmetro · Anatel · Anvisa</div></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+        <div class="cell anu"><div class="cell-action">Acionado em produtos 🟡 (licença)</div><div class="cell-pain">Pode atrasar dias/semanas</div></div>
+        <div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div>
+        <div class="cell empty step-new"></div>
+        <div class="cell empty"></div><div class="cell empty"></div>
+        <div class="cell empty step-new"></div>
+        <div class="cell anu"><div class="cell-action">Liberação documental para desembaraço</div></div>
+
+        <!-- CAMADA: SISTEMAS -->
+        <div class="layer-label systems">Sistemas &amp; APIs</div>
+
+        <div class="persona-h systems"><div class="persona-name">🛠 Sistemas</div><div class="persona-tag">infra técnica</div></div>
+        <div class="cell systems"><div class="cell-system">VTEX API · CSV import · UI form</div></div>
+        <div class="cell systems"><div class="cell-system">LLM Tier 3 · LLM Tier 1 multimodal · Classif Siscomex</div></div>
+        <div class="cell systems"><div class="cell-system">Classif API · CSV MDIC · IBPT API</div></div>
+        <div class="cell systems"><div class="cell-system">Apify / Oxylabs / Piloterr · LLM tradução</div></div>
+        <div class="cell systems"><div class="cell-system">UI checklist · filtros · ranking</div></div>
+        <div class="cell systems"><div class="cell-system">KIMI API · LLM bilíngue · gerador RFQ</div></div>
+        <div class="cell systems"><div class="cell-system">Portal CN · DB cotações</div></div>
+        <!-- NOVO: Amostra - Sistemas -->
+        <div class="cell systems step-new"><div class="cell-system">Courier tracking · registro de amostra · upload foto</div></div>
+        <div class="cell systems"><div class="cell-system">Logix REST API · IBPT alíquotas · BCB câmbio</div></div>
+        <div class="cell systems"><div class="cell-system">PDF generator · email transacional</div></div>
+        <!-- NOVO: Inspeção - Sistemas -->
+        <div class="cell systems step-new"><div class="cell-system">Relatório PDF agente · Portal CN · push ao cliente</div></div>
+        <div class="cell systems"><div class="cell-system">Wise API · Logix tracking · invoice gen</div></div>
+
+      </div>
+    </div>
+
+    <div class="notes">
+      <h2>O que muda ao ativar as 2 etapas novas</h2>
+      <ul>
+        <li><strong>Etapa 08 (Amostra)</strong> — gate de qualidade antes de fabricar em escala. Reduz risco de receber lote errado, mas adiciona 1-3 semanas ao lead time.</li>
+        <li><strong>Etapa 11 (Inspeção)</strong> — validação do lote antes do embarque por agente local. Evita surpresas no desembaraço, mas requer custo e prazo extra.</li>
+        <li class="new-note"><strong>DDP em modo 12</strong> — o custo da amostra (courier) e da inspeção (agente local) precisam ser incorporados ao cálculo. Hoje o Logix não cobre isso.</li>
+        <li><strong>Decisão para o MVP:</strong> estas etapas são opcionais — o cliente pode ativar ou não por produto/pedido. Não devem bloquear o fluxo padrão de 10 etapas.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════ ABA 2 — JORNADA: CLIENTE VAREJISTA ═══════════ -->
+  <section class="tab-section" data-tab="cliente">
+
+    <div class="v0-warn">
+      <strong>v0 — inferido.</strong> Pensamentos, emoções e dores deduzidos da ata 23/abr, kickoff 28/abr e project-brief, sem entrevista direta com cliente real (BB Trade). Validar antes de apresentar como verdade.
+    </div>
+
+    <div class="persona-card">
+      <div class="avatar">🇧🇷</div>
+      <div>
+        <div class="persona-name-big">Cliente Varejista</div>
+        <div class="persona-tag-big" style="margin-bottom:10px;">B2B · decisor · ex: BB Trade (Bemol/VTEX)</div>
+        <div class="field"><h4>Cenário</h4><p>Primeira importação via Conecta Market Hub.</p></div>
+      </div>
+      <div>
+        <div class="field"><h4>Objetivo</h4><p>Importar produtos da China com preço melhor e sem virar especialista em sourcing.</p></div>
+        <div class="field"><h4>Frustração atual</h4><p>Sourcing manual leva 2 semanas, dados em e-mail/WhatsApp/Excel, zero visibilidade.</p></div>
+      </div>
+      <div>
+        <div class="field"><h4>Critério de sucesso</h4><p>Economia &gt; 30% + tempo &lt; 48h por estudo + sem dor regulatória.</p></div>
+        <div class="field"><h4>Técnico</h4><p>Comércio: alto. Logística int'l: médio. NCM/anti-dumping: baixo.</p></div>
+      </div>
+    </div>
+
+    <div class="section-label">Jornada · <span class="num-10">10</span><span class="num-12">12</span> etapas × 6 camadas</div>
+
+    <div class="journey-wrap">
+      <div class="journey">
+
+        <div class="corner">Camada ↓ · Etapa →</div>
+        <div class="etapa-h"><div class="etapa-num">01</div><div class="etapa-title">Catálogo</div></div>
+        <div class="etapa-h"><div class="etapa-num">02</div><div class="etapa-title">Classif. NCM</div></div>
+        <div class="etapa-h"><div class="etapa-num">03</div><div class="etapa-title">Restrições</div></div>
+        <div class="etapa-h"><div class="etapa-num">04</div><div class="etapa-title">Preços CN</div></div>
+        <div class="etapa-h"><div class="etapa-num">05</div><div class="etapa-title">Seleção</div></div>
+        <div class="etapa-h"><div class="etapa-num">06</div><div class="etapa-title">Sourcing</div></div>
+        <div class="etapa-h"><div class="etapa-num">07</div><div class="etapa-title">Cotação</div></div>
+        <div class="etapa-h step-new"><div class="etapa-num">08</div><div class="etapa-title">Amostra Física</div><span class="new-badge">+ novo</span></div>
+        <div class="etapa-h"><div class="etapa-num"><span class="num-10">08</span><span class="num-12">09</span></div><div class="etapa-title">DDP</div></div>
+        <div class="etapa-h"><div class="etapa-num"><span class="num-10">09</span><span class="num-12">10</span></div><div class="etapa-title">Aprovação</div></div>
+        <div class="etapa-h step-new"><div class="etapa-num">11</div><div class="etapa-title">Inspeção Qualid.</div><span class="new-badge">+ novo</span></div>
+        <div class="etapa-h"><div class="etapa-num"><span class="num-10">10</span><span class="num-12">12</span></div><div class="etapa-title">Pagto / Entrega</div></div>
+
+        <!-- EMOÇÃO -->
+        <div class="row-label row-emo"><span class="row-icon">😐</span> Emoção</div>
+        <div class="j-cell emo"><div class="emo-big">😟</div><div class="emo-name">ansiedade</div></div>
+        <div class="j-cell emo"><div class="emo-big">🤔</div><div class="emo-name">confusão</div></div>
+        <div class="j-cell emo"><div class="emo-big">😬</div><div class="emo-name">decepção</div></div>
+        <div class="j-cell emo"><div class="emo-big">😍</div><div class="emo-name peak-pos">surpresa+</div></div>
+        <div class="j-cell emo"><div class="emo-big">😎</div><div class="emo-name">empoderado</div></div>
+        <div class="j-cell emo"><div class="emo-big">😐</div><div class="emo-name">espera</div></div>
+        <div class="j-cell emo"><div class="emo-big">🤞</div><div class="emo-name">expectativa</div></div>
+        <div class="j-cell emo step-new"><div class="emo-big">🤩</div><div class="emo-name peak-pos" style="color:var(--warn);">amostra!</div></div>
+        <div class="j-cell emo"><div class="emo-big">😬</div><div class="emo-name">tensão</div></div>
+        <div class="j-cell emo"><div class="emo-big">🤔</div><div class="emo-name peak-neg">decisão−</div></div>
+        <div class="j-cell emo step-new"><div class="emo-big">😐</div><div class="emo-name" style="color:var(--warn);">espera</div></div>
+        <div class="j-cell emo"><div class="emo-big">🎉</div><div class="emo-name peak-pos">alívio+</div></div>
+
+        <!-- AÇÃO -->
+        <div class="row-label row-action"><span class="row-icon">●</span> Ação</div>
+        <div class="j-cell action">Conecta o catálogo VTEX (ou sobe CSV) e adiciona o preço de compra BR de cada item.</div>
+        <div class="j-cell action">Aguarda IA classificar. Recebe alerta de itens que precisam de confirmação.</div>
+        <div class="j-cell action">Vê ícones 🟢🟡🔴 ao lado de cada produto na sua dashboard.</div>
+        <div class="j-cell action">Olha o comparativo "preço BR × FOB China" com economia % por item.</div>
+        <div class="j-cell action">Marca os produtos que quer prospectar. Decide o batch inicial.</div>
+        <div class="j-cell action">Aguarda. Pode acompanhar timeline do processo.</div>
+        <div class="j-cell action">Recebe sinais de cotações chegando. Visualiza parciais.</div>
+        <div class="j-cell action step-new">Recebe amostra física. Aprova (✓) ou rejeita (✗) dentro do portal.</div>
+        <div class="j-cell action">Aguarda sistema calcular DDP e margens.</div>
+        <div class="j-cell action">Recebe proposta consolidada. Decide importar ou abortar.</div>
+        <div class="j-cell action step-new">Aguarda resultado da inspeção do lote na fábrica.</div>
+        <div class="j-cell action">Faz pagamento 30%. Acompanha tracking. Recebe contêiner. Paga 70%.</div>
+
+        <!-- PENSAMENTO -->
+        <div class="row-label row-think"><span class="row-icon">💭</span> Pensamento</div>
+        <div class="j-cell think">"Será que vai conectar com a Bemol mesmo?"</div>
+        <div class="j-cell think">"O que é NCM mesmo? Por que isso depende de mim?"</div>
+        <div class="j-cell think">"Caraca, o produto que eu tinha certeza que dava… não dá?"</div>
+        <div class="j-cell think">"62% mais barato? Sério? Por que nunca fiz isso antes?"</div>
+        <div class="j-cell think">"Vou começar com 5. Se der certo, escalo."</div>
+        <div class="j-cell think">"Quanto tempo isso vai demorar? Estão de fato falando com fábrica?"</div>
+        <div class="j-cell think">"Será que vai bater com o que vi no scraping?"</div>
+        <div class="j-cell think step-new">"É mesmo igual ao que vi no catálogo? E se vier diferente?"</div>
+        <div class="j-cell think">"Quanto sobra de margem real depois de tudo?"</div>
+        <div class="j-cell think">"Confio nessa margem? E se der errado o estoque?"</div>
+        <div class="j-cell think step-new">"Espero que passe na inspeção. Não quero atrasar."</div>
+        <div class="j-cell think">"Quando posso vender? Onde está agora?"</div>
+
+        <!-- TOUCHPOINT -->
+        <div class="row-label row-touch"><span class="row-icon">📱</span> Touchpoint</div>
+        <div class="j-cell touch">wizard web · VTEX OAuth · upload CSV</div>
+        <div class="j-cell touch">dashboard · notificação push</div>
+        <div class="j-cell touch">dashboard catálogo · modal explicativo</div>
+        <div class="j-cell touch">tabela comparativa · ranking</div>
+        <div class="j-cell touch">checklist filtrável · sliders</div>
+        <div class="j-cell touch">timeline visual · status</div>
+        <div class="j-cell touch">push mobile · cards parciais</div>
+        <div class="j-cell touch step-new">portal · tracking courier · botão aprovação</div>
+        <div class="j-cell touch">dashboard de viabilidade</div>
+        <div class="j-cell touch">PDF proposta · botão decisão</div>
+        <div class="j-cell touch step-new">push notificação · relatório PDF resumido</div>
+        <div class="j-cell touch">Wise checkout · tracking · push</div>
+
+        <!-- DOR -->
+        <div class="row-label row-pain"><span class="row-icon">⚠</span> Dor</div>
+        <div class="j-cell pain">Medo de quebrar o catálogo VTEX. Não sabe quais campos são obrigatórios.</div>
+        <div class="j-cell pain">Termo técnico desconhecido sem explicação clara.</div>
+        <div class="j-cell pain">Surpresa negativa quebra o pitch interno do varejista.</div>
+        <div class="j-cell pain">"Esse preço é real ou cativo?" — falta de evidência da fonte.</div>
+        <div class="j-cell pain">Decisão de batch sem referência de MOQ ideal.</div>
+        <div class="j-cell pain">Black box — não sabe o que está acontecendo na China.</div>
+        <div class="j-cell pain">Tempo morto longo (até dias) sem updates.</div>
+        <div class="j-cell pain step-new">Prazo do courier internacional (1-3 semanas). Custo extra não previsto.</div>
+        <div class="j-cell pain">Dependência total da Conecta. Sem visibilidade do cálculo.</div>
+        <div class="j-cell pain">Risco financeiro real se errar — prejuízo no estoque.</div>
+        <div class="j-cell pain step-new">Processo invisible — cliente não sabe o que o agente está fazendo.</div>
+        <div class="j-cell pain">Pagamento internacional ainda dá frio na barriga.</div>
+
+        <!-- OPORTUNIDADE -->
+        <div class="row-label row-opp"><span class="row-icon">💡</span> Oportunidade</div>
+        <div class="j-cell opp">Conexão VTEX em 1-clique + preview do que vai ser importado antes de confirmar.</div>
+        <div class="j-cell opp">Ofuscar a complexidade: "Operador da Conecta está classificando seu catálogo."</div>
+        <div class="j-cell opp">Linguagem clara em PT + sugestão de produtos similares sem restrição.</div>
+        <div class="j-cell opp">Mostrar fonte do FOB (link/print do scraping) para credibilidade.</div>
+        <div class="j-cell opp">Recomendação de "kit ótimo" baseado na margem-alvo declarada.</div>
+        <div class="j-cell opp">Timeline narrada: "Operador enviou", "CN recebeu", "Cotando 3 fábricas".</div>
+        <div class="j-cell opp">Drip de cotações: cards "Fábrica X cotou produto Y por Z" conforme entram.</div>
+        <div class="j-cell opp step-new">Foto da amostra no portal antes do envio + checklist de aprovação simples.</div>
+        <div class="j-cell opp">Breakdown DDP transparente (FOB + frete + impostos + margem).</div>
+        <div class="j-cell opp">Garantias claras + opção "fazer só metade do pedido" para reduzir risco.</div>
+        <div class="j-cell opp step-new">Dashboard mostrando "Inspeção em andamento" + fotos do relatório.</div>
+        <div class="j-cell opp">Tracking visual com fotos do CN + ETA precisa + cross-sell para revenda.</div>
+
+      </div>
+    </div>
+
+    <div class="notes">
+      <h2>Impacto das 2 etapas novas na jornada do Cliente</h2>
+      <ul>
+        <li><strong>Etapa 08 (Amostra)</strong> — cria um novo pico emocional positivo (receber algo físico da China). Mas adiciona espera e custo não-obvio. A UX precisa tornar essa etapa opcional e explicar claramente o trade-off.</li>
+        <li class="new-note"><strong>Oportunidade de fidelização:</strong> o momento em que o cliente toca a amostra física é o "wow" mais tangível do processo. Uma foto da amostra chegando via portal pode virar conteúdo para o cliente usar no seu próprio marketing.</li>
+        <li><strong>Etapa 11 (Inspeção)</strong> — para o cliente, é espera invisível. O risco é ansiedade sem informação. Mitigação: push proativo "inspeção aprovada ✓" antes que ele pergunte.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════ ABA 3 — JORNADA: OPERADOR ═══════════ -->
+  <section class="tab-section" data-tab="operador">
+
+    <div class="v0-warn">
+      <strong>v0 — inferido.</strong> Pensamentos, emoções e dores deduzidos da ata 23/abr, kickoff 28/abr e project-brief, sem entrevista direta com Operador real (a posição ainda nem foi contratada). Validar antes de apresentar como verdade.
+    </div>
+
+    <div class="persona-card" style="--pcolor: var(--persona-operador);">
+      <div class="avatar" style="background: var(--persona-operador);">🧑‍💼</div>
+      <div>
+        <div class="persona-name-big">Operador Interno</div>
+        <div class="persona-tag-big" style="margin-bottom:10px;">interno · Conecta Market Hub · "border collie" da operação</div>
+        <div class="field"><h4>Cenário</h4><p>Dia típico processando catálogos em paralelo, supervisionando IA e fechando propostas.</p></div>
+      </div>
+      <div>
+        <div class="field"><h4>Objetivo</h4><p>Manter throughput sem comprometer qualidade do NCM, das traduções e das margens.</p></div>
+        <div class="field"><h4>Frustração atual</h4><p>Operação artesanal em planilhas + e-mail + WhatsApp, dependente de memória e relacionamento pessoal.</p></div>
+      </div>
+      <div>
+        <div class="field"><h4>Critério de sucesso</h4><p>≥ 15 SKUs/min no workbench NCM, zero retrabalho de margem, despachante destravando rápido.</p></div>
+        <div class="field"><h4>Técnico</h4><p>Comércio exterior + sourcing CN: alto. Plataforma: aprende a cada release.</p></div>
+      </div>
+    </div>
+
+    <div class="section-label">Jornada · <span class="num-10">10</span><span class="num-12">12</span> etapas × 6 camadas</div>
+
+    <div class="journey-wrap">
+      <div class="journey">
+
+        <div class="corner">Camada ↓ · Etapa →</div>
+        <div class="etapa-h"><div class="etapa-num">01</div><div class="etapa-title">Catálogo</div></div>
+        <div class="etapa-h"><div class="etapa-num">02</div><div class="etapa-title">Classif. NCM</div></div>
+        <div class="etapa-h"><div class="etapa-num">03</div><div class="etapa-title">Restrições</div></div>
+        <div class="etapa-h"><div class="etapa-num">04</div><div class="etapa-title">Preços CN</div></div>
+        <div class="etapa-h"><div class="etapa-num">05</div><div class="etapa-title">Seleção</div></div>
+        <div class="etapa-h"><div class="etapa-num">06</div><div class="etapa-title">Sourcing</div></div>
+        <div class="etapa-h"><div class="etapa-num">07</div><div class="etapa-title">Cotação</div></div>
+        <div class="etapa-h step-new"><div class="etapa-num">08</div><div class="etapa-title">Amostra Física</div><span class="new-badge">+ novo</span></div>
+        <div class="etapa-h"><div class="etapa-num"><span class="num-10">08</span><span class="num-12">09</span></div><div class="etapa-title">DDP</div></div>
+        <div class="etapa-h"><div class="etapa-num"><span class="num-10">09</span><span class="num-12">10</span></div><div class="etapa-title">Aprovação</div></div>
+        <div class="etapa-h step-new"><div class="etapa-num">11</div><div class="etapa-title">Inspeção Qualid.</div><span class="new-badge">+ novo</span></div>
+        <div class="etapa-h"><div class="etapa-num"><span class="num-10">10</span><span class="num-12">12</span></div><div class="etapa-title">Pagto / Entrega</div></div>
+
+        <!-- EMOÇÃO -->
+        <div class="row-label row-emo"><span class="row-icon">😐</span> Emoção</div>
+        <div class="j-cell emo"><div class="emo-big">😐</div><div class="emo-name">rotina</div></div>
+        <div class="j-cell emo"><div class="emo-big">😬</div><div class="emo-name peak-neg">foco intenso−</div></div>
+        <div class="j-cell emo"><div class="emo-big">🤨</div><div class="emo-name">vigilante</div></div>
+        <div class="j-cell emo"><div class="emo-big">😎</div><div class="emo-name">confiança</div></div>
+        <div class="j-cell emo"><div class="emo-big">😐</div><div class="emo-name">espera</div></div>
+        <div class="j-cell emo"><div class="emo-big">🤝</div><div class="emo-name">colaboração</div></div>
+        <div class="j-cell emo"><div class="emo-big">🧐</div><div class="emo-name peak-neg">conferência−</div></div>
+        <div class="j-cell emo step-new"><div class="emo-big">📦</div><div class="emo-name" style="color:var(--warn);">coordenação</div></div>
+        <div class="j-cell emo"><div class="emo-big">🎯</div><div class="emo-name peak-pos">decisão+</div></div>
+        <div class="j-cell emo"><div class="emo-big">😌</div><div class="emo-name">entrega</div></div>
+        <div class="j-cell emo step-new"><div class="emo-big">🔍</div><div class="emo-name" style="color:var(--warn);">inspeção</div></div>
+        <div class="j-cell emo"><div class="emo-big">😊</div><div class="emo-name peak-pos">fechamento+</div></div>
+
+        <!-- AÇÃO -->
+        <div class="row-label row-action"><span class="row-icon">●</span> Ação</div>
+        <div class="j-cell action">Acompanha upload do cliente, valida campos obrigatórios, oferece suporte se VTEX falhar.</div>
+        <div class="j-cell action">Confirma NCM final entre top 3-5 sugeridos pela IA. Refina com foto se confiança &lt; 90%.</div>
+        <div class="j-cell action">Avalia produtos 🔴 bloqueados. Decide aceitar com licença, sugerir alternativa ou descartar.</div>
+        <div class="j-cell action">Monitora qualidade do scraping. Corrige matches semânticos PT→EN falhos.</div>
+        <div class="j-cell action">Aguarda decisão do cliente. Pode pré-buscar fabricante para top SKUs.</div>
+        <div class="j-cell action">Supervisiona RFQs gerados pela IA. Ajusta tradução técnica antes de enviar ao Parceiro CN.</div>
+        <div class="j-cell action">Revisa cotações de volta. Valida se fábrica é real ou trader disfarçado.</div>
+        <div class="j-cell action step-new">Solicita amostra ao Parceiro CN. Acompanha envio. Recebe feedback do cliente e registra resultado no portal.</div>
+        <div class="j-cell action">Recebe DDP da Logix, define margens, aprova fora do range 25-35% (RN1).</div>
+        <div class="j-cell action">Empacota proposta (só produtos aprovados) e envia ao cliente. Acompanha decisão.</div>
+        <div class="j-cell action step-new">Contrata agente de inspeção local (CN). Valida relatório fotográfico. Aprova ou rejeita embarque.</div>
+        <div class="j-cell action">Gera invoice, monitora Wise, sinaliza despachante, acompanha tracking até desembaraço.</div>
+
+        <!-- PENSAMENTO -->
+        <div class="row-label row-think"><span class="row-icon">💭</span> Pensamento</div>
+        <div class="j-cell think">"Cliente sabe o que está fazendo? Vai precisar de mim hoje?"</div>
+        <div class="j-cell think">"200 SKUs hoje. Cada clique conta. Não posso errar NCM."</div>
+        <div class="j-cell think">"Como explico isso pro cliente sem assustar? Tem alternativa parecida?"</div>
+        <div class="j-cell think">"Apify tá bom hoje? Algum produto fora do match?"</div>
+        <div class="j-cell think">"Vai escolher quanto? Posso adiantar a busca de fabricante?"</div>
+        <div class="j-cell think">"Esse RFQ tá claro pra Yiwu? O Market Union vai entender o spec?"</div>
+        <div class="j-cell think">"Esses preços batem com FOB do scraping? Tem fábrica suspeita?"</div>
+        <div class="j-cell think step-new">"Cliente vai esperar 2 semanas pela amostra? Como gerencio a expectativa?"</div>
+        <div class="j-cell think">"Aperto a margem e cliente fecha. Afrouxo e perdemos comissão."</div>
+        <div class="j-cell think">"Vai aceitar? Tenho que estar pronto pra ajustar no último minuto."</div>
+        <div class="j-cell think step-new">"O agente de inspeção é confiável? O relatório é suficiente para o cliente?"</div>
+        <div class="j-cell think">"Despachante tá ágil hoje? O 30% libera quando ele aprovar."</div>
+
+        <!-- TOUCHPOINT -->
+        <div class="row-label row-touch"><span class="row-icon">📱</span> Touchpoint</div>
+        <div class="j-cell touch">dashboard admin · chat de suporte</div>
+        <div class="j-cell touch">workbench NCM · UI batch</div>
+        <div class="j-cell touch">dashboard de exceções · biblioteca de explicações</div>
+        <div class="j-cell touch">dashboard de qualidade scraping</div>
+        <div class="j-cell touch">timeline do cliente · pré-busca</div>
+        <div class="j-cell touch">editor de RFQ · Portal CN</div>
+        <div class="j-cell touch">dashboard de cotações · KIMI search</div>
+        <div class="j-cell touch step-new">portal de amostra · tracking courier · checklist</div>
+        <div class="j-cell touch">configurador de margens · simulador</div>
+        <div class="j-cell touch">gerador PDF · status</div>
+        <div class="j-cell touch step-new">portal inspeção · relatório PDF · aprovação de embarque</div>
+        <div class="j-cell touch">dashboard financeiro · Logix tracking</div>
+
+        <!-- DOR -->
+        <div class="row-label row-pain"><span class="row-icon">⚠</span> Dor</div>
+        <div class="j-cell pain">Catálogo bagunçado do cliente — normalizar dados de preço BR é trabalho manual.</div>
+        <div class="j-cell pain">Decisão repetitiva e crítica (NCM define alíquota). UI lenta = produtividade morre.</div>
+        <div class="j-cell pain">Sem templates de explicação em PT — cada caso vira esforço de redação.</div>
+        <div class="j-cell pain">Outliers passam desapercebidos sem alerta automático.</div>
+        <div class="j-cell pain">Tempo morto enquanto cliente decide. Operação fica ociosa.</div>
+        <div class="j-cell pain">Tradução automática erra termo técnico (medida, voltagem, certificação).</div>
+        <div class="j-cell pain">Detectar trading company disfarçada de fabricante exige análise manual.</div>
+        <div class="j-cell pain step-new">Custo da amostra (courier) não está mapeado no DDP atual. Quem absorve?</div>
+        <div class="j-cell pain">Decisão financeira sob pressão. Cada caso fora do range é trabalho extra.</div>
+        <div class="j-cell pain">Cliente pede ajuste de última hora = retrabalho de margem.</div>
+        <div class="j-cell pain step-new">Custo do agente de inspeção local não está no contrato atual. Precisa de processo.</div>
+        <div class="j-cell pain">Despachante é externo. Bloqueio nele bloqueia tudo (RN2).</div>
+
+        <!-- OPORTUNIDADE -->
+        <div class="row-label row-opp"><span class="row-icon">💡</span> Oportunidade</div>
+        <div class="j-cell opp">Templates pré-validados de import + canal de suporte proativo dentro da UI.</div>
+        <div class="j-cell opp">Atalhos de teclado, bulk-confirm para grupos similares, indicador visual de confiança IA.</div>
+        <div class="j-cell opp">Biblioteca de explicações em PT + sugestor automático de produtos similares.</div>
+        <div class="j-cell opp">Score de confiança por produto + alerta automático de outliers.</div>
+        <div class="j-cell opp">Pré-busca especulativa de fabricantes pros top 20 SKUs por economia%.</div>
+        <div class="j-cell opp">Glossário compartilhado PT/EN/中文 + revisão IA do RFQ antes de enviar.</div>
+        <div class="j-cell opp">Score de confiabilidade da fábrica (KIMI + histórico) com flag visual.</div>
+        <div class="j-cell opp step-new">Módulo de amostra integrado: solicitar → rastrear → aprovar em uma tela. Custo visível desde o início.</div>
+        <div class="j-cell opp">Histórico de margens aceitas pelo cliente + IA sugere "ponto de aceitação".</div>
+        <div class="j-cell opp">Botão "duplicar com ajuste" pra agilidade na re-proposta.</div>
+        <div class="j-cell opp step-new">Rede de agentes de inspeção em Yiwu/Guangdong integrada ao portal — solicitar em 1 clique.</div>
+        <div class="j-cell opp">SLA visível do despachante + escalation automática se passar do prazo.</div>
+
+      </div>
+    </div>
+
+    <div class="notes">
+      <h2>Impacto das 2 etapas novas na jornada do Operador</h2>
+      <ul>
+        <li><strong>Etapa 08 (Amostra)</strong> — adiciona uma tarefa de coordenação que hoje não existe. O risco é virar e-mail/WhatsApp se o portal não tiver o módulo certo. Alta prioridade de UX para manter tudo dentro da plataforma.</li>
+        <li class="new-note"><strong>Gap financeiro crítico:</strong> o custo da amostra (courier internacional) e da inspeção (agente local) precisam estar no DDP ou em linha-item separada. Se não, o Operador absorve sem visibilidade. Discutir com o Erik antes de codificar.</li>
+        <li><strong>Etapa 11 (Inspeção)</strong> — decisão de maior responsabilidade do Operador. Aprovação do embarque com base em relatório fotográfico. Erro aqui = lote errado no Brasil. UX precisa deixar a decisão clara e auditável.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════ PLACEHOLDERS ═══════════ -->
+  <section class="tab-section" data-tab="cn">
+    <div class="placeholder">
+      <h3>Journey do Parceiro CN</h3>
+      <p>Market Union em Yiwu. No modo 12 etapas, ganha duas ações novas: coordenar envio de amostra (E08) e facilitar acesso do agente inspetor (E11). Comunicação só EN/中文 — nunca direta com o cliente.</p>
+      <div style="display:inline-block;padding:4px 10px;border-radius:12px;background:var(--paper-2);font-family:var(--mono);font-size:10px;color:var(--ink-dim);letter-spacing:0.12em;text-transform:uppercase;margin-top:12px;">a fazer · prevista para M2</div>
+    </div>
+  </section>
+
+  <section class="tab-section" data-tab="despach">
+    <div class="placeholder">
+      <h3>Journey do Despachante</h3>
+      <p>Externo, gatekeeper do pagamento (RN2). No modo 12 etapas, seu ponto de entrada permanece o mesmo — Etapa 12 (Pagto/Entrega). Não é afetado pela Amostra nem pela Inspeção diretamente.</p>
+      <div style="display:inline-block;padding:4px 10px;border-radius:12px;background:var(--paper-2);font-family:var(--mono);font-size:10px;color:var(--ink-dim);letter-spacing:0.12em;text-transform:uppercase;margin-top:12px;">a fazer · prevista para M3</div>
+    </div>
+  </section>
+
+</div><!-- /shell -->
+
+<footer style="margin:0 28px 40px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:10.5px;color:var(--ink-dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+  <div>Comparativo 10 × 12 etapas · Conecta Market Hub · documento de trabalho</div>
+  <div>base: <a href="jornada.html" style="color:var(--accent);text-decoration:none;">jornada.html v2</a> · ref: <a href="../Benchmarking/B2-metodo de importacao/metodo-importacao-b2.html" style="color:var(--accent);text-decoration:none;">B2 Método 12P</a></div>
+</footer>
+
+<script>
+  // ── Tab switching ──
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelector(`.tab-section[data-tab="${btn.dataset.tab}"]`).classList.add('active');
+    });
+  });
+
+  // ── Mode toggle ──
+  function setMode(n) {
+    if (n === 12) {
+      document.body.classList.add('mode-12');
+      document.getElementById('btn10').className = 'toggle-opt';
+      document.getElementById('btn12').className = 'toggle-opt active-12';
+      document.getElementById('toggle-info-10').style.display = 'none';
+      document.getElementById('toggle-info-12').style.display = 'flex';
+    } else {
+      document.body.classList.remove('mode-12');
+      document.getElementById('btn10').className = 'toggle-opt active-10';
+      document.getElementById('btn12').className = 'toggle-opt';
+      document.getElementById('toggle-info-10').style.display = '';
+      document.getElementById('toggle-info-12').style.display = 'none';
+    }
+  }
+</script>
+</body>
+</html>

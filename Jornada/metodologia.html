@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metodologia · Mapas de Jornada do Usuário</title>
+<style>
+  :root {
+    --paper: #f6f1e7;
+    --paper-2: #efe8d8;
+    --paper-3: #e8dfc9;
+    --card: #fdfaf3;
+    --card-2: #f9f3e4;
+    --ink: #1b1510;
+    --ink-2: #3a2f23;
+    --ink-dim: #6b5e4e;
+    --ink-faint: #a89a82;
+    --line: #d9ceb4;
+    --line-2: #c4b694;
+    --accent: #c96442;
+    --accent-2: #a94e30;
+    --accent-soft: #f2d8cc;
+    --ok: #5c8a4f;
+    --ok-soft: #dfe9d4;
+    --warn: #b88a2a;
+    --warn-soft: #f4e6c2;
+    --risk: #b84a3c;
+    --risk-soft: #f2d4ce;
+    --info: #4a6c8a;
+    --info-soft: #d6e2ec;
+    --serif: "Tiempos", "Source Serif Pro", "Iowan Old Style", Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+    --mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+    --shadow-sm: 0 1px 2px rgba(40,28,12,.05), 0 1px 1px rgba(40,28,12,.04);
+    --shadow-md: 0 2px 6px rgba(40,28,12,.06), 0 6px 16px rgba(40,28,12,.05);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(201,100,66,.05) 0%, transparent 40%),
+      radial-gradient(circle at 85% 100%, rgba(74,108,138,.04) 0%, transparent 35%);
+  }
+
+  .shell { max-width: 980px; margin: 0 auto; padding: 48px 32px 100px; }
+
+  /* Hero */
+  header.hero {
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--accent);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-size: 38px;
+    font-weight: 400;
+    letter-spacing: -0.012em;
+    line-height: 1.12;
+    margin-bottom: 18px;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .lead {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    max-width: 780px;
+  }
+
+  /* Sections */
+  section { margin-bottom: 48px; }
+  h2 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 16px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+  h2 .num {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-right: 12px;
+    font-weight: 600;
+  }
+  h3 {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 20px 0 8px;
+  }
+  p {
+    font-family: var(--serif);
+    color: var(--ink-2);
+    margin-bottom: 12px;
+    line-height: 1.65;
+  }
+  p strong { color: var(--ink); font-weight: 600; }
+  p em { font-style: italic; }
+
+  ul, ol {
+    font-family: var(--serif);
+    color: var(--ink-2);
+    padding-left: 24px;
+    margin-bottom: 14px;
+  }
+  ul li, ol li { margin-bottom: 6px; line-height: 1.6; }
+  ul li strong, ol li strong { color: var(--ink); font-weight: 600; }
+
+  /* Callout */
+  .callout {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 18px 0;
+  }
+  .callout .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent-2);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .callout p {
+    font-family: var(--serif);
+    color: var(--ink);
+    font-size: 14.5px;
+    margin: 0;
+  }
+  .callout.ok {
+    background: var(--ok-soft);
+    border-color: var(--ok);
+  }
+  .callout.ok .label { color: var(--ok); }
+  .callout.warn {
+    background: var(--warn-soft);
+    border-color: var(--warn);
+  }
+  .callout.warn .label { color: var(--warn); }
+  .callout.info {
+    background: var(--info-soft);
+    border-color: var(--info);
+  }
+  .callout.info .label { color: var(--info); }
+
+  /* Comparação Journey vs Blueprint */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 18px 0;
+  }
+  .compare-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 22px;
+  }
+  .compare-card.journey { border-left: 4px solid var(--info); }
+  .compare-card.blueprint { border-left: 4px solid var(--accent); }
+  .compare-card h4 {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .compare-card .sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+  .compare-card ul {
+    padding-left: 18px;
+    font-size: 13.5px;
+  }
+  .compare-card ul li { margin-bottom: 4px; }
+
+  /* Componentes */
+  .components {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .comp-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .comp-card .icon {
+    font-size: 22px;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .comp-card h5 {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .comp-card p {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    color: var(--ink-dim);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Metodologia steps */
+  .steps {
+    counter-reset: step;
+    margin: 16px 0;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    counter-increment: step;
+  }
+  .step:last-child { border-bottom: 0; }
+  .step::before {
+    content: counter(step, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--accent);
+    font-weight: 600;
+    line-height: 1;
+  }
+  .step-body h4 {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .step-body p {
+    font-family: var(--sans);
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Aplicação Conecta */
+  .conecta {
+    background: var(--card-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 18px 0;
+  }
+  .conecta h3 { margin-top: 0; }
+  .conecta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+    font-size: 13.5px;
+  }
+  .conecta-table th, .conecta-table td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .conecta-table th {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    border-bottom: 2px solid var(--line-2);
+  }
+  .conecta-table td {
+    font-family: var(--sans);
+    color: var(--ink-2);
+  }
+  .conecta-table td strong { color: var(--ink); }
+  .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .badge.now { background: var(--ok-soft); color: var(--ok); }
+  .badge.next { background: var(--warn-soft); color: var(--warn); }
+  .badge.later { background: var(--info-soft); color: var(--info); }
+
+  /* References */
+  .refs {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 22px;
+  }
+  .refs ol {
+    padding-left: 22px;
+    font-size: 13.5px;
+    font-family: var(--sans);
+  }
+  .refs li { margin-bottom: 6px; }
+  .refs a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent-soft);
+  }
+  .refs a:hover { color: var(--accent-2); border-bottom-style: solid; }
+
+  /* Footer */
+  footer {
+    margin-top: 40px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="hero">
+    <div class="eyebrow">Metodologia · Estudo & Síntese</div>
+    <h1>Mapas de jornada — <em>uma metodologia, três artefatos</em>.</h1>
+    <p class="lead">Antes de desenhar mapas para o Conecta Market Hub, vale separar três ferramentas que costumam ser confundidas: <strong>Persona</strong>, <strong>Journey Map</strong> e <strong>Service Blueprint</strong>. Cada uma responde uma pergunta diferente e exige um número diferente de personas. Este documento sintetiza o que as referências dizem e propõe como aplicar no projeto.</p>
+  </header>
+
+  <!-- ═══════════════ A DÚVIDA ═══════════════ -->
+  <section>
+    <h2><span class="num">00</span>A confusão das personas — resolvida</h2>
+    <p>"Quantas personas vão num mapa de jornada?" — a resposta curta é <strong>uma só, sempre</strong>. Cada Journey Map clássico conta a história de um único protagonista. Quando precisamos mostrar várias personas atravessando um mesmo processo, o artefato certo não é o Journey Map — é o <strong>Service Blueprint</strong>.</p>
+
+    <div class="callout">
+      <div class="label">Insight</div>
+      <p>O que construímos em <code>jornada-v1.html</code> tem 6 personas em swimlanes — isso é um <strong>Service Blueprint</strong>. É um artefato válido e útil, mas serve para conversa diferente da Journey Map. A diferença muda como apresentamos para o Erik.</p>
+    </div>
+
+    <div class="compare">
+      <div class="compare-card journey">
+        <h4>Journey Map</h4>
+        <div class="sub">1 persona · 1 cenário</div>
+        <ul>
+          <li>Conta a história de <strong>uma persona</strong> em um cenário específico</li>
+          <li>Foco em emoção, dor e expectativa</li>
+          <li>Linha do tempo horizontal</li>
+          <li>Para cada projeto: faça <strong>N journeys</strong>, uma por persona-chave</li>
+          <li>Bom para gerar empatia com stakeholders</li>
+        </ul>
+      </div>
+      <div class="compare-card blueprint">
+        <h4>Service Blueprint</h4>
+        <div class="sub">N personas · 1 processo</div>
+        <ul>
+          <li>Mostra <strong>todas as personas</strong> num único processo</li>
+          <li>Foco em handoffs, fluxo, sistemas backstage</li>
+          <li>Swimlanes horizontais (uma por ator)</li>
+          <li>Faz <strong>1 blueprint</strong> por jornada de negócio</li>
+          <li>Bom para alinhar operação e arquitetura</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ O QUE É ═══════════════ -->
+  <section>
+    <h2><span class="num">01</span>O que é um Journey Map</h2>
+    <p>É a representação visual da trajetória de uma persona ao realizar uma atividade — do antes (descoberta) ao depois (pós-uso). Mapeia o que ela faz, pensa, sente, onde encontra fricção e onde há oportunidade de ganho.</p>
+    <p>Não é um BPMN (que é técnico, foca em fluxo de dados). Não é um wireframe (que é tela). É um <strong>artefato narrativo</strong>: conta a experiência da persona como história.</p>
+  </section>
+
+  <!-- ═══════════════ COMPONENTES ═══════════════ -->
+  <section>
+    <h2><span class="num">02</span>Componentes essenciais</h2>
+    <p>Pelo consenso entre Flowlab, Corebiz e Sebrae, um Journey Map maduro tem seis camadas:</p>
+
+    <div class="components">
+      <div class="comp-card">
+        <span class="icon">🧑</span>
+        <h5>Persona</h5>
+        <p>Quem é, qual contexto, qual objetivo nessa jornada específica.</p>
+      </div>
+      <div class="comp-card">
+        <span class="icon">📍</span>
+        <h5>Etapas</h5>
+        <p>Fases sequenciais (antes / durante / depois). Eixo do tempo.</p>
+      </div>
+      <div class="comp-card">
+        <span class="icon">●</span>
+        <h5>Ações</h5>
+        <p>O que a persona literalmente faz em cada etapa.</p>
+      </div>
+      <div class="comp-card">
+        <span class="icon">💭</span>
+        <h5>Pensamentos</h5>
+        <p>O que ela espera, dúvida ou processa internamente.</p>
+      </div>
+      <div class="comp-card">
+        <span class="icon">😐</span>
+        <h5>Emoções</h5>
+        <p>Como ela se sente — geralmente uma curva de altos e baixos.</p>
+      </div>
+      <div class="comp-card">
+        <span class="icon">📱</span>
+        <h5>Touchpoints</h5>
+        <p>Canais e ferramentas que ela usa em cada etapa.</p>
+      </div>
+      <div class="comp-card">
+        <span class="icon">⚠</span>
+        <h5>Dores</h5>
+        <p>Onde trava, o que confunde, o que frustra.</p>
+      </div>
+      <div class="comp-card">
+        <span class="icon">💡</span>
+        <h5>Oportunidades</h5>
+        <p>Onde o produto pode resolver fricção e gerar valor.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ TIPOS ═══════════════ -->
+  <section>
+    <h2><span class="num">03</span>Tipos de mapa</h2>
+
+    <h3>Por estado retratado</h3>
+    <ul>
+      <li><strong>AS-IS (atual)</strong> — como a persona faz hoje, com as ferramentas atuais. Útil para identificar dor real.</li>
+      <li><strong>TO-BE (futuro)</strong> — como a persona vai fazer depois do produto. Útil para validar visão.</li>
+    </ul>
+
+    <h3>Por nível de detalhamento</h3>
+    <ul>
+      <li><strong>High-level</strong> — 5–8 etapas macro, fácil de ler em reunião, bom para alinhamento.</li>
+      <li><strong>Detalhado</strong> — sub-etapas, cliques, micro-interações. Bom para handoff com design/dev.</li>
+    </ul>
+  </section>
+
+  <!-- ═══════════════ METODOLOGIA ═══════════════ -->
+  <section>
+    <h2><span class="num">04</span>Metodologia — passo a passo</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-body">
+          <h4>Definir a persona-alvo</h4>
+          <p>Uma persona = um mapa. Se você tem dúvida de qual escolher, comece pela mais crítica para o objetivo de negócio (no Conecta, o Cliente Varejista — quem traz receita).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>Definir o cenário</h4>
+          <p>Uma persona pode ter várias jornadas. Escolha uma situação específica: "primeira importação", "recompra", "lidar com produto bloqueado". Não tente cobrir tudo.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>Mapear etapas no tempo</h4>
+          <p>Linha horizontal. Antes / durante / depois da atividade principal. Geralmente 5–10 colunas.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>Preencher as camadas</h4>
+          <p>Para cada etapa: ações → pensamentos → emoções → touchpoints → dores → oportunidades. Ordem importa: ações ancoram tudo.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>Marcar clímax e anticlímax</h4>
+          <p>Onde estão os picos de prazer/frustração? Esses são os momentos que decidem se a persona volta ou abandona.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>Validar com pesquisa</h4>
+          <p>O mapa não pode ser ficção. Valide com entrevista (direta) e dados (indireta). No nosso caso: conversa com Erik + dados do AS-IS da Conecta.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>Manter vivo</h4>
+          <p>Journey Map não é entrega final — é documento de trabalho. Atualiza conforme o produto evolui.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ ERROS ═══════════════ -->
+  <section>
+    <h2><span class="num">05</span>Armadilhas comuns</h2>
+
+    <div class="callout warn">
+      <div class="label">Erro 1 — Sobrecarregar</div>
+      <p>Tentar mapear todas as personas no mesmo Journey. Resultado: vira service blueprint mascarado, sem foco emocional. Solução: faça vários journeys separados.</p>
+    </div>
+
+    <div class="callout warn">
+      <div class="label">Erro 2 — Ficção pura</div>
+      <p>Inventar emoções e dores sem pesquisa. Stakeholder vê e sabe que é chute. Sempre cite a fonte: entrevista X, dado Y.</p>
+    </div>
+
+    <div class="callout warn">
+      <div class="label">Erro 3 — Confundir AS-IS com TO-BE</div>
+      <p>Misturar "como é hoje" com "como queremos que seja". O leitor não sabe o que está olhando. Faça os dois separados ou sinalize claramente.</p>
+    </div>
+
+    <div class="callout warn">
+      <div class="label">Erro 4 — Foco só em ações</div>
+      <p>Esquecer pensamentos e emoções. Vira fluxograma. A diferença entre Journey Map e BPMN é exatamente o lado humano.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ APLICAÇÃO ═══════════════ -->
+  <section>
+    <h2><span class="num">06</span>Aplicação no Conecta Market Hub</h2>
+
+    <p>Dado o que vimos, proposta concreta de artefatos para o projeto:</p>
+
+    <div class="conecta">
+      <h3>Plano de mapas</h3>
+      <table class="conecta-table">
+        <thead>
+          <tr>
+            <th>Artefato</th>
+            <th>Tipo</th>
+            <th>Foco</th>
+            <th>Quando</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Service Blueprint</strong> (já existe)</td>
+            <td>Blueprint</td>
+            <td>Visão sistêmica · 6 personas · handoffs</td>
+            <td><span class="badge now">Pronto</span></td>
+          </tr>
+          <tr>
+            <td><strong>Journey: Cliente Varejista</strong></td>
+            <td>Journey Map</td>
+            <td>Primeira importação BR→CN — quem paga a conta</td>
+            <td><span class="badge next">Próximo</span></td>
+          </tr>
+          <tr>
+            <td><strong>Journey: Operador Conecta</strong></td>
+            <td>Journey Map</td>
+            <td>Workbench NCM + sourcing — gargalo operacional</td>
+            <td><span class="badge next">Próximo</span></td>
+          </tr>
+          <tr>
+            <td><strong>Journey: Parceiro CN</strong></td>
+            <td>Journey Map</td>
+            <td>Recebimento RFQ + cotação — o lado chinês da operação</td>
+            <td><span class="badge later">M2</span></td>
+          </tr>
+          <tr>
+            <td><strong>Journey: Despachante</strong></td>
+            <td>Journey Map</td>
+            <td>Aprovação de invoice no Logix — gatekeeper do pagamento</td>
+            <td><span class="badge later">M3</span></td>
+          </tr>
+          <tr>
+            <td>Anuências e Designer</td>
+            <td>—</td>
+            <td>Provavelmente não precisam de journey próprio (atuação pontual)</td>
+            <td><span class="badge later">Avaliar</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout ok">
+      <div class="label">Recomendação</div>
+      <p>Manter o Service Blueprint como visão geral, e produzir <strong>2 Journey Maps na primeira rodada</strong>: Cliente Varejista e Operador. Esses dois cobrem o trecho mais crítico do M1 (cadastro → NCM → preços). Os outros entram nos meses seguintes.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ MELHORIAS NO V1 ═══════════════ -->
+  <section>
+    <h2><span class="num">07</span>Como melhorar o Blueprint v1 com este aprendizado</h2>
+
+    <p>A versão atual em <code>jornada-v1.html</code> tem boa fundação (6 personas em swimlanes), mas mistura convenções de Journey Map e Service Blueprint sem deixar claro qual é qual. Aplicando o que estudamos, surgem seis melhorias concretas, em ordem de impacto:</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-body">
+          <h4>Renomear e reposicionar o artefato</h4>
+          <p><strong>Hoje:</strong> título "Mapa de Jornada" — confunde o leitor. <strong>Melhoria:</strong> chamar de <em>Service Blueprint</em> ou <em>Mapa de Serviço</em>. O Erik entende o que está olhando antes de olhar. Custo 30s · impacto alto.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>Estruturar em camadas (frontstage / backstage / support)</h4>
+          <p>Reorganizar as 6 personas nas camadas semânticas do Blueprint clássico, separadas por <strong>linhas de interação</strong>, <strong>linha de visibilidade</strong> e <strong>linha de interação interna</strong>. Cliente em cima, Operador como frontstage, Parceiro CN e Designer como backstage, Despachante e Anuências como support externo. As linhas dão significado aos handoffs — cruzar a linha de visibilidade significa "cliente perde de vista o que está acontecendo", isso é uma dor de UX em si. Custo 2-3h · impacto alto.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>Adicionar a curva de emoção do Cliente</h4>
+          <p>Acima da linha do cliente, uma curva sinuosa por etapa: ansiedade no upload, espera no scraping, confusão no NCM, surpresa positiva no comparativo, alívio no tracking. É o que diferencia "blueprint planilha" de "blueprint que conta história" — vende em apresentação. Custo 1h · impacto médio-alto.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>Padronizar células com formato diferenciado por camada</h4>
+          <p>Apenas a linha do <strong>Cliente</strong> recebe os 4 campos completos (ação · pensamento · dor · oportunidade) — porque é a persona-cliente. As outras linhas (Operador, CN, etc) ficam com formato simplificado: <strong>ação + sistema usado</strong>. Isso resolve a padronização sem inflar tudo. Custo 1-2h · impacto alto.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>Adicionar linha de Sistemas / APIs no rodapé</h4>
+          <p>Faixa horizontal mostrando que tecnologia opera em cada etapa: VTEX no catálogo, IA Tier 3 + Classif API no NCM, Apify/Oxylabs nos preços, Logix no DDP, Wise no pagamento. Vira documento útil pro Railton, não só pro Erik. Custo 1h · impacto médio.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-body">
+          <h4>Marcar "moments of truth"</h4>
+          <p>Pontos críticos onde o cliente pode abandonar ou virar fã. No Conecta: 🔴 produto bloqueado (Et.03), 🔴 tempo morto da proposta (Et.09), 🟢 revelação da economia 62% (Et.04), 🟢 chegada do contêiner (Et.10). Badges especiais nas células — vira eixo de storytelling para a apresentação. Custo 30min · impacto alto.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Prioridades sugeridas</h3>
+
+    <div class="callout ok">
+      <div class="label">Mínimo viável (≈ 30min)</div>
+      <p><strong>#1 + #2</strong> — renomear e estruturar em camadas. Isso já transforma o v1 de "swimlane bonito" em Service Blueprint real, com semântica das linhas.</p>
+    </div>
+
+    <div class="callout">
+      <div class="label">Versão de apresentação (≈ 4h)</div>
+      <p><strong>#1 + #2 + #3 + #6</strong> — adiciona curva de emoção e moments of truth. Vira material narrativo completo para reunião com Erik / Daniel / Railton.</p>
+    </div>
+
+    <div class="callout info">
+      <div class="label">Versão completa (≈ 8h)</div>
+      <p><strong>todas as 6</strong> — vira ferramenta de trabalho recorrente, com utilidade tanto para conversa de produto quanto para arquitetura. Atualiza-se conforme o projeto evolui.</p>
+    </div>
+
+    <div class="callout warn">
+      <div class="label">Importante</div>
+      <p>A próxima versão deve ser salva como <code>blueprint-v2.html</code> (não sobrescrever o v1). O v1 fica como histórico do raciocínio. E o nome correto desde o início: <em>Blueprint</em>, não <em>Jornada</em>.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════ REFERÊNCIAS ═══════════════ -->
+  <section>
+    <h2><span class="num">08</span>Referências consultadas</h2>
+    <div class="refs">
+      <ol>
+        <li><a href="https://www.flowlabtech.com.br/jornada-do-usuario-ux/" target="_blank">Flowlab Tech — Jornada do Usuário em UX</a></li>
+        <li><a href="https://flowlab.work/flow/2019/05/jornada-do-usua%CC%81rio.png" target="_blank">Flowlab — Imagem-template de Journey Map</a></li>
+        <li><a href="https://blog.corebiz.ag/descubra-como-mapear-a-jornada-do-usuario-em-ux/" target="_blank">Corebiz — Como mapear a jornada do usuário em UX</a></li>
+        <li><a href="https://sebraepr.com.br/comunidade/artigo/como-mapear-a-jornada-do-usuario-guia-simples" target="_blank">Sebrae PR — Como mapear a jornada do usuário (guia simples)</a></li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>
+    <div>Metodologia · Mai/2026 · Conecta Market Hub</div>
+    <div>Próximo passo: Journey Map do Cliente Varejista</div>
+  </footer>
+
+</div>
+</body>
+</html>
